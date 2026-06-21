@@ -25,6 +25,11 @@ calls. (see [[openai-practical-guide-to-building-agents]])
 environmental ground truth → repeat, with stopping conditions and guardrails.
 (see [[anthropic-building-effective-agents]])
 
+In production, the loop is realized as a durable **session** — an append-only log
+of every model call, tool call, and result — with the harness (brain) separated
+from the execution sandbox (hands). See [[agent-harness]] and
+[[anthropic-evolution-of-agentic-surfaces]].
+
 ## Single-agent systems
 
 A single agent handles many tasks by **incrementally adding tools**, keeping
@@ -35,6 +40,13 @@ bespoke prompts. (see [[openai-practical-guide-to-building-agents]])
 **When to split into multiple agents:**
 - **Complex logic** — prompts full of if-then-else branches that don't scale.
 - **Tool overload** — driven by tool *overlap*, not count (see [[tool-design]]).
+
+**Subagents** are a lightweight form of multi-agent: they run in an isolated
+context window and return only a final summary, keeping the main thread clean.
+Use them for deep search, log analysis, or audits whose intermediate results you
+won't reference again; they can nest several levels and orchestrate many
+background agents, with plans/results held in script variables rather than
+context. (see [[anthropic-steering-claude-code]], [[context-engineering]])
 
 ## Multi-agent patterns (OpenAI)
 
@@ -60,16 +72,20 @@ abstraction in [[agent-design-principles]].
 ## Related concepts
 
 - [[workflow-patterns]], [[agent-core-components]], [[tool-design]],
-  [[agent-design-principles]], [[guardrails]]
+  [[agent-design-principles]], [[guardrails]], [[agent-harness]],
+  [[context-engineering]]
 
 ## Key entities
 
-- [[openai]], [[openai-agents-sdk]], [[anthropic]]
+- [[openai]], [[openai-agents-sdk]], [[anthropic]], [[claude-code]],
+  [[claude-managed-agents]]
 
 ## Appears in
 
 - [[openai-practical-guide-to-building-agents]]
 - [[anthropic-building-effective-agents]]
+- [[anthropic-steering-claude-code]]
+- [[anthropic-evolution-of-agentic-surfaces]]
 
 ## Contradictions / open questions
 

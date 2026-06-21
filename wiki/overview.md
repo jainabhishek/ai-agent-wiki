@@ -14,9 +14,10 @@ guidance published by frontier labs.
 ## Scope
 
 How to design, build, and safely deploy LLM agents — the architecture choices,
-tooling, orchestration, and guardrails. Currently grounded in the two canonical
-practitioner guides from [[anthropic]] and [[openai]]; expandable to other labs,
-frameworks, and case studies.
+tooling, orchestration, context engineering, harness design, and guardrails.
+Grounded in the canonical practitioner guides from [[anthropic]] and [[openai]],
+plus Anthropic's operational blog posts on harness, skills, steering, and context;
+expandable to other labs, frameworks, and case studies.
 
 ## Current thesis
 
@@ -35,25 +36,35 @@ principles (see [[agent-design-principles]] and the full comparison in
    ([[agent-instructions]])
 5. **Safety is layered** — guardrails plus human-in-the-loop for high-risk or
    repeatedly-failing actions. ([[guardrails]])
+6. **Engineer the context and the harness, then prune them.** Load instructions
+   on demand, let the agent manage/persist its own context, and delete harness
+   scaffolding the model has outgrown. ([[context-engineering]], [[agent-harness]])
 
 They differ mainly in emphasis: Anthropic is deeper on **composable workflow
-patterns** ([[workflow-patterns]]); OpenAI is deeper on **production guardrails**
-and a crisp **Model/Tools/Instructions** component model ([[agent-core-components]]).
+patterns** ([[workflow-patterns]]), **context engineering**, **harness design**,
+and **skills/steering** ([[agent-skills]], [[agent-steering]]); OpenAI is deeper on
+**production guardrails** and a crisp **Model/Tools/Instructions** component model
+([[agent-core-components]]). Full comparison:
+[[agent-building-best-practices-anthropic-vs-openai]].
 
 ## Key entities
 
-- [[anthropic]] — *Building Effective Agents*
+- [[anthropic]] — *Building Effective Agents* + operational blog posts; maker of
+  [[claude]], [[claude-code]], [[claude-agent-sdk]], [[claude-managed-agents]]
 - [[openai]] — *A Practical Guide to Building Agents*; [[openai-agents-sdk]]
 
 ## Key concepts
 
 - [[agents-vs-workflows]] · [[agent-design-principles]] · [[agent-core-components]]
   · [[tool-design]] · [[workflow-patterns]] · [[agent-orchestration]] ·
-  [[agent-instructions]] · [[guardrails]]
+  [[agent-instructions]] · [[guardrails]] · [[agent-skills]] · [[agent-steering]] ·
+  [[context-engineering]] · [[agent-harness]]
 
 ## Open questions
 
-- Ingest Anthropic's companion engineering pieces (context engineering, writing
-  tools for agents, long-running harnesses) to balance the safety/tooling depth.
+- Ingest Anthropic's primary **engineering** posts (anthropic.com/engineering:
+  context engineering, writing tools for agents, long-running harnesses) behind
+  the blog summaries.
 - Add other perspectives (Google, LangChain, academic) to test how universal
   these "best practices" really are.
+- Deepen OpenAI-side harness/context-engineering coverage to match Anthropic's.

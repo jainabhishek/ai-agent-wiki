@@ -45,6 +45,18 @@ struggle with fewer than 10 overlapping ones. Improve names, parameters, and
 descriptions first; only split into multiple agents if clarity doesn't help. (see
 [[openai-practical-guide-to-building-agents]], [[agent-orchestration]])
 
+## Use what the model already knows
+
+A complementary Anthropic principle: prefer **general-purpose tools the model is
+already good at** (bash, a text editor) over bespoke interfaces — they keep
+improving as the model improves. "Claude 3.5 Sonnet reached 49% on SWE-bench
+Verified with only a bash tool and a text editor tool." Higher-level capabilities
+(programmatic tool calling, [[agent-skills]], memory) compose from these
+foundations. Add **declarative/dedicated tools strategically** — for
+security-sensitive actions, UX presentation, or observability — and re-evaluate
+their necessity as the model advances. (see [[harnessing-claudes-intelligence]],
+[[agent-harness]])
+
 ## Why it matters
 
 Most agent failures trace back to ambiguous tools or instructions, not model
@@ -53,16 +65,18 @@ capability. Investing here pays off before any orchestration complexity. See
 
 ## Related concepts
 
-- [[agent-core-components]], [[agent-instructions]], [[agent-orchestration]]
+- [[agent-core-components]], [[agent-instructions]], [[agent-orchestration]],
+  [[agent-skills]], [[agent-harness]]
 
 ## Key entities
 
-- [[anthropic]], [[openai]]
+- [[anthropic]], [[openai]], [[claude]]
 
 ## Appears in
 
 - [[anthropic-building-effective-agents]]
 - [[openai-practical-guide-to-building-agents]]
+- [[harnessing-claudes-intelligence]]
 
 ## Contradictions / open questions
 

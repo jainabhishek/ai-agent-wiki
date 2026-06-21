@@ -27,3 +27,26 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 ## [2026-06-21] query | best practices shared by Anthropic and OpenAI
 - filed synthesis: wiki/synthesis/agent-building-best-practices-anthropic-vs-openai.md
 - comparison table + distilled checklist across both guides
+
+## [2026-06-21] ingest | Anthropic blog — Steering Claude Code
+- source: wiki/sources/anthropic-steering-claude-code.md
+- touched: [[claude-code]], [[agent-steering]], [[agent-skills]], [[context-engineering]], [[agent-orchestration]], [[guardrails]], [[anthropic]], index
+
+## [2026-06-21] ingest | Anthropic blog — Lessons from Building Claude Code (skills)
+- source: wiki/sources/anthropic-lessons-building-claude-code-skills.md
+- touched: [[agent-skills]], [[claude-code]], [[agent-steering]], [[anthropic]], index
+
+## [2026-06-21] ingest | Anthropic blog — Harnessing Claude's Intelligence
+- source: wiki/sources/harnessing-claudes-intelligence.md
+- touched: [[agent-harness]], [[context-engineering]], [[tool-design]], [[agent-design-principles]], [[claude]], [[anthropic]], index
+
+## [2026-06-21] ingest | Anthropic blog — The Evolution of Agentic Surfaces
+- source: wiki/sources/anthropic-evolution-of-agentic-surfaces.md
+- touched: [[agent-harness]], [[agent-orchestration]], [[context-engineering]], [[guardrails]], [[claude-managed-agents]], [[claude-agent-sdk]], [[anthropic]], index
+
+## [2026-06-21] ingest | new entities/concepts + cross-link sweep
+- new entities: [[claude]], [[claude-code]], [[claude-agent-sdk]], [[claude-managed-agents]]
+- new concepts: [[agent-skills]], [[agent-steering]], [[context-engineering]], [[agent-harness]]
+- updated synthesis with Anthropic operational depth; updated overview + index
+- scope note: ingested only the engineering/best-practice posts from claude.com/blog;
+  skipped pure product announcements (managed-agents launches, hackathons, connectors auth, etc.)

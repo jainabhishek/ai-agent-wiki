@@ -24,6 +24,12 @@ patterns over heavy frameworks.
 - Publishes engineering guidance emphasizing **simplicity, transparency, and a
   well-designed Agent-Computer Interface (ACI)**. (see [[anthropic-building-effective-agents]])
 - Catalogs five reusable [[workflow-patterns]]. (see [[anthropic-building-effective-agents]])
+- Maker of [[claude]] and the agent surfaces [[claude-code]],
+  [[claude-agent-sdk]], and [[claude-managed-agents]].
+- Advocates **harness–model co-evolution** and pruning scaffolding the model has
+  outgrown. (see [[agent-harness]], [[harnessing-claudes-intelligence]])
+- Treats [[agent-skills]] and [[agent-steering]] as core context-engineering
+  mechanisms. (see [[anthropic-steering-claude-code]])
 
 ## Relationships
 
@@ -33,6 +39,10 @@ patterns over heavy frameworks.
 ## Appears in
 
 - [[anthropic-building-effective-agents]]
+- [[anthropic-steering-claude-code]]
+- [[anthropic-lessons-building-claude-code-skills]]
+- [[harnessing-claudes-intelligence]]
+- [[anthropic-evolution-of-agentic-surfaces]]
 
 ## Contradictions / open questions
 

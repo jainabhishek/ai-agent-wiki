@@ -67,19 +67,46 @@ orchestration recipes, and the safety layer.
 7. **Measure with evals throughout; add complexity only when it pays**
    ([[agent-design-principles]]).
 
+## Update: additional Anthropic operational depth (2026-06-21)
+
+Four further Anthropic blog sources now extend this comparison beyond the two
+original guides, adding *operational* best practices the OpenAI guide touches only
+lightly:
+
+- **Context engineering** — load on demand, let the agent manage/persist its own
+  context, design for cache hits. ([[context-engineering]],
+  [[harnessing-claudes-intelligence]])
+- **Agent harness** — separate brain (harness) from hands (sandbox) via durable
+  sessions; co-evolve the harness with the model and prune dead scaffolding.
+  ([[agent-harness]], [[anthropic-evolution-of-agentic-surfaces]])
+- **Skills & steering** — package procedural know-how as on-demand
+  [[agent-skills]]; choose the right steering mechanism for the job
+  ([[agent-steering]], [[anthropic-steering-claude-code]],
+  [[anthropic-lessons-building-claude-code-skills]]).
+
+These reinforce rather than contradict the shared thesis: the new principles
+("ask what you can stop doing," progressive disclosure, harness co-evolution) are
+all forms of *start simple and add complexity only when it earns its keep.*
+
 ## Caveats & open questions
 
-- Anthropic's piece is condensed in our raw capture; the authoritative full text
-  may add nuance — re-verify against the source URL if a claim is load-bearing.
-- **Data gap:** Anthropic has separate writing on context engineering, tool
-  writing, and long-running harnesses (surfaced during search) not yet ingested —
-  ingesting them would deepen the tooling/safety coverage.
+- Anthropic's *Building Effective Agents* piece is condensed in our raw capture;
+  re-verify against the source URL if a claim is load-bearing.
+- The deeper Anthropic *engineering* posts (anthropic.com/engineering: context
+  engineering, writing tools for agents, long-running harnesses) are still
+  un-ingested — they would add primary-source depth behind the blog summaries.
+- OpenAI-side depth on harness/context engineering is comparatively thin in the
+  ingested guide — a candidate for a future OpenAI source.
 
 ## Sources & pages drawn on
 
 - [[anthropic-building-effective-agents]]
 - [[openai-practical-guide-to-building-agents]]
+- [[anthropic-steering-claude-code]], [[anthropic-lessons-building-claude-code-skills]],
+  [[harnessing-claudes-intelligence]], [[anthropic-evolution-of-agentic-surfaces]]
 - [[agents-vs-workflows]], [[agent-design-principles]], [[agent-core-components]],
   [[tool-design]], [[workflow-patterns]], [[agent-orchestration]],
-  [[agent-instructions]], [[guardrails]]
-- [[anthropic]], [[openai]], [[openai-agents-sdk]]
+  [[agent-instructions]], [[guardrails]], [[agent-skills]], [[agent-steering]],
+  [[context-engineering]], [[agent-harness]]
+- [[anthropic]], [[openai]], [[openai-agents-sdk]], [[claude]], [[claude-code]],
+  [[claude-agent-sdk]], [[claude-managed-agents]]

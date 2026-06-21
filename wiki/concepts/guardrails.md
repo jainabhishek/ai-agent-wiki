@@ -54,21 +54,32 @@ conditions**, transparency, and **poka-yoke** tool design ([[tool-design]]) rath
 than a named guardrails taxonomy — complementary rather than conflicting. See
 [[agent-building-best-practices-anthropic-vs-openai]].
 
+The Anthropic sources add concrete deterministic and infrastructural guardrails:
+- **Hooks** as deterministic policy — a PreToolUse hook can inspect any tool call
+  and deny it (exit 2). The deterministic complement to LLM-based classifiers.
+  (see [[agent-steering]], [[anthropic-steering-claude-code]])
+- **Brain–hands separation + Vaults** — credentials live outside the execution
+  sandbox, accessed via signed tokens; a production form of tool safeguards. (see
+  [[agent-harness]], [[anthropic-evolution-of-agentic-surfaces]])
+
 ## Related concepts
 
 - [[agent-orchestration]], [[tool-design]], [[agent-instructions]],
-  [[agent-design-principles]]
+  [[agent-design-principles]], [[agent-steering]], [[agent-harness]]
 
 ## Key entities
 
-- [[openai]], [[openai-agents-sdk]], [[anthropic]]
+- [[openai]], [[openai-agents-sdk]], [[anthropic]], [[claude-managed-agents]]
 
 ## Appears in
 
 - [[openai-practical-guide-to-building-agents]]
+- [[anthropic-steering-claude-code]]
+- [[anthropic-evolution-of-agentic-surfaces]]
 
 ## Contradictions / open questions
 
-- Anthropic's guide is lighter on explicit guardrail taxonomy — a potential
-  **data gap** worth filling with Anthropic's separate safety/guardrails
-  material in a future ingest.
+- OpenAI still has the most explicit *classifier* taxonomy; Anthropic's
+  contribution here is deterministic (hooks) and infrastructural (vaults,
+  sandbox isolation). A dedicated Anthropic safety/guardrails post would round
+  this out further.
