@@ -55,3 +55,5 @@ read this first to find relevant pages, then drill in.
 
 - [[agent-building-best-practices-anthropic-vs-openai]] — where the two guides
   agree/differ + a distilled best-practices checklist
+- [[obsidian-graph-analysis]] — current wiki graph topology, hubs, caveats, and
+  recommended Obsidian filters

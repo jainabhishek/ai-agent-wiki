@@ -2,7 +2,7 @@
 title: Overview
 type: overview
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-06-22
 tags: [meta, agents]
 ---
 
@@ -59,6 +59,11 @@ and **skills/steering** ([[agent-skills]], [[agent-steering]]); OpenAI is deeper
   · [[tool-design]] · [[workflow-patterns]] · [[agent-orchestration]] ·
   [[agent-instructions]] · [[guardrails]] · [[agent-skills]] · [[agent-steering]] ·
   [[context-engineering]] · [[agent-harness]] · [[agent-evals]]
+
+## Wiki health
+
+- Current graph topology, hubs, and Obsidian filter caveats:
+  [[obsidian-graph-analysis]].
 
 ## Open questions
 

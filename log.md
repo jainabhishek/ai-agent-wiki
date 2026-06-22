@@ -88,3 +88,10 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   demystifying-evals, multi-agent-research-system, agent-skills
 - wiki now ~21 sources/concepts/entities pages added across this thread; next gaps:
   MCP concept page; OpenAI-side harness/context depth; non-lab perspectives
+
+## [2026-06-22] query | Obsidian graph analysis
+- filed synthesis: wiki/synthesis/obsidian-graph-analysis.md
+- summary: wiki-only graph has 35 pages, one connected component, 407 directed
+  wikilinks, 130 reciprocal link pairs, no unresolved internal links, and no
+  wiki-only inbound orphans
+- touched: [[obsidian-graph-analysis]], [[overview]], index
