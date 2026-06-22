@@ -68,6 +68,25 @@ also contains root docs, templates, and raw source files. In particular:
   `source-a` and `concept-b`; include templates only if debugging schema, not
   when reading the research graph.
 
+## Bottom-right disconnected component
+
+The disconnected component at the bottom right of the current Obsidian graph is
+template/schema noise, not a research cluster. It is made from:
+
+- `templates/source.md`, `templates/entity.md`, `templates/concept.md`, and
+  `templates/synthesis.md`;
+- placeholder wikilinks embedded in those templates, such as `source-a`,
+  `source-b`, `source-name`, `entity-a`, `entity-b`, `concept-a`, `concept-b`,
+  `concept-c`, `related-concept`, `other-entity`, and `other-source`;
+- schema/root docs that reuse the same example wikilinks, such as `CLAUDE.md`
+  and any local agent-instruction files visible to Obsidian.
+
+Those nodes float separately because they are examples for future pages, not
+links to real pages in `wiki/`. The nearby isolated node
+`anthropic-harnessing-claudes-intelligence` is the raw capture at
+`raw/anthropic-harnessing-claudes-intelligence.md`; the connected, summarized
+wiki page is [[harnessing-claudes-intelligence]].
+
 For the clearest graph view, filter the graph to `path:wiki/`. For an even
 cleaner concept map, temporarily hide `wiki/sources/` and focus on
 `wiki/concepts/`, `wiki/entities/`, and `wiki/synthesis/`.

@@ -95,3 +95,9 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   wikilinks, 130 reciprocal link pairs, no unresolved internal links, and no
   wiki-only inbound orphans
 - touched: [[obsidian-graph-analysis]], [[overview]], index
+
+## [2026-06-22] query | bottom-right Obsidian graph component
+- updated synthesis: wiki/synthesis/obsidian-graph-analysis.md
+- summary: identified the bottom-right full-vault component as template/schema
+  placeholder links plus a nearby isolated raw source capture
+- touched: [[obsidian-graph-analysis]]
