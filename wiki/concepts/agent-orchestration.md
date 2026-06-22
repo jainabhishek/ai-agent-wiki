@@ -62,6 +62,21 @@ Both can be modeled as graphs (agents = nodes; edges = tool calls or handoffs).
 The guiding principle across patterns: keep components **flexible, composable,
 and driven by clear prompts.**
 
+## Evidence from Anthropic's multi-agent research system
+
+[[anthropic-eng-multi-agent-research-system]] quantifies the tradeoff:
+- A lead-agent + parallel-subagent system **beat single-agent Opus 4 by 90.2%**
+  on breadth-first research; parallelism (3–5 subagents, 3+ parallel tool calls
+  each) cut research time up to 90%.
+- But **token usage alone explains ~80% of performance variance** — the gain
+  comes from spreading work across separate context windows
+  ([[context-engineering]]), not orchestration complexity itself.
+- It's expensive (~15× chat tokens) and **fails when context must be shared**
+  (e.g. most coding), so it isn't a default — consistent with single-agent-first
+  and [[agents-vs-workflows]].
+- Prompt the orchestrator with **effort-scaling rules** (agent count by query
+  complexity) and **explicit delegation** (objective, output format, boundaries).
+
 ## Declarative vs. code-first
 
 OpenAI contrasts **declarative graph** frameworks (define every branch/loop
@@ -86,6 +101,9 @@ abstraction in [[agent-design-principles]].
 - [[anthropic-building-effective-agents]]
 - [[anthropic-steering-claude-code]]
 - [[anthropic-evolution-of-agentic-surfaces]]
+- [[anthropic-eng-context-engineering]]
+- [[anthropic-eng-effective-harnesses-long-running-agents]]
+- [[anthropic-eng-multi-agent-research-system]]
 
 ## Contradictions / open questions
 

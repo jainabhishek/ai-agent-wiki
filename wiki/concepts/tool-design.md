@@ -57,6 +57,24 @@ security-sensitive actions, UX presentation, or observability — and re-evaluat
 their necessity as the model advances. (see [[harnessing-claudes-intelligence]],
 [[agent-harness]])
 
+## Anthropic engineering specifics
+
+From [[anthropic-eng-writing-tools-for-agents]] (the primary-source deep dive):
+- **Choose the right tools** — "more tools don't always lead to better outcomes."
+  Prefer `search_contacts` over `list_contacts`; consolidate operations (a
+  `schedule_event` that finds availability *and* books).
+- **Namespace** related tools by common prefix (`asana_search`, `jira_search`);
+  prefix vs suffix has measurable eval effects.
+- **Return meaningful context** — semantic over technical (`name` not `uuid`); add
+  a `response_format` parameter (`concise`/`detailed`).
+- **Token efficiency** — pagination, filtering, truncation with helpful messages;
+  actionable errors over opaque codes.
+- **Human clarity test** (also in [[anthropic-eng-context-engineering]]): "if a
+  human engineer can't definitively say which tool should be used, an AI agent
+  can't be expected to do better."
+- **Evaluate with the agent in the loop** — realistic multi-call tasks; paste
+  transcripts into the model to auto-optimize tools. See [[agent-evals]].
+
 ## Why it matters
 
 Most agent failures trace back to ambiguous tools or instructions, not model
@@ -66,7 +84,7 @@ capability. Investing here pays off before any orchestration complexity. See
 ## Related concepts
 
 - [[agent-core-components]], [[agent-instructions]], [[agent-orchestration]],
-  [[agent-skills]], [[agent-harness]]
+  [[agent-skills]], [[agent-harness]], [[agent-evals]], [[context-engineering]]
 
 ## Key entities
 
@@ -77,6 +95,8 @@ capability. Investing here pays off before any orchestration complexity. See
 - [[anthropic-building-effective-agents]]
 - [[openai-practical-guide-to-building-agents]]
 - [[harnessing-claudes-intelligence]]
+- [[anthropic-eng-writing-tools-for-agents]]
+- [[anthropic-eng-context-engineering]]
 
 ## Contradictions / open questions
 

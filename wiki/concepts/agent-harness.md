@@ -47,10 +47,24 @@ upgrade, and delete scaffolding the model has outgrown.**
 spend your effort on domain expertise, tools, and context — not on maintaining a
 custom loop.
 
+## Concrete long-running patterns
+
+From the case study in [[anthropic-eng-effective-harnesses-long-running-agents]]:
+- **Two-agent pattern** — a one-time **initializer** (environment, spec file, git,
+  progress file) and a per-session **coding agent** doing one feature at a time.
+- **Structured JSON state** the agent only partially edits (flip a "passes" field)
+  — models inappropriately edit Markdown more readily than JSON.
+- **Session startup sequence** — `pwd` → read git log + progress → pick top
+  incomplete feature → smoke-test → implement, to avoid re-establishing context.
+- **Verify like a human user** (e.g. browser automation), but only reliably once
+  *explicitly* prompted. See [[agent-evals]].
+- **Failure modes to design against:** premature completion, half-finished
+  features, undocumented progress, code-only (non-end-to-end) verification.
+
 ## Related concepts
 
 - [[agent-orchestration]], [[context-engineering]], [[agent-design-principles]],
-  [[tool-design]], [[agent-core-components]]
+  [[tool-design]], [[agent-core-components]], [[agent-evals]]
 
 ## Key entities
 
@@ -60,6 +74,8 @@ custom loop.
 
 - [[anthropic-evolution-of-agentic-surfaces]]
 - [[harnessing-claudes-intelligence]]
+- [[anthropic-eng-effective-harnesses-long-running-agents]]
+- [[anthropic-eng-context-engineering]]
 
 ## Contradictions / open questions
 

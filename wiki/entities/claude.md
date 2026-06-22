@@ -36,6 +36,12 @@ the model has outgrown (see [[harnessing-claudes-intelligence]],
 
 - [[harnessing-claudes-intelligence]]
 - [[anthropic-evolution-of-agentic-surfaces]]
+- [[anthropic-eng-context-engineering]]
+- [[anthropic-eng-writing-tools-for-agents]]
+- [[anthropic-eng-demystifying-evals]]
+- [[anthropic-eng-multi-agent-research-system]]
+- [[anthropic-eng-agent-skills]]
+- [[anthropic-eng-demystifying-evals]]
 
 ## Contradictions / open questions
 

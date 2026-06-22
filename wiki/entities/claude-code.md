@@ -37,6 +37,8 @@ the subject of two ingested sources on agent best practices:
 
 - [[anthropic-steering-claude-code]]
 - [[anthropic-lessons-building-claude-code-skills]]
+- [[anthropic-eng-context-engineering]]
+- [[anthropic-eng-agent-skills]]
 
 ## Contradictions / open questions
 

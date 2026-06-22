@@ -21,13 +21,14 @@ tags: [agents, best-practices, principles, evals]
   incremental approach rather than building a fully autonomous multi-agent system
   upfront. (see [[openai-practical-guide-to-building-agents]])
 
-**2. Measure with evals before optimizing.**
+**2. Measure with evals before optimizing.** (see [[agent-evals]])
 - [[openai]]'s model-selection loop: (1) set up evals for a performance baseline,
   (2) hit your accuracy target with the best models, (3) optimize cost/latency by
   swapping in smaller models where they still pass. Prototype with the most
   capable model first so you don't prematurely limit the agent.
 - [[anthropic]]: optimize single calls with thorough evaluation before adding
-  multi-step complexity.
+  multi-step complexity; measure runtime/tokens/tool-calls/errors, not just
+  accuracy.
 
 **3. Transparency.** Show the agent's planning steps explicitly so behavior is
 inspectable. (see [[anthropic-building-effective-agents]])

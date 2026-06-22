@@ -58,13 +58,18 @@ and **skills/steering** ([[agent-skills]], [[agent-steering]]); OpenAI is deeper
 - [[agents-vs-workflows]] · [[agent-design-principles]] · [[agent-core-components]]
   · [[tool-design]] · [[workflow-patterns]] · [[agent-orchestration]] ·
   [[agent-instructions]] · [[guardrails]] · [[agent-skills]] · [[agent-steering]] ·
-  [[context-engineering]] · [[agent-harness]]
+  [[context-engineering]] · [[agent-harness]] · [[agent-evals]]
 
 ## Open questions
 
-- Ingest Anthropic's primary **engineering** posts (anthropic.com/engineering:
-  context engineering, writing tools for agents, long-running harnesses) behind
-  the blog summaries.
+- **Done:** the six core Anthropic *engineering* posts are ingested — building
+  effective agents, context engineering, writing tools, long-running harnesses,
+  demystifying evals ([[agent-evals]]), multi-agent research
+  ([[agent-orchestration]]), and Agent Skills ([[agent-skills]]).
+- Remaining engineering posts are narrower/tangential (advanced tool use, the
+  "think" tool, code execution with MCP, agentic-coding best practices,
+  postmortems) — ingest selectively if a specific question needs them. **MCP**
+  has no page yet and is a candidate concept.
 - Add other perspectives (Google, LangChain, academic) to test how universal
   these "best practices" really are.
 - Deepen OpenAI-side harness/context-engineering coverage to match Anthropic's.

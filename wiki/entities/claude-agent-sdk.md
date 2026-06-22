@@ -34,8 +34,11 @@ closed by [[claude-managed-agents]]. The Anthropic counterpart to the
 ## Appears in
 
 - [[anthropic-evolution-of-agentic-surfaces]]
+- [[anthropic-eng-effective-harnesses-long-running-agents]]
+- [[anthropic-eng-agent-skills]]
 
 ## Contradictions / open questions
 
-- _Not yet ingested directly — only referenced. Candidate for a dedicated source
-  (the Agent SDK docs/announcement)._
+- The harness case study ([[anthropic-eng-effective-harnesses-long-running-agents]])
+  builds *on* the SDK but doesn't document the SDK itself — the Agent SDK docs
+  remain a candidate for a dedicated source.

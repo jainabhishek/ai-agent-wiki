@@ -50,3 +50,41 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - updated synthesis with Anthropic operational depth; updated overview + index
 - scope note: ingested only the engineering/best-practice posts from claude.com/blog;
   skipped pure product announcements (managed-agents launches, hackathons, connectors auth, etc.)
+
+## [2026-06-21] ingest | Anthropic Eng — Effective Context Engineering for AI Agents
+- source: wiki/sources/anthropic-eng-context-engineering.md (primary source)
+- touched: [[context-engineering]], [[tool-design]], [[agent-harness]], [[agent-orchestration]], [[agent-design-principles]], [[claude]], [[claude-code]], [[anthropic]], index
+
+## [2026-06-21] ingest | Anthropic Eng — Writing Effective Tools for Agents
+- source: wiki/sources/anthropic-eng-writing-tools-for-agents.md (primary source)
+- touched: [[tool-design]], [[agent-evals]] (new), [[context-engineering]], [[claude]], [[anthropic]], index
+
+## [2026-06-21] ingest | Anthropic Eng — Effective Harnesses for Long-Running Agents
+- source: wiki/sources/anthropic-eng-effective-harnesses-long-running-agents.md (primary source)
+- touched: [[agent-harness]], [[agent-evals]], [[agent-orchestration]], [[claude-agent-sdk]], [[anthropic]], index
+- new concept: [[agent-evals]]
+
+## [2026-06-21] ingest | Anthropic Eng — Demystifying Evals for AI Agents
+- source: wiki/sources/anthropic-eng-demystifying-evals.md (primary source)
+- touched: [[agent-evals]] (major expansion), [[anthropic]], [[claude]], index
+
+## [2026-06-21] lint | partial ingest — 2 of 6 engineering posts pending
+- fetched + ingested: context-engineering, writing-tools, harnesses, demystifying-evals
+- PENDING (transient WebFetch limit): multi-agent-research-system → enrich [[agent-orchestration]];
+  agent-skills (eng) → enrich [[agent-skills]]
+- skipped tangential eng posts: postmortems, SWE-bench, infra-noise, eval-awareness,
+  contain-claude, C-compiler, contextual-retrieval, desktop-extensions, auto-mode, sandboxing
+
+## [2026-06-21] ingest | Anthropic Eng — How We Built Our Multi-Agent Research System
+- source: wiki/sources/anthropic-eng-multi-agent-research-system.md (primary source)
+- touched: [[agent-orchestration]] (multi-agent evidence), [[anthropic]], [[claude]], index
+
+## [2026-06-21] ingest | Anthropic Eng — Equipping Agents with Agent Skills
+- source: wiki/sources/anthropic-eng-agent-skills.md (primary source)
+- touched: [[agent-skills]] (SKILL.md + 3-level disclosure), [[claude-code]], [[claude-agent-sdk]], [[anthropic]], [[claude]], index
+
+## [2026-06-21] lint | all 6 core engineering posts ingested
+- complete: building-effective-agents, context-engineering, writing-tools, harnesses,
+  demystifying-evals, multi-agent-research-system, agent-skills
+- wiki now ~21 sources/concepts/entities pages added across this thread; next gaps:
+  MCP concept page; OpenAI-side harness/context depth; non-lab perspectives

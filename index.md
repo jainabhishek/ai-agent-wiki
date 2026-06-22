@@ -18,6 +18,12 @@ read this first to find relevant pages, then drill in.
 - [[anthropic-lessons-building-claude-code-skills]] — skills best practices: gotchas, progressive disclosure, model-facing descriptions (Jun 2026)
 - [[harnessing-claudes-intelligence]] — three patterns: use what Claude knows, stop doing, set boundaries (Apr 2026)
 - [[anthropic-evolution-of-agentic-surfaces]] — brain–hands separation, sessions, harness–model co-evolution (Jun 2026)
+- [[anthropic-eng-context-engineering]] — *primary source*: context rot, prompt altitude, just-in-time retrieval, compaction/memory/sub-agents
+- [[anthropic-eng-writing-tools-for-agents]] — *primary source*: tool selection, namespacing, token efficiency, eval-with-agents
+- [[anthropic-eng-effective-harnesses-long-running-agents]] — *primary source*: two-agent harness, JSON state, human-like verification
+- [[anthropic-eng-demystifying-evals]] — *primary source*: grader types, real eval sets, pass@k vs pass^k, eval pitfalls
+- [[anthropic-eng-multi-agent-research-system]] — *primary source*: orchestrator-worker, 90.2% gain, ~15× tokens, token-usage explains 80% of variance
+- [[anthropic-eng-agent-skills]] — *primary source*: SKILL.md, three-level progressive disclosure, composability, cross-surface support
 
 ## Entities
 
@@ -42,7 +48,8 @@ read this first to find relevant pages, then drill in.
 - [[agent-skills]] — on-demand procedural know-how; gotchas, progressive disclosure
 - [[agent-steering]] — choosing the right instruction mechanism (CLAUDE.md/rules/skills/hooks/...)
 - [[context-engineering]] — load on demand, let the agent manage/persist context, design for cache hits
-- [[agent-harness]] — brain–hands separation, sessions, harness–model co-evolution
+- [[agent-harness]] — brain–hands separation, sessions, harness–model co-evolution; two-agent long-running pattern
+- [[agent-evals]] — measure beyond accuracy; realistic multi-call tasks; human-like verification; eval-with-agents
 
 ## Synthesis
 
