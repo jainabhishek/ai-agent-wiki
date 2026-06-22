@@ -13,11 +13,11 @@ tags: []
 ## Answer
 
 The synthesized answer, drawing across pages, with citations:
-(see [[source-a]], [[concept-b]]).
+(see <source-page>, <concept-page>).
 
 ## Supporting evidence
 
-- Point — (see [[source]]).
+- Point — (see <source-page>).
 
 ## Caveats & open questions
 
@@ -25,6 +25,6 @@ The synthesized answer, drawing across pages, with citations:
 
 ## Sources & pages drawn on
 
-- [[source-a]]
-- [[entity-b]]
-- [[concept-c]]
+- <source-page>
+- <entity-page>
+- <concept-page>

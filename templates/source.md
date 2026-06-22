@@ -26,11 +26,11 @@ author's claims; attribute, don't editorialize.
 
 ## Entities
 
-Proper nouns introduced or discussed: [[entity-a]], [[entity-b]].
+Proper nouns introduced or discussed: <entity-page>, <entity-page>.
 
 ## Concepts
 
-Ideas/methods covered: [[concept-a]], [[concept-b]].
+Ideas/methods covered: <concept-page>, <concept-page>.
 
 ## Notable claims & data
 
@@ -39,4 +39,4 @@ Ideas/methods covered: [[concept-a]], [[concept-b]].
 
 ## Connections
 
-How this source relates to others already in the wiki: [[other-source]].
+How this source relates to others already in the wiki: <source-page>.

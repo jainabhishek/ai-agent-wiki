@@ -46,11 +46,11 @@ back-reference sweep.
 - Every page starts with **YAML frontmatter** (see `templates/`). At minimum:
   `title`, `type`, `created`, `updated`, `tags`. Source pages also carry
   `source_url`/`source_path` and `author`/`date`.
-- **Wikilinks**: link with `[[page-name]]` (Obsidian style, no `.md`, no path).
-  Cross-reference aggressively — a fact about an entity that appears in a source
-  should link both ways.
+- **Wikilinks**: link with Obsidian-style double-bracket links using the target
+  page slug, with no `.md` and no path. Cross-reference aggressively — a fact
+  about an entity that appears in a source should link both ways.
 - **Cite sources inline.** Any non-obvious claim on an entity/concept/synthesis
-  page should cite the source page it came from: `(see [[source-name]])`.
+  page should cite the real source page it came from.
 - **Atomic pages.** One entity or one concept per page. If a page is growing two
   distinct topics, split it.
 - Prefer **updating** an existing page over creating a near-duplicate. Search
@@ -109,7 +109,7 @@ Append-only. Newest at the bottom. One line per event, parseable with
 ```
 ## [YYYY-MM-DD] ingest | <Source Title>
 - summary: wiki/sources/<slug>.md
-- touched: [[entity-a]], [[concept-b]], overview
+- touched: <entity-page>, <concept-page>, overview
 ```
 
 Use the event types: `ingest`, `query`, `lint`, `schema` (changes to this file).

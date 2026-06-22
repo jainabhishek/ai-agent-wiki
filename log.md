@@ -101,3 +101,10 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - summary: identified the bottom-right full-vault component as template/schema
   placeholder links plus a nearby isolated raw source capture
 - touched: [[obsidian-graph-analysis]]
+
+## [2026-06-22] schema | remove placeholder wikilinks from templates
+- updated: CLAUDE.md, templates/source.md, templates/entity.md,
+  templates/concept.md, templates/synthesis.md
+- summary: converted fake placeholder wikilinks to plain placeholders so
+  Obsidian no longer creates unresolved graph nodes for template examples
+- touched: [[obsidian-graph-analysis]]

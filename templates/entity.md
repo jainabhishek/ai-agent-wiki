@@ -14,20 +14,20 @@ tags: []
 ## Overview
 
 What is known about this entity, synthesized across sources. Cite each
-non-obvious claim: (see [[source-name]]).
+non-obvious claim with a real source-page wikilink.
 
 ## Key facts
 
-- Fact — (see [[source-name]]).
+- Fact — (see <source-page>).
 
 ## Relationships
 
-- Connected to [[other-entity]] — nature of the relationship — (see [[source-name]]).
+- Connected to <entity-page> — nature of the relationship — (see <source-page>).
 
 ## Appears in
 
-- [[source-a]]
-- [[source-b]]
+- <source-page>
+- <source-page>
 
 ## Contradictions / open questions
 

@@ -13,7 +13,7 @@ tags: [graph, obsidian, wiki-health, synthesis]
 ## Answer
 
 The meaningful graph is the `wiki/` subgraph, not the whole repository. Within
-`wiki/`, the graph is healthy: 35 pages form one connected component, with 407
+`wiki/`, the graph is healthy: 35 pages form one connected component, with 408
 unique directed wikilinks, 130 reciprocal link pairs, no unresolved internal
 wikilinks, and no wiki-only inbound orphans.
 
@@ -52,6 +52,7 @@ agent design, tools, orchestration, context, harnesses, and guardrails (see
 | [[context-engineering]] | 18 | Cross-cutting memory/context hub |
 | [[claude]] | 15 | Model-family anchor for Anthropic examples |
 | [[guardrails]] | 14 | Safety/control layer |
+| [[harnessing-claudes-intelligence]] | 14 | Recurring source for harness/context guidance |
 | [[openai]] | 14 | Secondary vendor anchor |
 
 ## Full-vault graph caveats
@@ -64,28 +65,32 @@ also contains root docs, templates, and raw source files. In particular:
 - `raw/` contains markdown files with the same basenames as several
   `wiki/sources/` pages. If raw files are included in Obsidian's graph, source
   nodes can look duplicated or ambiguous.
-- `templates/` intentionally contains placeholder wikilink examples such as
-  `source-a` and `concept-b`; include templates only if debugging schema, not
-  when reading the research graph.
+- `templates/` used to contain placeholder wikilink examples such as `source-a`
+  and `concept-b`; these have been converted to plain placeholder text so they
+  no longer create fake graph nodes.
 
 ## Bottom-right disconnected component
 
-The disconnected component at the bottom right of the current Obsidian graph is
-template/schema noise, not a research cluster. It is made from:
+The disconnected component at the bottom right of the earlier Obsidian graph was
+template/schema noise, not a research cluster. It was made from:
 
 - `templates/source.md`, `templates/entity.md`, `templates/concept.md`, and
   `templates/synthesis.md`;
-- placeholder wikilinks embedded in those templates, such as `source-a`,
+- placeholder wikilinks that were embedded in those templates, such as `source-a`,
   `source-b`, `source-name`, `entity-a`, `entity-b`, `concept-a`, `concept-b`,
   `concept-c`, `related-concept`, `other-entity`, and `other-source`;
-- schema/root docs that reuse the same example wikilinks, such as `CLAUDE.md`
-  and any local agent-instruction files visible to Obsidian.
+- schema/root docs that reused the same example wikilinks, such as `CLAUDE.md`
+  and local agent-instruction files visible to Obsidian.
 
-Those nodes float separately because they are examples for future pages, not
+Those nodes floated separately because they were examples for future pages, not
 links to real pages in `wiki/`. The nearby isolated node
 `anthropic-harnessing-claudes-intelligence` is the raw capture at
 `raw/anthropic-harnessing-claudes-intelligence.md`; the connected, summarized
 wiki page is [[harnessing-claudes-intelligence]].
+
+After cleanup, the full-vault graph has no unresolved placeholder wikilinks. The
+remaining disconnected nodes are singleton files rather than fake clusters:
+root/schema docs, templates, README, and the isolated raw capture.
 
 For the clearest graph view, filter the graph to `path:wiki/`. For an even
 cleaner concept map, temporarily hide `wiki/sources/` and focus on

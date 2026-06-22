@@ -13,7 +13,7 @@ tags: []
 ## Definition
 
 A clear, careful explanation of the concept as understood across the sources.
-Cite: (see [[source-name]]).
+Cite with real source-page wikilinks.
 
 ## Why it matters
 
@@ -21,15 +21,15 @@ Its significance in the context of this wiki's topic.
 
 ## Related concepts
 
-- [[related-concept]] — how they relate.
+- <concept-page> — how they relate.
 
 ## Key entities
 
-- [[entity]] — relevance to this concept.
+- <entity-page> — relevance to this concept.
 
 ## Appears in
 
-- [[source-a]]
+- <source-page>
 
 ## Contradictions / open questions
 
