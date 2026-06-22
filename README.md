@@ -127,7 +127,7 @@ ingesting. The agent reads `CLAUDE.md` every session and follows it.
 ## License & sources
 
 The **scaffold** — `CLAUDE.md`, `templates/`, `tools/`, and this README — is
-released under the [MIT License](LICENSE); fork and adapt it freely.
+released under the [MIT License](LICENSE-scaffold.md); fork and adapt it freely.
 
 The **`raw/` directory contains third-party articles** (e.g. from Anthropic and
 OpenAI) reproduced for personal research. Copyright remains with their
