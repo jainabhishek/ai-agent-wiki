@@ -14,6 +14,8 @@ This repo is **two things at once**: a live knowledge base on building AI
 agents, and a reusable scaffold you can fork empty to grow your own wiki on any
 topic (see [Start your own](#start-your-own)).
 
+![AI Agent Wiki Memory overview](raw/assets/ai-agent-wiki-memory.png)
+
 ## What's inside
 
 The corpus is **12 source summaries · 7 entities · 13 concepts · 1 synthesis**,
