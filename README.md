@@ -1,32 +1,26 @@
 # ai-agent-wiki
 
-A **research wiki** maintained by an LLM agent ([Claude Code](https://www.anthropic.com/claude-code),
-via [`CLAUDE.md`](CLAUDE.md)), following Andrej Karpathy's
-[LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
-pattern.
+A knowledge base on **building effective AI agents** — architecture choices,
+tools, orchestration, context engineering, harness design, and guardrails —
+synthesized from primary guidance by Anthropic and OpenAI, plus Anthropic's
+engineering blog posts on harness, skills, steering, and context.
 
-Instead of RAG-style retrieval that re-derives knowledge on every query, the LLM
-**incrementally builds and maintains a persistent, interlinked markdown wiki**
-that sits between you and your raw sources. Knowledge is compiled once and kept
-current — cross-references, contradictions, and synthesis already exist by the
-time you ask. The wiki compounds with every source you add and every question
-you ask.
+It's maintained by an LLM agent ([Claude Code](https://www.anthropic.com/claude-code),
+via [`CLAUDE.md`](CLAUDE.md)) and meant to be **read by both humans and other
+agents** — point an agent at this repo and it can cite settled answers instead
+of re-deriving them from scratch.
 
-> Obsidian is the IDE; the LLM is the programmer; the wiki is the codebase.
-
-This repo is **two things at once**: a live knowledge base on *building AI
-agents*, and a reusable scaffold you can fork empty to grow your own wiki on any
+This repo is **two things at once**: a live knowledge base on building AI
+agents, and a reusable scaffold you can fork empty to grow your own wiki on any
 topic (see [Start your own](#start-your-own)).
 
-## What's inside right now
+## What's inside
 
-The current corpus is about **building effective LLM agents**, synthesized from
-primary guidance by frontier labs (Anthropic + OpenAI) and Anthropic's
-engineering blog posts on harness, skills, steering, and context engineering.
+The corpus is **12 source summaries · 7 entities · 13 concepts · 1 synthesis**,
+covering how to design, build, and safely deploy LLM agents.
 
-- **12 source summaries** · **7 entities** · **13 concepts** · **1 synthesis**
-- Start at [`wiki/overview.md`](wiki/overview.md) for the thesis, or
-  [`index.md`](index.md) for the full catalog.
+- Start at [`wiki/overview.md`](wiki/overview.md) for the full thesis, or
+  [`index.md`](index.md) for the catalog of every page.
 
 **The thesis in one line:** the labs strongly agree on a few load-bearing
 principles — *don't build an agent unless you need one*, *start simple and add
@@ -49,10 +43,38 @@ Excerpt from [`wiki/concepts/agents-vs-workflows.md`](wiki/concepts/agents-vs-wo
   (see [[anthropic-building-effective-agents]])
 ```
 
-Open the folder as an [Obsidian](https://obsidian.md) vault to navigate the
-wikilinks and the graph view.
+## Using this wiki
 
-## How it works
+### As a human
+
+- Open the folder as an [Obsidian](https://obsidian.md) vault, start at
+  [`wiki/overview.md`](wiki/overview.md), and follow wikilinks / the graph view.
+- Ask the maintaining agent a question (*"what do my sources say about
+  multi-agent orchestration?"*) — it answers with citations and, if the answer
+  is durable, files it into `wiki/synthesis/` for next time.
+
+### As an agent
+
+- Read [`CLAUDE.md`](CLAUDE.md) first — it's the schema and operating contract
+  for this wiki.
+- Read [`index.md`](index.md) to find candidate pages before reading anything
+  else; run `tools/search.py "<query>"` for what isn't obvious from the index.
+- Prefer citing an existing `wiki/` page over re-deriving an answer from
+  `raw/` — the synthesis and cross-references already exist.
+- If you're building an agent yourself, the principles in
+  [`wiki/overview.md`](wiki/overview.md) and [`wiki/concepts/`](wiki/concepts/)
+  are a reasonable starting checklist: scope, tool design, orchestration,
+  context engineering, guardrails.
+
+```
+python3 tools/search.py "your query"     # ranked results across wiki/
+python3 tools/search.py --orphans        # pages with no inbound links
+python3 tools/search.py --list           # every page with its title
+```
+
+Pure stdlib — no install step.
+
+## How it's maintained
 
 Three layers:
 
@@ -93,21 +115,10 @@ CLAUDE.md       # the schema — read by the agent every session
 1. Add a source: drop a `.md`/`.pdf`/`.txt` into `raw/` (the
    [Obsidian Web Clipper](https://obsidian.md/clipper) is great for web articles).
 2. Tell the agent: *"ingest the new source in raw/"*.
-3. Browse the result in Obsidian (open this folder as a vault) — follow the
-   wikilinks and the graph view.
+3. Browse the result in Obsidian — follow the wikilinks and the graph view.
 4. Ask questions: *"what do my sources say about X?"* — good answers get filed
    into the wiki automatically.
 5. Occasionally: *"lint the wiki"*.
-
-### Search
-
-```
-python3 tools/search.py "your query"     # ranked results across wiki/
-python3 tools/search.py --orphans        # pages with no inbound links
-python3 tools/search.py --list           # every page with its title
-```
-
-Pure stdlib — no install step.
 
 ## Start your own
 
@@ -134,3 +145,13 @@ OpenAI) reproduced for personal research. Copyright remains with their
 respective authors; they are **not** covered by the MIT License and are not
 redistributed for any other use. Everything under `wiki/` is LLM-generated
 summary and synthesis that cites those sources.
+
+---
+
+**Inspiration:** the ingest/query/lint pattern and the `raw/` → `wiki/` →
+`CLAUDE.md` layering follow Andrej Karpathy's
+[LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
+gist: instead of RAG-style retrieval that re-derives knowledge on every query,
+the LLM incrementally builds and maintains a persistent, interlinked markdown
+wiki between you and your raw sources, so cross-references and synthesis
+already exist by the time you ask.
