@@ -50,6 +50,7 @@ read this first to find relevant pages, then drill in.
 - [[context-engineering]] — load on demand, let the agent manage/persist context, design for cache hits
 - [[agent-harness]] — brain–hands separation, sessions, harness–model co-evolution; two-agent long-running pattern
 - [[agent-evals]] — measure beyond accuracy; realistic multi-call tasks; human-like verification; eval-with-agents
+- [[boundary-contracts]] — the bug class tests can't catch: wrong models of external systems; ground-truth-before-code, fail-loud, ratchet
 
 ## Synthesis
 
