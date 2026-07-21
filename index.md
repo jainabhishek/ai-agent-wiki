@@ -24,6 +24,7 @@ read this first to find relevant pages, then drill in.
 - [[anthropic-eng-demystifying-evals]] — *primary source*: grader types, real eval sets, pass@k vs pass^k, eval pitfalls
 - [[anthropic-eng-multi-agent-research-system]] — *primary source*: orchestrator-worker, 90.2% gain, ~15× tokens, token-usage explains 80% of variance
 - [[anthropic-eng-agent-skills]] — *primary source*: SKILL.md, three-level progressive disclosure, composability, cross-surface support
+- [[cursor-agent-swarm-model-economics]] — *practitioner case study*: coding-swarm coordination, context isolation, review lenses, and model economics (Jul 2026)
 
 ## Entities
 
@@ -34,6 +35,7 @@ read this first to find relevant pages, then drill in.
 - [[claude-code]] — Anthropic's agentic coding tool (steering + skills example)
 - [[claude-agent-sdk]] — Anthropic's tuned agent harness (2025)
 - [[claude-managed-agents]] — Anthropic's managed agent platform (2026)
+- [[cursor]] — AI coding product; practitioner research on coding-agent swarms
 
 ## Concepts
 
@@ -50,6 +52,7 @@ read this first to find relevant pages, then drill in.
 - [[context-engineering]] — load on demand, let the agent manage/persist context, design for cache hits
 - [[agent-harness]] — brain–hands separation, sessions, harness–model co-evolution; two-agent long-running pattern
 - [[agent-evals]] — measure beyond accuracy; realistic multi-call tasks; human-like verification; eval-with-agents
+- [[multi-agent-economics]] — optimize cost per accepted outcome across planner, workers, review, and coordination
 
 ## Synthesis
 

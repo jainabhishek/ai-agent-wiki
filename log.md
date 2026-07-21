@@ -108,3 +108,11 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - summary: converted fake placeholder wikilinks to plain placeholders so
   Obsidian no longer creates unresolved graph nodes for template examples
 - touched: [[obsidian-graph-analysis]]
+
+## [2026-07-21] ingest | Cursor — Agent Swarms and the New Model Economics
+- summary: wiki/sources/cursor-agent-swarm-model-economics.md
+- touched: [[cursor]], [[multi-agent-economics]], [[agent-orchestration]],
+  [[agent-harness]], [[context-engineering]], [[agent-evals]],
+  [[workflow-patterns]], [[agent-design-principles]], [[agent-instructions]],
+  [[overview]], index, README
+- source note: live web source; `raw/` remains unchanged per repository policy

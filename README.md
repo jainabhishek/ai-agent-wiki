@@ -2,8 +2,9 @@
 
 A knowledge base on **building effective AI agents** — architecture choices,
 tools, orchestration, context engineering, harness design, and guardrails —
-synthesized from primary guidance by Anthropic and OpenAI, plus Anthropic's
-engineering blog posts on harness, skills, steering, and context.
+synthesized from primary guidance by Anthropic and OpenAI, Anthropic's
+engineering posts on harness, skills, steering, and context, and attributed
+practitioner case studies such as Cursor's coding-swarm experiments.
 
 It's maintained by an LLM agent ([Claude Code](https://www.anthropic.com/claude-code),
 via [`CLAUDE.md`](CLAUDE.md)) and meant to be **read by both humans and other
@@ -18,7 +19,7 @@ topic (see [Start your own](#start-your-own)).
 
 ## What's inside
 
-The corpus is **12 source summaries · 7 entities · 13 concepts · 1 synthesis**,
+The corpus is **13 source summaries · 8 entities · 14 concepts · 2 syntheses**,
 covering how to design, build, and safely deploy LLM agents.
 
 - Start at [`wiki/overview.md`](wiki/overview.md) for the full thesis, or

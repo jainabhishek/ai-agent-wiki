@@ -2,7 +2,7 @@
 title: Agent Harness
 type: concept
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-07-21
 tags: [harness, architecture, agents, sessions, best-practices]
 ---
 
@@ -61,6 +61,16 @@ From the case study in [[anthropic-eng-effective-harnesses-long-running-agents]]
 - **Failure modes to design against:** premature completion, half-finished
   features, undocumented progress, code-only (non-end-to-end) verification.
 
+## Coordination-bearing harnesses
+
+At multi-agent coding scale, the harness also becomes the coordination system.
+Cursor placed design ownership, decision reconciliation, merge mediation,
+modularity enforcement, review, and shared memory around the models; its new
+harness outperformed the old one under every tested model mix. This reinforces
+harness-model co-evolution: model swaps and prompt reuse must be evaluated as a
+system, including downstream worker behavior. (see
+[[cursor-agent-swarm-model-economics]], [[multi-agent-economics]])
+
 ## Related concepts
 
 - [[agent-orchestration]], [[context-engineering]], [[agent-design-principles]],
@@ -76,6 +86,7 @@ From the case study in [[anthropic-eng-effective-harnesses-long-running-agents]]
 - [[harnessing-claudes-intelligence]]
 - [[anthropic-eng-effective-harnesses-long-running-agents]]
 - [[anthropic-eng-context-engineering]]
+- [[cursor-agent-swarm-model-economics]]
 
 ## Contradictions / open questions
 

@@ -2,7 +2,7 @@
 title: Agent Instructions
 type: concept
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-07-21
 tags: [instructions, prompting, best-practices]
 ---
 
@@ -22,6 +22,11 @@ tags: [instructions, prompting, best-practices]
   (ask for the order number, call an API, send a specific message).
 - **Capture edge cases.** Anticipate incomplete information and unexpected
   questions; include conditional branches for handling them.
+- **Make delegation packets complete.** Give each worker an objective, owned
+  scope, settled inputs, output format, acceptance criteria, validation, and stop
+  conditions. Require planners to decide shared architecture once rather than
+  delegating the same decision to multiple workers. (see
+  [[cursor-agent-swarm-model-economics]], [[agent-orchestration]])
 
 ## Automate instruction-writing
 
@@ -38,7 +43,7 @@ The shared principle: **ambiguity is the enemy.** See [[agent-design-principles]
 ## Related concepts
 
 - [[agent-core-components]], [[tool-design]], [[guardrails]],
-  [[agent-design-principles]]
+  [[agent-design-principles]], [[agent-orchestration]]
 
 ## Key entities
 
@@ -47,6 +52,7 @@ The shared principle: **ambiguity is the enemy.** See [[agent-design-principles]
 ## Appears in
 
 - [[openai-practical-guide-to-building-agents]]
+- [[cursor-agent-swarm-model-economics]]
 
 ## Contradictions / open questions
 
