@@ -2,7 +2,7 @@
 title: Agent Orchestration
 type: concept
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-07-21
 tags: [orchestration, multi-agent, single-agent, patterns]
 ---
 
@@ -77,6 +77,17 @@ and driven by clear prompts.**
 - Prompt the orchestrator with **effort-scaling rules** (agent count by query
   complexity) and **explicit delegation** (objective, output format, boundaries).
 
+## Coding swarms and coordination
+
+Cursor's SQLite experiment shows that shared-context coding is not categorically
+incompatible with multi-agent work, but the harness must carry coordination that
+ordinary Git workflows leave to humans. Its new swarm assigned shared design
+decisions to planners, delegated disjoint leaves, reconciled decision documents,
+used neutral conflict resolution, decomposed contested megafiles, and stacked
+independent review lenses. The authors attribute scaling primarily to context
+efficiency rather than parallelism. (see
+[[cursor-agent-swarm-model-economics]], [[multi-agent-economics]])
+
 ## Declarative vs. code-first
 
 OpenAI contrasts **declarative graph** frameworks (define every branch/loop
@@ -104,8 +115,14 @@ abstraction in [[agent-design-principles]].
 - [[anthropic-eng-context-engineering]]
 - [[anthropic-eng-effective-harnesses-long-running-agents]]
 - [[anthropic-eng-multi-agent-research-system]]
+- [[cursor-agent-swarm-model-economics]]
 
 ## Contradictions / open questions
 
-- _None — the manager pattern and orchestrator-workers describe the same shape
-  from the agent and workflow vocabularies respectively._
+- [[anthropic-eng-multi-agent-research-system]] reports that multi-agent systems
+  are a poor fit when agents must share context, including most coding.
+  [[cursor-agent-swarm-model-economics]] demonstrates a counterexample at extreme
+  scale using a custom VCS and explicit coordination mechanisms. The practical
+  boundary appears to be harness capability and task partitionability, not a
+  categorical research-versus-coding distinction; replication on ordinary Git
+  repositories remains open.

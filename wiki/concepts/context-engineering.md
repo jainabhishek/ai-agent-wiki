@@ -2,7 +2,7 @@
 title: Context Engineering
 type: concept
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-07-21
 tags: [context, memory, caching, agents, best-practices]
 ---
 
@@ -62,6 +62,12 @@ agent choose what to remember across sessions — rather than relying solely on
 retrieval/RAG infrastructure. The **session** (append-only event log) in
 [[claude-managed-agents]] is the durable form of this. (see [[agent-harness]])
 
+Cursor's Field Guide is a multi-agent variant: agents curate surprising
+discoveries into a shared, size-bounded index injected into later runs. Its task
+tree also isolates context by role—planners retain intent while workers retain
+only a narrow implementation leaf. (see
+[[cursor-agent-swarm-model-economics]], [[agent-orchestration]])
+
 ## The three long-horizon techniques
 
 For work exceeding a single context window ([[anthropic-eng-context-engineering]]):
@@ -103,6 +109,7 @@ curated artifact beats re-retrieving raw context every turn.
 
 - [[anthropic-eng-context-engineering]]
 - [[harnessing-claudes-intelligence]]
+- [[cursor-agent-swarm-model-economics]]
 - [[anthropic-steering-claude-code]]
 - [[anthropic-evolution-of-agentic-surfaces]]
 
