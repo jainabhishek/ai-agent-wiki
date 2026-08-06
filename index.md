@@ -53,6 +53,7 @@ read this first to find relevant pages, then drill in.
 - [[agent-harness]] — brain–hands separation, sessions, harness–model co-evolution; two-agent long-running pattern
 - [[agent-evals]] — measure beyond accuracy; realistic multi-call tasks; human-like verification; eval-with-agents
 - [[multi-agent-economics]] — optimize cost per accepted outcome across planner, workers, review, and coordination
+- [[boundary-contracts]] — the bug class tests can't catch: wrong models of external systems; ground-truth-before-code, fail-loud, ratchet
 
 ## Synthesis
 
