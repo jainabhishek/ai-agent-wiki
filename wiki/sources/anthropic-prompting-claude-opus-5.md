@@ -6,6 +6,7 @@ updated: 2026-08-06
 author: Anthropic
 date: accessed 2026-08-06
 source_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5
+source_path: raw/anthropic-prompting-claude-opus-5.md
 models: [claude-opus-5]
 as_of: 2026-08-06
 tags: [prompting, model-specific, anthropic, opus-5]
