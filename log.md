@@ -116,3 +116,29 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   [[workflow-patterns]], [[agent-design-principles]], [[agent-instructions]],
   [[overview]], index, README
 - source note: live web source; `raw/` remains unchanged per repository policy
+
+## [2026-08-06] schema | model-scoped pages: `models:` + `as_of:` frontmatter
+- updated: CLAUDE.md, templates/source.md
+- summary: prompting guidance is a per-model contract, not shared theory —
+  cross-vendor/cross-generation synthesis of prompting advice is not filed.
+  Model-specific claims must declare exact API model IDs and a verification
+  date; scope follows the vendor's own current/legacy split; values live in
+  sources, never in concepts.
+- touched: [[overview]], index
+
+## [2026-08-06] ingest | Model-scoped prompting guidance (Claude 5 series, GPT-5.6)
+- summaries: wiki/sources/anthropic-prompting-claude-opus-5.md,
+  wiki/sources/anthropic-prompting-claude-sonnet-5.md,
+  wiki/sources/anthropic-prompting-claude-fable-5.md,
+  wiki/sources/openai-prompt-guidance-gpt-5-6.md
+- new concept: wiki/concepts/prompt-tuning-axes.md — the durable re-tuning axes,
+  deliberately holding no values
+- touched: [[prompt-tuning-axes]], [[agent-instructions]],
+  [[agent-design-principles]], [[overview]], index, CLAUDE.md
+- contradiction flagged: `reasoning_extraction` refusals on Claude Fable 5 put
+  the older implementation of the Transparency principle (prompt the model to
+  narrate its reasoning) in tension with current model behavior; recorded on
+  [[agent-design-principles]]
+- scope: excludes Anthropic 4.x (incl. Haiku 4.5), GPT-4.1, GPT-5 — per the
+  per-model-contract rule, superseded generations are not carried forward
+- source note: live web sources; `raw/` remains unchanged per repository policy

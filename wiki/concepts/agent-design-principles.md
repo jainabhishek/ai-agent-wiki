@@ -2,7 +2,7 @@
 title: Agent Design Principles
 type: concept
 created: 2026-06-21
-updated: 2026-07-21
+updated: 2026-08-06
 tags: [agents, best-practices, principles, evals]
 ---
 
@@ -49,6 +49,14 @@ delete obsolete context resets, let the model orchestrate actions, manage its ow
 context, and persist its own memory. (see [[harnessing-claudes-intelligence]],
 [[agent-harness]], [[context-engineering]])
 
+Prompts are scaffolding too. Current model documentation from both labs
+independently instructs *removing* prompt scaffolding rather than adding it —
+explicit verification steps, forced status summaries, exhaustive rule
+enumeration — with the strongest form of the claim being that legacy prompt
+scaffolding degrades output quality rather than merely wasting tokens. (see
+[[prompt-tuning-axes]], [[anthropic-prompting-claude-fable-5]],
+[[openai-prompt-guidance-gpt-5-6]])
+
 **7. Design for cache hits.** Order static content first, send updates as
 messages, keep models and tools stable within a session, and manage cache
 breakpoints — a cost/latency lever that compounds over long runs. (see
@@ -86,4 +94,12 @@ before multi), and [[tool-design]] (clarity over count).
 
 ## Contradictions / open questions
 
-- _None — this is the strongest point of agreement between the two sources._
+- The architecture principles remain the strongest point of agreement between the
+  two original guides.
+- **Principle 3 (Transparency) needs a caveat as of 2026-08-06.** Claude Fable 5
+  runs a `reasoning_extraction` classifier: prompts or skills instructing the
+  model to echo, transcribe, or explain its internal reasoning as response text
+  can trigger a refusal. Transparency should be obtained from structured
+  `thinking` blocks rather than from prompted self-narration. The principle holds;
+  the older implementation of it does not. (see
+  [[anthropic-prompting-claude-fable-5]])

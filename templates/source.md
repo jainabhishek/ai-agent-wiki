@@ -7,6 +7,8 @@ author: <author or unknown>
 date: <publication date or unknown>
 source_url: <url if web>
 source_path: raw/<filename>
+models: []          # required if claims are model-specific: exact API model IDs
+as_of: <YYYY-MM-DD> # required alongside models: date the claims were verified
 tags: []
 ---
 
