@@ -26,6 +26,16 @@ read this first to find relevant pages, then drill in.
 - [[anthropic-eng-agent-skills]] — *primary source*: SKILL.md, three-level progressive disclosure, composability, cross-surface support
 - [[cursor-agent-swarm-model-economics]] — *practitioner case study*: coding-swarm coordination, context isolation, review lenses, and model economics (Jul 2026)
 
+### Model-scoped prompting guidance
+
+Per-model contracts, not general theory. Each carries `models:` + `as_of:`;
+re-verify when a model leaves its vendor's current list.
+
+- [[anthropic-prompting-claude-opus-5]] — Opus 5: verbosity, over-verification, subagent caps, thinking-disabled artifacts (as of Aug 2026)
+- [[anthropic-prompting-claude-sonnet-5]] — Sonnet 5: literal instruction following, effort remapping, new tokenizer, design defaults (as of Aug 2026)
+- [[anthropic-prompting-claude-fable-5]] — Fable 5 / Mythos 5: long-horizon autonomy, memory, `reasoning_extraction` refusals (as of Aug 2026)
+- [[openai-prompt-guidance-gpt-5-6]] — GPT-5.6 Sol/Terra/Luna: outcome-first prompts, lean-prompt gains, staged migration (as of Aug 2026)
+
 ## Entities
 
 - [[anthropic]] — AI lab; *Building Effective Agents* + operational blog posts
@@ -54,6 +64,7 @@ read this first to find relevant pages, then drill in.
 - [[agent-evals]] — measure beyond accuracy; realistic multi-call tasks; human-like verification; eval-with-agents
 - [[multi-agent-economics]] — optimize cost per accepted outcome across planner, workers, review, and coordination
 - [[boundary-contracts]] — the bug class tests can't catch: wrong models of external systems; ground-truth-before-code, fail-loud, ratchet
+- [[prompt-tuning-axes]] — the knobs you re-tune on a model migration; axes only, no values (those expire)
 
 ## Synthesis
 

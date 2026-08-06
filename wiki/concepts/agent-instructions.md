@@ -2,7 +2,7 @@
 title: Agent Instructions
 type: concept
 created: 2026-06-21
-updated: 2026-07-21
+updated: 2026-08-06
 tags: [instructions, prompting, best-practices]
 ---
 
@@ -40,10 +40,18 @@ document into an instruction list. (see [[openai-practical-guide-to-building-age
 the model as you would for a new teammate, with examples and explicit boundaries.
 The shared principle: **ambiguity is the enemy.** See [[agent-design-principles]].
 
+## Model-specific instruction behavior
+
+This page covers *what to say*. How a specific model interprets what you said —
+literalism, scope generalization, verbosity defaults, how much verification it
+performs unprompted — varies by model and is filed per-model rather than
+generalized. See [[prompt-tuning-axes]] for the axes and the model-scoped source
+pages for current values.
+
 ## Related concepts
 
 - [[agent-core-components]], [[tool-design]], [[guardrails]],
-  [[agent-design-principles]], [[agent-orchestration]]
+  [[agent-design-principles]], [[agent-orchestration]], [[prompt-tuning-axes]]
 
 ## Key entities
 

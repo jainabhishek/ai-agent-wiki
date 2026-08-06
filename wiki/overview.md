@@ -2,7 +2,7 @@
 title: Overview
 type: overview
 created: 2026-06-21
-updated: 2026-07-21
+updated: 2026-08-06
 tags: [meta, agents]
 ---
 
@@ -65,7 +65,17 @@ and **skills/steering** ([[agent-skills]], [[agent-steering]]); OpenAI is deeper
   · [[tool-design]] · [[workflow-patterns]] · [[agent-orchestration]] ·
   [[agent-instructions]] · [[guardrails]] · [[agent-skills]] · [[agent-steering]] ·
   [[context-engineering]] · [[agent-harness]] · [[agent-evals]] ·
-  [[multi-agent-economics]]
+  [[multi-agent-economics]] · [[prompt-tuning-axes]]
+
+## Scope note: prompting vs. architecture
+
+Cross-lab comparison is evidence for **architecture** claims — two independent
+labs converging on "start simple" raises confidence the principle is real. It is
+*not* useful for **prompting**, which is written against one model's behavior and
+is therefore a per-model contract. Model-scoped prompting guidance is filed in
+`wiki/sources/` with `models:`/`as_of:` frontmatter and is never synthesized
+across vendors or generations. The durable framework is
+[[prompt-tuning-axes]].
 
 ## Wiki health
 

@@ -59,6 +59,31 @@ back-reference sweep.
   Add a `## Contradictions / open questions` note recording both claims, their
   sources, and dates. Flag it to the human.
 
+### Model-scoped pages
+
+Prompting guidance is a **per-model contract**, not shared theory — a prompt is
+written against one model's behavior, so cross-vendor or cross-generation
+synthesis of prompting advice is not actionable and must not be filed. Compare
+labs only for *architecture* claims, where independent convergence is evidence.
+
+Any page carrying claims true only of specific models must declare:
+
+```yaml
+models: [claude-opus-5, gpt-5.6-sol]   # exact API model IDs
+as_of: YYYY-MM-DD                       # date the claims were verified
+```
+
+Rules for these pages:
+
+- **Scope follows the vendor's own current/legacy split.** Ingest guidance only
+  for models the vendor lists as current; do not invent a version rule of our own
+  (e.g. "5-series only"), which needs hand-editing at every release.
+- **Values live in `wiki/sources/`, never in concepts.** Concept pages hold
+  durable axes and frameworks; a concept page must not contain effort settings,
+  token limits, parameter names, or per-model behaviors.
+- **A model leaving its vendor's current list makes every page scoped to it stale
+  by construction.** Re-verify or retire; do not silently carry forward.
+
 ---
 
 ## Operations
