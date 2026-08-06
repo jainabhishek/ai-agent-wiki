@@ -2,7 +2,7 @@
 title: Agent Design Principles
 type: concept
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-07-21
 tags: [agents, best-practices, principles, evals]
 ---
 
@@ -54,6 +54,12 @@ messages, keep models and tools stable within a session, and manage cache
 breakpoints — a cost/latency lever that compounds over long runs. (see
 [[harnessing-claudes-intelligence]])
 
+**8. Optimize the system, not the model call.** A cheaper planner can create
+more expensive workers, and a costly frontier planner can be economical when it
+collapses ambiguity into bounded work. Evaluate the whole task tree by accepted
+outcomes, not isolated token prices. (see [[multi-agent-economics]],
+[[cursor-agent-swarm-model-economics]])
+
 ## Why it matters
 
 These principles are the through-line connecting every other best practice:
@@ -63,7 +69,8 @@ before multi), and [[tool-design]] (clarity over count).
 ## Related concepts
 
 - [[agents-vs-workflows]], [[agent-orchestration]], [[tool-design]],
-  [[guardrails]], [[agent-harness]], [[context-engineering]], [[agent-skills]]
+  [[guardrails]], [[agent-harness]], [[context-engineering]], [[agent-skills]],
+  [[multi-agent-economics]]
 
 ## Key entities
 
@@ -75,6 +82,7 @@ before multi), and [[tool-design]] (clarity over count).
 - [[openai-practical-guide-to-building-agents]]
 - [[harnessing-claudes-intelligence]]
 - [[anthropic-evolution-of-agentic-surfaces]]
+- [[cursor-agent-swarm-model-economics]]
 
 ## Contradictions / open questions
 

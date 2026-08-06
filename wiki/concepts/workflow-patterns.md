@@ -2,7 +2,7 @@
 title: Workflow Patterns
 type: concept
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-07-21
 tags: [workflows, patterns, anthropic, architecture]
 ---
 
@@ -32,6 +32,11 @@ tags: [workflows, patterns, anthropic, architecture]
    subtasks, delegates to worker LLMs, and synthesizes results. Preferred over
    parallelization when subtasks **can't be predicted in advance**. This is the
    workflow analogue of OpenAI's **manager pattern** (see [[agent-orchestration]]).
+   Cursor's coding case study adds two constraints: the orchestrator should own
+   shared design decisions, and delegated leaves should not independently decide
+   the same question. Because workers carry most execution volume, routing and
+   decomposition determine total cost. (see
+   [[cursor-agent-swarm-model-economics]], [[multi-agent-economics]])
 
 5. **Evaluator-optimizer** — one LLM generates, another evaluates and gives
    feedback in a loop. Best with clear evaluation criteria and where iterative
@@ -55,6 +60,7 @@ These patterns are the "composable, simple" middle ground that
 ## Appears in
 
 - [[anthropic-building-effective-agents]]
+- [[cursor-agent-swarm-model-economics]]
 
 ## Contradictions / open questions
 

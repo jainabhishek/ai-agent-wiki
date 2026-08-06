@@ -2,7 +2,7 @@
 title: Agent Evals
 type: concept
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-07-21
 tags: [evals, measurement, agents, best-practices]
 ---
 
@@ -58,6 +58,11 @@ multi-turn (tools + mutating state) is the real challenge.
 ## What to measure
 
 - Beyond accuracy: **runtime, tool-call counts, token consumption, error rates**.
+- For multi-agent systems, measure **cost per accepted outcome** across planners,
+  workers, reviewers, retries, conflicts, churn, and human correction. Cursor's
+  similar-quality model mixes had radically different total costs because worker
+  behavior dominated token volume. (see
+  [[cursor-agent-swarm-model-economics]], [[multi-agent-economics]])
 - **pass@k** (≥1 success in k attempts) vs **pass^k** (all k succeed) — they
   diverge sharply ("by k=10 ... pass@k → 100% while pass^k → 0%"); pick the one
   matching whether you need *ever* vs *always* succeed.
@@ -105,6 +110,7 @@ transcript sampling + human studies.
 - [[anthropic-eng-demystifying-evals]]
 - [[anthropic-eng-writing-tools-for-agents]]
 - [[anthropic-eng-effective-harnesses-long-running-agents]]
+- [[cursor-agent-swarm-model-economics]]
 
 ## Contradictions / open questions
 
