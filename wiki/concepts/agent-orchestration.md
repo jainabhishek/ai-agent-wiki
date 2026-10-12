@@ -2,7 +2,7 @@
 title: Agent Orchestration
 type: concept
 created: 2026-06-21
-updated: 2026-07-21
+updated: 2026-10-12
 tags: [orchestration, multi-agent, single-agent, patterns]
 ---
 
@@ -47,6 +47,29 @@ Use them for deep search, log analysis, or audits whose intermediate results you
 won't reference again; they can nest several levels and orchestrate many
 background agents, with plans/results held in script variables rather than
 context. (see [[anthropic-steering-claude-code]], [[context-engineering]])
+A subagent can also add a capability without adding a tool: Claude Code's docs-search
+subagent searches in its own context and returns only the answer. (see
+[[anthropic-seeing-like-an-agent]])
+
+A subagent is also the way to **switch models** inside a session. Prompt caches are
+per model, so switching the main thread's model mid-session pays for the whole
+prefix again; a subagent on the other model with a hand-off message avoids that.
+Claude Code's Explore agents run on a smaller model this way. (see
+[[anthropic-prompt-caching-is-everything]])
+
+**Why split planning from execution.** One context that both plans and executes
+shows three failure modes: *agentic laziness* (stopping partway through a long item
+list), *self-preferential bias* (grading its own work), and *goal drift* (losing
+requirements after compaction). Separate focused subagents counter all three. In
+Claude Code's dynamic workflows the model writes a per-task orchestration script
+with `agent`, `parallel`, and `pipeline` primitives; this costs more tokens, so it
+suits complex, high-value tasks. (see [[anthropic-harness-for-every-task]],
+[[workflow-patterns]], [[multi-agent-economics]])
+
+How readily a given model delegates is a per-model behavior, tuned in the prompt;
+see axis 5 of [[prompt-tuning-axes]]. For example, OpenAI supplies a prompt for a
+model that delegates less than desired, plus one that fixes errors in messages
+between agents. (see [[openai-prompting-gpt-6-astra]])
 
 ## Multi-agent patterns (OpenAI)
 
@@ -61,6 +84,43 @@ context. (see [[anthropic-steering-claude-code]], [[context-engineering]])
 Both can be modeled as graphs (agents = nodes; edges = tool calls or handoffs).
 The guiding principle across patterns: keep components **flexible, composable,
 and driven by clear prompts.**
+
+## Trust and checks at the subagent boundary
+
+- **Subagent output is an injection path.** An orchestrator that trusts subagent
+  output more than raw tool output gives injected content a route to escalate
+  trust; Anthropic lists this as an open containment problem. (see
+  [[anthropic-eng-how-we-contain-claude]], [[guardrails]])
+- **Check at both crossings.** Claude Code's auto-mode classifier checks the
+  handoff on delegation, where it can deny (inside a subagent the orchestrator's
+  instruction looks like a user message), and on return, where it only warns.
+  (see [[anthropic-eng-claude-code-auto-mode]])
+- **The orchestrator verifies subagent evidence.** For fan-out audits, migrations,
+  and large reviews, tell the orchestrator to check each subagent's evidence
+  before accepting it. (see [[anthropic-getting-most-out-of-opus-5-5]]) The
+  architecture form is adversarial verification: a separate agent checks the work
+  against a rubric. (see [[anthropic-harness-for-every-task]])
+- **Quarantine untrusted input.** Read-only reader agents summarize untrusted
+  content into structured output; a separate privileged actor acts only on the
+  summaries. (see [[anthropic-harness-for-every-task]])
+- **Some powers stay with the main agent.** In OpenAI's Agents API only the main
+  agent may request browser sign-in; subagents cannot. (see
+  [[openai-agents-api-guide]])
+
+## Harness signals for parallel work
+
+Two current Anthropic harness patterns change how a lead agent paces subagents.
+Both are model-scoped; the source pages hold the details.
+- **Elapsed-time budget.** A line on each message stating elapsed time against an
+  advisory budget let a lead agent pace and parallelize, and teams finished sooner
+  at comparable quality. Keep a hard timeout as well. (see
+  [[anthropic-prompting-claude-opus-5-5]]) Contrast the warning against showing a
+  remaining-*token* countdown, recorded on [[prompt-tuning-axes]].
+- **Non-blocking subagent start.** A subagent-start tool that returns at once,
+  plus a separate wait tool, lowered average time to completion at similar
+  quality, tokens, and cost. (see [[anthropic-prompting-claude-fable-5-1]])
+- An unattended lead agent must wait for background subagents before it treats a
+  task as complete. (see [[anthropic-prompting-claude-opus-5-5]])
 
 ## Evidence from Anthropic's multi-agent research system
 
@@ -88,6 +148,12 @@ independent review lenses. The authors attribute scaling primarily to context
 efficiency rather than parallelism. (see
 [[cursor-agent-swarm-model-economics]], [[multi-agent-economics]])
 
+Isolation has the opposite cost. In Claude Code cloud sessions each task gets its
+own VM and branch, so parallel sessions cannot see each other's fixes: one session
+found the same bug a sibling session was fixing. The advice is to split parallel
+tasks along file boundaries, merge in a sensible order, and expect duplicate
+problem reports. (see [[anthropic-claude-code-in-the-cloud]])
+
 ## Declarative vs. code-first
 
 OpenAI contrasts **declarative graph** frameworks (define every branch/loop
@@ -99,7 +165,7 @@ abstraction in [[agent-design-principles]].
 
 - [[workflow-patterns]], [[agent-core-components]], [[tool-design]],
   [[agent-design-principles]], [[guardrails]], [[agent-harness]],
-  [[context-engineering]]
+  [[context-engineering]], [[prompt-tuning-axes]], [[multi-agent-economics]]
 
 ## Key entities
 
@@ -116,6 +182,17 @@ abstraction in [[agent-design-principles]].
 - [[anthropic-eng-effective-harnesses-long-running-agents]]
 - [[anthropic-eng-multi-agent-research-system]]
 - [[cursor-agent-swarm-model-economics]]
+- [[anthropic-seeing-like-an-agent]]
+- [[anthropic-prompt-caching-is-everything]]
+- [[anthropic-harness-for-every-task]]
+- [[anthropic-eng-how-we-contain-claude]]
+- [[anthropic-eng-claude-code-auto-mode]]
+- [[anthropic-getting-most-out-of-opus-5-5]]
+- [[anthropic-claude-code-in-the-cloud]]
+- [[anthropic-prompting-claude-opus-5-5]]
+- [[anthropic-prompting-claude-fable-5-1]]
+- [[openai-agents-api-guide]]
+- [[openai-prompting-gpt-6-astra]]
 
 ## Contradictions / open questions
 
@@ -126,3 +203,13 @@ abstraction in [[agent-design-principles]].
   boundary appears to be harness capability and task partitionability, not a
   categorical research-versus-coding distinction; replication on ordinary Git
   repositories remains open.
+- **Separate verifier agents: architecture pattern vs model default.**
+  [[anthropic-harness-for-every-task]] (written when Claude Opus 4.8 was current)
+  builds adversarial verification from separate agents, and the legacy
+  [[anthropic-prompting-claude-fable-5]] page recommended fresh-context verifier
+  subagents. [[anthropic-prompting-claude-sonnet-5-5]] (2026-10-12) says not to let
+  the model launch reviewer subagents unless asked, because they raised cost with
+  no quality change. The two may not conflict — one is a harness the developer
+  designs, the other is the model's unprompted habit — but no source tests when a
+  separate verifier still pays for itself on current models. See
+  [[prompt-tuning-axes]].

@@ -2,7 +2,7 @@
 title: Agent Design Principles
 type: concept
 created: 2026-06-21
-updated: 2026-08-06
+updated: 2026-10-12
 tags: [agents, best-practices, principles, evals]
 ---
 
@@ -57,6 +57,11 @@ scaffolding degrades output quality rather than merely wasting tokens. (see
 [[prompt-tuning-axes]], [[anthropic-prompting-claude-fable-5]],
 [[openai-prompt-guidance-gpt-5-6]])
 
+The migration order follows from this: remove the previous model's workarounds
+first (refusal steering, retry shims, lines such as "do not be lazy"), then re-run
+the evals, and only then tune. (see [[anthropic-building-with-sonnet-5-5]],
+[[agent-evals]])
+
 **7. Design for cache hits.** Order static content first, send updates as
 messages, keep models and tools stable within a session, and manage cache
 breakpoints — a cost/latency lever that compounds over long runs. (see
@@ -68,6 +73,15 @@ collapses ambiguity into bounded work. Evaluate the whole task tree by accepted
 outcomes, not isolated token prices. (see [[multi-agent-economics]],
 [[cursor-agent-swarm-model-economics]])
 
+**9. Fail loud; record only confirmed effects.** An agent must not turn a failure
+into a quiet success. If a source cannot be read (a server is down, a token has
+expired), the agent reports that source as unreadable, never as "nothing new", and
+leaves that source's state unchanged. A side effect (a post, a write) counts as done
+only after the destination confirms it; the agent updates its own records after
+that confirmation, and records an unclear result as unclear. Re-check the live
+source right before acting, because the world changes between read and write. (see
+[[anthropic-building-effective-agent-automations]], [[boundary-contracts]])
+
 ## Why it matters
 
 These principles are the through-line connecting every other best practice:
@@ -78,7 +92,7 @@ before multi), and [[tool-design]] (clarity over count).
 
 - [[agents-vs-workflows]], [[agent-orchestration]], [[tool-design]],
   [[guardrails]], [[agent-harness]], [[context-engineering]], [[agent-skills]],
-  [[multi-agent-economics]]
+  [[multi-agent-economics]], [[boundary-contracts]], [[agent-evals]]
 
 ## Key entities
 
@@ -91,6 +105,8 @@ before multi), and [[tool-design]] (clarity over count).
 - [[harnessing-claudes-intelligence]]
 - [[anthropic-evolution-of-agentic-surfaces]]
 - [[cursor-agent-swarm-model-economics]]
+- [[anthropic-building-effective-agent-automations]]
+- [[anthropic-building-with-sonnet-5-5]]
 
 ## Contradictions / open questions
 
