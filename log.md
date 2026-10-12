@@ -167,3 +167,45 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   [[anthropic-prompting-claude-opus-5]],
   [[anthropic-prompting-claude-sonnet-5]],
   [[anthropic-prompting-claude-fable-5]]
+
+## [2026-10-12] lint | new Anthropic and OpenAI agent guidance since 2026-08-06
+- stale by construction: all four model-scoped source pages. Anthropic's models
+  overview lists `claude-opus-5`, `claude-sonnet-5`, and `claude-fable-5` under
+  "Legacy models"; current is `claude-fable-5-1`, `claude-opus-5-5`,
+  `claude-sonnet-5-5`, `claude-haiku-5-5`. OpenAI's models page lists
+  `gpt-6-astra`, `gpt-6.1-sol`, `gpt-6-luna`; plain `gpt-5.6` is gone (only the
+  `gpt-5.6-cyber` specialist remains). Pages: [[anthropic-prompting-claude-opus-5]],
+  [[anthropic-prompting-claude-sonnet-5]], [[anthropic-prompting-claude-fable-5]],
+  [[openai-prompt-guidance-gpt-5-6]]. Not yet re-verified or retired — awaiting
+  the human's decision.
+- replacements confirmed to exist (HTTP 200): `prompting-claude-opus-5-5`,
+  `prompting-claude-sonnet-5-5`, `prompting-claude-haiku-5-5`,
+  `prompting-claude-fable-5-1` under platform.claude.com/docs/en/build-with-claude/
+  prompt-engineering/. OpenAI publishes a prompting section only for GPT-6 Astra
+  (developers.openai.com/api/docs/guides/latest-model/gpt-6-astra); none for
+  GPT-6.1 Sol or GPT-6 Luna.
+- new since 2026-08-06, not ingested (Anthropic, claude.dev/blog): building
+  effective agent automations (2026-10-08); Claude Code in the cloud
+  (2026-10-06); automating eval design and hillclimbing (2026-09-28); building
+  with Claude Sonnet 5.5 (2026-09-28); getting the most out of Opus 5.5
+  (2026-09-22).
+- new since 2026-08-06, not ingested (OpenAI, developers.openai.com/blog):
+  rethinking skills and prompts for GPT-6 Astra (Sep 2026); automating
+  repetitive work at OpenAI with Codex (2026-08-25); Codex as a platform (page
+  metadata says 2026-07-07, page text says 2026-08-19 — date unresolved).
+- OpenAI platform changes, from the official API changelog: Assistants API shut
+  down 2026-08-26; GPT-6 Astra released 2026-09-03; Agents API (managed Codex
+  harness) public beta 2026-09-10; GPT-6 Sol and Luna 2026-09-22; GPT-6.1 Sol
+  2026-09-29; computer use in the Agents API 2026-09-29.
+- older candidates, never ingested (previously out of scope, not misses):
+  Anthropic engineering — how we contain Claude (2026-05-25), scaling Managed
+  Agents (2026-04-08), Claude Code auto mode (2026-03-25), harness design for
+  long-running apps (2026-03-24), infrastructure noise in agentic evals
+  (2026-02-05), advanced tool use (2025-11-24), code execution with MCP
+  (2025-11-04). claude.dev — new rules of context engineering for Claude 5
+  (2026-07-24), a harness for every task (2026-06-02), prompt caching is
+  everything (2026-04-30), seeing like an agent (2026-04-10). OpenAI — shell +
+  skills + compaction (2026-02-11), testing agent skills with evals
+  (2026-01-22), skills for OSS maintenance (2026-03-09), one year of Responses
+  (2026-03-11), private MCP servers (2026-06-26).
+- touched: log.md only
