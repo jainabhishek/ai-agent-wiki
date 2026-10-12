@@ -85,6 +85,10 @@ upgrade, and delete scaffolding the model has outgrown.**
 spend your effort on domain expertise, tools, and context — not on maintaining a
 custom loop.
 
+The harness moves scores as much as the model does: on one fixed optimization
+task, the same model scored from 1790 down to 1363 cycles (lower is better)
+depending on the harness and the time budget. (see [[anthropic-eng-ai-resistant-evaluations]])
+
 ## Harness as a reusable runtime
 
 - **The agent loop is the reusable part; the product is separate.** OpenAI
@@ -155,6 +159,17 @@ From the case study in [[anthropic-eng-effective-harnesses-long-running-agents]]
 - **Failure modes to design against:** premature completion, half-finished
   features, undocumented progress, code-only (non-end-to-end) verification.
 
+- **The verifier is the steering wheel.** An autonomous agent solves whatever
+  the tests define, so the tests must be nearly perfect, and a CI gate should
+  block any commit that breaks existing tests. Write test output for the model:
+  a few lines on screen and details in a log file, `ERROR` and its reason on one
+  line that grep can find, summary statistics already computed, and a fast
+  sampled mode that is stable for one agent and varies across agents. (see
+  [[anthropic-eng-building-c-compiler]])
+- **A concrete target to iterate against** — tests, a visual mock, or expected
+  output — is the most reliable way to get good results from a coding agent.
+  (see [[anthropic-eng-claude-code-best-practices]])
+
 ## Coordination-bearing harnesses
 
 At multi-agent coding scale, the harness also becomes the coordination system.
@@ -196,6 +211,9 @@ system, including downstream worker behavior. (see
 - [[anthropic-prompting-claude-fable-5-1]]
 - [[openai-codex-as-a-platform]]
 - [[openai-agents-api-guide]]
+- [[anthropic-eng-building-c-compiler]]
+- [[anthropic-eng-claude-code-best-practices]]
+- [[anthropic-eng-ai-resistant-evaluations]]
 
 ## Contradictions / open questions
 

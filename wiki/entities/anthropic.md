@@ -84,6 +84,12 @@ patterns over heavy frameworks.
 - [[anthropic-automating-eval-design-hillclimbing]]
 - [[anthropic-building-with-sonnet-5-5]]
 - [[anthropic-getting-most-out-of-opus-5-5]]
+- [[anthropic-eng-claude-code-sandboxing]]
+- [[anthropic-eng-claude-code-best-practices]]
+- [[anthropic-eng-think-tool]]
+- [[anthropic-eng-building-c-compiler]]
+- [[anthropic-eng-ai-resistant-evaluations]]
+- [[anthropic-eng-eval-awareness-browsecomp]]
 
 ## Contradictions / open questions
 

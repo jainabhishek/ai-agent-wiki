@@ -48,6 +48,13 @@ tokens. (see [[anthropic-eng-multi-agent-research-system]],
   5x the rate) and can duplicate discovery work, because sessions do not know
   about each other. (see [[anthropic-claude-code-in-the-cloud]])
 
+- **One model, no planner, verifier as the lever.** The C compiler run used 16
+  agents of one model, about 2,000 sessions over two weeks, about 2B input and
+  140M output tokens, and just under $20,000. It had no planner and no model
+  routing; the effective lever was verifier and test-harness quality, not
+  worker routing. Its dollar figure is not comparable with the Cursor figures
+  above, which come from different tasks, models, and accounting. (see [[anthropic-eng-building-c-compiler]])
+
 ## Evaluation rule
 
 Compare configurations on **cost per accepted outcome**. Include planner,
@@ -83,8 +90,12 @@ if it moves cost downstream or lowers reliability. (see [[agent-evals]])
 - [[anthropic-eng-harness-design-long-running-apps]]
 - [[anthropic-harness-for-every-task]]
 - [[anthropic-claude-code-in-the-cloud]]
+- [[anthropic-eng-building-c-compiler]]
 
 ## Contradictions / open questions
 
 - Published results use different tasks, harnesses, and accounting methods;
   cross-study model or price comparisons are not valid without a shared eval.
+- The "frontier planner plus cheaper workers" design is not the only one that
+  works: the C compiler run had no planner and no routing ([[anthropic-eng-building-c-compiler]]). The
+  evidence so far does not say which design is cheaper per accepted outcome.

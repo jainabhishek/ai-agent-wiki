@@ -9,7 +9,8 @@ tags: [graph, obsidian, wiki-health, synthesis]
 # Obsidian Graph Analysis
 
 > Query answer for: "check the Obsidian graph and explain." First filed
-> 2026-06-22; figures refreshed 2026-10-12 after the 30-source ingest.
+> 2026-06-22; figures refreshed 2026-10-12 after the 30-source ingest and the six-post
+> backlog ingest.
 
 ## Answer (refreshed 2026-10-12)
 
@@ -18,11 +19,11 @@ Within `wiki/`, the graph is healthy and has more than doubled since June:
 
 | Measure | 2026-06-22 | 2026-08-06 (`main`) | 2026-10-12 |
 |---------|-----------:|--------------------:|-----------:|
-| Pages | 35 | 44 | 77 |
-| Source pages | 12 | 17 | 47 |
+| Pages | 35 | 44 | 83 |
+| Source pages | 12 | 17 | 53 |
 | Concept / entity pages | — | 16 / 8 | 17 / 10 |
-| Unique directed wikilinks | 408 | 516 | 1,255 |
-| Reciprocal link pairs | 130 | 154 | 419 |
+| Unique directed wikilinks | 408 | 516 | 1,364 |
+| Reciprocal link pairs | 130 | 154 | 445 |
 | Connected components | 1 | 1 | 1 |
 | Unresolved internal wikilinks | 0 | 0 | 0 |
 | Pages with no inbound link from `wiki/` | 0 | 1 | 0 |
@@ -44,11 +45,11 @@ The graph is still centered on **agent-building doctrine**. The concept backbone
 ## What changed since June
 
 - **The concept backbone thickened.** [[context-engineering]] and
-  [[agent-harness]] grew from 18–19 inbound links to 51 each, and [[guardrails]]
-  from 14 to 45. The 2026-10-12 ingest put most of its new claims on these pages.
+  [[agent-harness]] grew from 18–19 inbound links to 53–55, and [[guardrails]]
+  from 14 to 49. The 2026-10-12 ingest put most of its new claims on these pages.
 - **The OpenAI side is no longer a thin satellite.** [[openai]] grew from 14 to
   32 inbound links, and two new entities joined it: [[openai-codex]] (25) and
-  [[openai-agents-api]] (13). The source base is still Anthropic-heavy: 34
+  [[openai-agents-api]] (13). The source base is still Anthropic-heavy: 40
   Anthropic source pages against 12 OpenAI and 1 Cursor.
 - **Legacy pages stay well linked.** The four legacy prompting pages keep 5–12
   inbound links each, because concept pages cite them next to their
@@ -59,7 +60,7 @@ The graph is still centered on **agent-building doctrine**. The concept backbone
 
 ## What the clusters mean
 
-- **Source cluster:** 47 source summaries feed claims into concepts and
+- **Source cluster:** 53 source summaries feed claims into concepts and
   entities. A model-scoped sub-cluster (12 prompting pages, 4 of them legacy)
   feeds mainly [[prompt-tuning-axes]], [[claude]], and [[openai]].
 - **Concept backbone:** [[context-engineering]], [[agent-harness]],
@@ -77,18 +78,18 @@ The graph is still centered on **agent-building doctrine**. The concept backbone
 
 | Page | Inbound wiki links | June | Interpretation |
 |------|-------------------:|-----:|----------------|
-| [[anthropic]] | 58 | 32 | Dominant source/vendor anchor |
-| [[context-engineering]] | 51 | 18 | Cross-cutting context, caching, and state hub |
-| [[agent-harness]] | 51 | 19 | Runtime, session, and loop-mechanics hub |
-| [[tool-design]] | 49 | 22 | Implementation surface; now includes tool scaling and MCP |
-| [[guardrails]] | 45 | 14 | Safety layer; now split into environment vs. model layer |
-| [[agent-orchestration]] | 44 | 24 | Multi-agent architecture and subagent trust |
-| [[claude]] | 39 | 15 | Model-family anchor; current vs. legacy lineup |
-| [[agent-design-principles]] | 39 | 24 | Core doctrine page |
-| [[claude-code]] | 34 | — | Anthropic's main worked example |
+| [[anthropic]] | 64 | 32 | Dominant source/vendor anchor |
+| [[context-engineering]] | 53 | 18 | Cross-cutting context, caching, and state hub |
+| [[agent-harness]] | 55 | 19 | Runtime, session, and loop-mechanics hub |
+| [[tool-design]] | 52 | 22 | Implementation surface; now includes tool scaling and MCP |
+| [[guardrails]] | 49 | 14 | Safety layer; now split into environment vs. model layer |
+| [[agent-orchestration]] | 47 | 24 | Multi-agent architecture and subagent trust |
+| [[claude]] | 44 | 15 | Model-family anchor; current vs. legacy lineup |
+| [[agent-design-principles]] | 40 | 24 | Core doctrine page |
+| [[claude-code]] | 38 | — | Anthropic's main worked example |
 | [[openai]] | 32 | 14 | Secondary vendor anchor |
-| [[agent-skills]] | 29 | — | Skill architecture; cross-vendor convergence |
-| [[agent-evals]] | 28 | — | Eval design, noise, and skill evals |
+| [[agent-skills]] | 30 | — | Skill architecture; cross-vendor convergence |
+| [[agent-evals]] | 34 | — | Eval design, noise, and skill evals |
 | [[openai-codex]] | 25 | — | New: OpenAI's harness and coding agent |
 
 "—" means the page was not in June's top ten, so the original analysis gave no
@@ -140,8 +141,8 @@ cleaner concept map, temporarily hide `wiki/sources/` and focus on
 - ~~Create an MCP concept page.~~ Done 2026-10-12: [[model-context-protocol]].
 - Add non-Anthropic sources if the goal is a more balanced graph. OpenAI coverage
   roughly doubled on 2026-10-12, but Anthropic sources still outnumber OpenAI
-  ones about 3 to 1, and no other lab is represented except [[cursor]].
-- The five largest concept pages now hold 45–51 inbound links each. If one of
+  ones more than 3 to 1, and no other lab is represented except [[cursor]].
+- The five largest concept pages now hold 47–55 inbound links each. If one of
   them starts to cover two topics, split it, as the schema's atomic-pages rule
   requires. [[guardrails]] (environment vs. model layer) is the likeliest
   candidate.

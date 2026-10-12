@@ -65,6 +65,10 @@ running a secure sandbox for agent-written code. (see
   application owns its MCP tools and approvals, and the harness only runs the
   loop. (see [[openai-codex-as-a-platform]])
 
+- **Sandbox the server process.** Anthropic's open-source sandbox runtime can
+  confine arbitrary processes, agents, and MCP servers with OS-level isolation,
+  without a container. (see [[anthropic-eng-claude-code-sandboxing]])
+
 ## Alternatives to an MCP server
 
 A static client-side app can register browser-side tools through WebMCP instead
@@ -105,6 +109,7 @@ reach. (see [[tool-design]], [[context-engineering]], [[guardrails]])
 - [[openai-agents-api-guide]]
 - [[openai-codex-as-a-platform]]
 - [[openai-automating-repetitive-work-codex]]
+- [[anthropic-eng-claude-code-sandboxing]]
 
 ## Contradictions / open questions
 
