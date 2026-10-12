@@ -295,3 +295,13 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   self-links and duplicates, and computes components on the undirected graph.
   The August column reruns it on `main`.
 - touched: [[obsidian-graph-analysis]], index
+
+## [2026-10-12] schema | agent-written raw captures are paraphrase
+- added to CLAUDE.md (Ingest): web pages the agent captures into `raw/` are
+  condensed paraphrase. Headings, numbers, parameter names, and identifiers
+  stay exact; prose and example prompts are paraphrased; quotes stay under 15
+  words. The header records the fetch method actually used.
+- why: the repo is public and the sources are copyrighted. The human asked
+  whether to keep paraphrase or copy prompts verbatim; paraphrase stays.
+- the three Aug 2026 Anthropic prompting captures that quote prompt blocks
+  verbatim are left unchanged, because `raw/` is immutable.

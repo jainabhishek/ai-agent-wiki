@@ -108,6 +108,15 @@ Rules for these pages:
 7. Append an entry to **`log.md`** (see format below).
 8. Bump `updated:` frontmatter on every page you touched.
 
+**Agent-written captures of web sources.** When the agent fetches a web page
+into `raw/`, the capture is a condensed paraphrase, not a copy. The repo is
+public and the sources are copyrighted. Keep every heading, number, parameter
+name, and code identifier; paraphrase prose and example prompts; quote at most a
+few short phrases (under 15 words each). The header records the URL, publisher,
+byline date, capture date, and the fetch method actually used. Captures written
+before 2026-10-12 that quote prompt blocks verbatim stay as they are, because
+`raw/` is immutable.
+
 ### Query (the human asks a question)
 
 1. Read `index.md` to locate candidate pages; run `tools/search.py "<query>"`
