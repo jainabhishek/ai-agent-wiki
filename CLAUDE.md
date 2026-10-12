@@ -82,7 +82,13 @@ Rules for these pages:
   durable axes and frameworks; a concept page must not contain effort settings,
   token limits, parameter names, or per-model behaviors.
 - **A model leaving its vendor's current list makes every page scoped to it stale
-  by construction.** Re-verify or retire; do not silently carry forward.
+  by construction.** Re-verify, retire, or mark legacy; do not silently carry
+  forward.
+- **Marking a page legacy.** Keep the page, and add `status: legacy` plus
+  `superseded_by: [<slug>, ...]` to its frontmatter. Put a one-line banner at
+  the top of the body that names the vendor's legacy listing, the date checked,
+  and the replacement pages. Move the page to the "Legacy" subsection of
+  `index.md`. Do not edit the page's claims: they stay true of the legacy model.
 
 ---
 

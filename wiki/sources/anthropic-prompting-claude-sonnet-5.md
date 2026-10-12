@@ -2,17 +2,21 @@
 title: "Anthropic: Prompting Claude Sonnet 5"
 type: source
 created: 2026-08-06
-updated: 2026-08-06
+updated: 2026-10-12
 author: Anthropic
 date: accessed 2026-08-06
 source_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5
 source_path: raw/anthropic-prompting-claude-sonnet-5.md
 models: [claude-sonnet-5]
 as_of: 2026-08-06
+status: legacy
+superseded_by: [anthropic-prompting-claude-sonnet-5-5]
 tags: [prompting, model-specific, anthropic, sonnet-5]
 ---
 
 # Anthropic: Prompting Claude Sonnet 5
+
+> **Legacy (checked 2026-10-12).** Anthropic's models overview lists Claude Sonnet 5 under "Legacy models". The claims below stay true of the legacy model; for the current model, see [[anthropic-prompting-claude-sonnet-5-5]].
 
 > Anthropic's model-specific prompting page for Claude Sonnet 5 — effort
 > calibration, adaptive-thinking defaults, literal instruction following, and

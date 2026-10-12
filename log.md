@@ -209,3 +209,13 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   (2026-01-22), skills for OSS maintenance (2026-03-09), one year of Responses
   (2026-03-11), private MCP servers (2026-06-26).
 - touched: log.md only
+
+## [2026-10-12] schema | legacy status for model-scoped pages
+- added to CLAUDE.md: a third option beside re-verify and retire. A page whose
+  model the vendor no longer lists as current keeps its claims and gets
+  `status: legacy`, `superseded_by: [...]`, a dated banner, and a place in the
+  "Legacy" subsection of `index.md`.
+- added `status:` and `superseded_by:` to `templates/source.md`.
+- applied to [[anthropic-prompting-claude-opus-5]],
+  [[anthropic-prompting-claude-sonnet-5]], [[anthropic-prompting-claude-fable-5]],
+  [[openai-prompt-guidance-gpt-5-6]] (see the 2026-10-12 lint entry above).

@@ -9,6 +9,8 @@ source_url: <url if web>
 source_path: raw/<filename>
 models: []          # required if claims are model-specific: exact API model IDs
 as_of: <YYYY-MM-DD> # required alongside models: date the claims were verified
+status:             # optional: `legacy` once the vendor lists the model as legacy
+superseded_by: []   # required alongside status: legacy: replacement page slugs
 tags: []
 ---
 
