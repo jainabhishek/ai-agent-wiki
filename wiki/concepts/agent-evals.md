@@ -2,7 +2,7 @@
 title: Agent Evals
 type: concept
 created: 2026-06-21
-updated: 2026-07-21
+updated: 2026-10-12
 tags: [evals, measurement, agents, best-practices]
 ---
 
@@ -19,6 +19,12 @@ tags: [evals, measurement, agents, best-practices]
   [[agent-design-principles]])
 - [[anthropic]] frames optimization of prompts, tools, and harnesses as
   eval-gated — add complexity only when it demonstrably improves outcomes.
+- **Give the agent a check it can run.** A task should state what done looks
+  like and the command that proves it; without one, "you review changes nobody
+  has run." (see [[anthropic-claude-code-in-the-cloud]]) An exit code of 0 is
+  not proof: OpenAI's SDK maintainers have the model compare each example's
+  captured output with the example's source intent. (see
+  [[openai-skills-for-oss-maintenance]])
 
 ## What to measure (beyond accuracy)
 
@@ -33,6 +39,16 @@ propagate and compound," and capable models find unintended-but-valid solutions
 that brittle graders wrongly fail. Single-turn (prompt→response→grade) is easy;
 multi-turn (tools + mutating state) is the real challenge.
 
+**The environment is part of the eval.** Container resource limits alone moved
+Terminal-Bench 2.0 by up to 6 points with model, harness, and tasks held fixed.
+Up to about 3x headroom, extra resources fix infra errors without changing the
+score; beyond that, they unlock strategies that tight limits forbid, so the
+limit changes *what is measured*. Specify a guaranteed floor and a separate kill
+ceiling per task, report the multiplier, and run at several times and days.
+Treat leaderboard gaps under about 3 points with skepticism unless resource
+configuration is documented and matched. (see
+[[anthropic-eng-infrastructure-noise-evals]])
+
 ## Three grader types
 
 | Grader | Strengths | Weaknesses |
@@ -43,12 +59,35 @@ multi-turn (tools + mutating state) is the real challenge.
 
 ## How to build eval sets
 
+- **Four properties of a trustworthy eval:** tasks mirror production (not chosen
+  because they are easy to generate or grade); scores rise with stronger models
+  and more thinking effort (if not, suspect ambiguous tasks or a miscalibrated
+  grader); passable headroom remains at the frontier; run-to-run variance is
+  low. Variance sources: ambiguous tasks, nondeterministic graders, inconsistent
+  configuration, and leftover state from earlier trials. (see
+  [[anthropic-automating-eval-design-hillclimbing]])
+- **Do not sample adversarially.** Choosing cases because *today's* model fails
+  them measures that model's "failure fingerprint", not intrinsic difficulty.
+  Include a hard case only when a human can say why it is hard. Pure
+  user-traffic sampling may skew easy. (see
+  [[anthropic-automating-eval-design-hillclimbing]]; conflicts with "target
+  weaknesses" below — see Contradictions)
 - **Start small and real** — 20–50 tasks drawn from real failures and
-  user-reported issues, not a perfect dataset.
+  user-reported issues, not a perfect dataset. For a single skill, 10–20 prompts
+  catch regressions early, and every manual fix becomes a new eval row. (see
+  [[openai-testing-agent-skills-with-evals]])
+- **Measure each error type on its own dataset.** Claude Code auto mode measured
+  false blocks on real traffic (n=10,000), and misses on curated real overeager
+  actions (n=52) and synthetic exfiltration attempts (n=1,000). The full
+  pipeline reached 0.4% false-positive rate but 17% miss rate on the real
+  overeager set. (see [[anthropic-eng-claude-code-auto-mode]])
 - **Task quality** — two experts independently agree on pass/fail; passable by a
   competent agent; success criteria clear from the description; a **reference
   solution** proves solvability.
-- **Balance** — test where a behavior *should* and *shouldn't* occur.
+- **Balance** — test where a behavior *should* and *shouldn't* occur. Skill
+  trigger tests use explicit, implicit, contextual, and negative-control
+  prompts; the negative control catches false-positive invocation. (see
+  [[openai-testing-agent-skills-with-evals]])
 - Run **programmatically** in simple agentic loops; isolate environments and
   **reset between trials** (shared state causes correlated failures).
 - **Verify like a human user** for end-to-end tasks (e.g. browser automation), not
@@ -67,6 +106,12 @@ multi-turn (tools + mutating state) is the real challenge.
   diverge sharply ("by k=10 ... pass@k → 100% while pass^k → 0%"); pick the one
   matching whether you need *ever* vs *always* succeed.
 - Hierarchy: **task** → **trials** → **graders** (scoring transcripts or outcomes).
+- **Grade the trace, not only the output.** OpenAI's skill evals define four goal
+  types — outcome, process (did the skill fire and follow its steps), style, and
+  efficiency (no thrashing) — and check process deterministically over the JSONL
+  event trace (command executions, token usage), then add a read-only model
+  grader constrained by an output schema. Keep must-pass checks few. (see
+  [[openai-testing-agent-skills-with-evals]])
 
 ## LLM-as-judge
 
@@ -74,12 +119,35 @@ Calibrate against human experts; use **structured per-dimension rubrics**, not
 holistic scores; give escape routes ("return Unknown"); validate grader accuracy
 first. Pitfall: **vague rubrics** → inconsistent judgments.
 
+- **Cheapest grader that fits:** programmatic checks for constrained outputs;
+  for open-ended outputs, a rubric of checkable claims rather than a 1-to-5
+  scale; blind pairwise comparison in random order against a baseline. The judge
+  model must differ from the model under test. Run the grader twice on the same
+  output to test its stability. (see
+  [[anthropic-automating-eval-design-hillclimbing]])
+- **Separate evaluator over self-critique.** Agents asked to judge their own work
+  praise mediocre output; a separate, skeptical, tunable evaluator agent was more
+  tractable than making the generator self-critical. Weighted, explicitly worded
+  criteria make subjective quality (e.g. design) gradable, and the wording
+  steers output style. Early evaluators still approved flawed work and needed
+  several rounds of prompt tuning. (see
+  [[anthropic-eng-harness-design-long-running-apps]]) Dynamic workflows name the
+  same failure "self-preferential bias" and counter it with an adversarial
+  verifier agent plus rubric. (see [[anthropic-harness-for-every-task]])
+
 ## Pitfalls
 
 - **Brittle grading** — grade "what the agent produced, not the path it took."
 - **Task ambiguity** — Opus 4.5 went 42%→95% on CORE-Bench after fixing rigid
   grading and ambiguous specs (an eval bug, not a model bug).
-- **Saturation** — 100% pass rate = no signal; target weaknesses.
+- **Saturation** — 100% pass rate = no signal; target weaknesses. (Qualified
+  by the adversarial-sampling warning above — see Contradictions.) A baseline at
+  about 95% or higher is better used to optimize cost or latency at equal
+  quality. (see [[anthropic-automating-eval-design-hillclimbing]])
+- **Infrastructure noise mistaken for model variance** — check timeouts, API
+  errors, and truncation during the baseline run. (see
+  [[anthropic-automating-eval-design-hillclimbing]],
+  [[anthropic-eng-infrastructure-noise-evals]])
 
 ## Eval with the agent in the loop
 
@@ -87,7 +155,27 @@ A recurring Anthropic move: paste eval **transcripts** back into the model to
 diagnose failures and auto-optimize tools and prompts — an applied
 evaluator–optimizer ([[workflow-patterns]]). Layer methods (**Swiss-cheese
 model**): automated evals + production monitoring + A/B + user feedback +
-transcript sampling + human studies.
+transcript sampling + human studies. Production monitoring example: Raindrop
+alerts on developer-defined bad-outcome conditions and diffs behavior per
+version. (see [[openai-one-year-of-responses]])
+
+**Hillclimbing without overfitting.** Iterative optimization works best on
+cheap, revertible text surfaces (prompts, skills, tool descriptions) with a
+well-scoped objective; skill trigger rate is a model case. The main risk is
+**harness leakage**: the eval leaks into the harness (e.g. an OCR tool added
+because the eval rewards OCR). Mitigations:
+- Split cases into train and test; "train up, test flat" is the overfitting
+  signal. Keep a patch only if both improve.
+- The optimizer may **read** failing transcripts but must never **paste failure
+  content into the prompt it optimizes** (a sharpening of the transcript move
+  above).
+- Keep answers structurally out of the model's reach; reward hacking happens.
+- Before round 1, confirm eval noise is smaller than the smallest improvement
+  worth acting on; make one root-cause patch per round, big enough to exceed
+  noise. After 2–3 flat rounds, run a no-edit reflection that sorts remaining
+  failures by cause (ambiguous case, harness error, variance). If the final gain
+  is within noise, do not merge.
+(see [[anthropic-automating-eval-design-hillclimbing]])
 
 ## Eval recipes by agent type
 
@@ -111,8 +199,30 @@ transcript sampling + human studies.
 - [[anthropic-eng-writing-tools-for-agents]]
 - [[anthropic-eng-effective-harnesses-long-running-agents]]
 - [[cursor-agent-swarm-model-economics]]
+- [[anthropic-automating-eval-design-hillclimbing]]
+- [[anthropic-eng-infrastructure-noise-evals]]
+- [[anthropic-eng-claude-code-auto-mode]]
+- [[anthropic-eng-harness-design-long-running-apps]]
+- [[anthropic-harness-for-every-task]]
+- [[anthropic-claude-code-in-the-cloud]]
+- [[openai-testing-agent-skills-with-evals]]
+- [[openai-skills-for-oss-maintenance]]
+- [[openai-one-year-of-responses]]
 
 ## Contradictions / open questions
 
-- _None recorded. Primary source ([[anthropic-eng-demystifying-evals]]) now
-  ingested._
+- **Choosing hard cases (2026-10-12).** The "Saturation — target weaknesses"
+  pitfall (from [[anthropic-eng-demystifying-evals]]) can be read as "add cases
+  the current model fails". [[anthropic-automating-eval-design-hillclimbing]]
+  (2026-09-28) calls that adversarial sampling a trap: it measures the current
+  model's failure fingerprint. That post selects hard cases by human judgment of
+  why they are hard, drawn from production failures, bug reports, and tickets.
+  Both claims are kept; the later post narrows how "target weaknesses" should be
+  applied.
+- **Pasting transcripts back (2026-10-12, refinement).** This page's "paste eval
+  transcripts back into the model" move (from
+  [[anthropic-eng-writing-tools-for-agents]]) is
+  sharpened by [[anthropic-automating-eval-design-hillclimbing]] (2026-09-28):
+  the optimizer may read failing transcripts, but failure content must not be
+  pasted into the prompt under optimization, because that overfits. Not a
+  reversal.

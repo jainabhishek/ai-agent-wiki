@@ -2,17 +2,21 @@
 title: "Anthropic: Prompting Claude Opus 5"
 type: source
 created: 2026-08-06
-updated: 2026-08-06
+updated: 2026-10-12
 author: Anthropic
 date: accessed 2026-08-06
 source_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5
 source_path: raw/anthropic-prompting-claude-opus-5.md
 models: [claude-opus-5]
 as_of: 2026-08-06
+status: legacy
+superseded_by: [anthropic-prompting-claude-opus-5-5]
 tags: [prompting, model-specific, anthropic, opus-5]
 ---
 
 # Anthropic: Prompting Claude Opus 5
+
+> **Legacy (checked 2026-10-12).** Anthropic's models overview lists Claude Opus 5 under "Legacy models". The claims below stay true of the legacy model; for the current model, see [[anthropic-prompting-claude-opus-5-5]].
 
 > Anthropic's model-specific prompting page for Claude Opus 5 — the behaviors
 > that most often require prompt tuning when moving from Claude Opus 4.8.

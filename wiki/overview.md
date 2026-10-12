@@ -2,7 +2,7 @@
 title: Overview
 type: overview
 created: 2026-06-21
-updated: 2026-08-06
+updated: 2026-10-12
 tags: [meta, agents]
 ---
 
@@ -16,9 +16,9 @@ guidance published by frontier labs and attributed practitioner case studies.
 How to design, build, and safely deploy LLM agents — the architecture choices,
 tooling, orchestration, context engineering, harness design, and guardrails.
 Grounded in the canonical practitioner guides from [[anthropic]] and [[openai]],
-Anthropic's operational posts on harness, skills, steering, and context, and
-[[cursor]]'s large-scale coding-swarm case study; expandable to other labs,
-frameworks, and case studies.
+both vendors' operational posts on harness, runtime, containment, skills, MCP,
+evals, and context (Nov 2025 – Oct 2026), and [[cursor]]'s large-scale
+coding-swarm case study; expandable to other labs, frameworks, and case studies.
 
 ## Current thesis
 
@@ -43,6 +43,17 @@ principles (see [[agent-design-principles]] and the full comparison in
 7. **Optimize the whole agent system, not an isolated model call.** Planner
    decisions shape worker volume, retries, conflicts, and total cost.
    ([[multi-agent-economics]])
+8. **Contain at the environment layer; keep secrets out of the agent's reach.**
+   Sandboxes and egress controls bound what an agent *can* do; model-level
+   defenses only shape what it *tends* to do. Both vendors' hosted runtimes keep
+   credentials outside the sandbox. ([[guardrails]],
+   [[anthropic-eng-how-we-contain-claude]], [[model-context-protocol]])
+
+Since late 2025 the vendors have also converged on architecture: a hosted agent
+runtime ([[claude-managed-agents]], [[openai-agents-api]]), the harness as a
+reusable runtime with stable interfaces ([[openai-codex]]), and skills as routed,
+on-demand context. See the 2026-10-12 update in
+[[agent-building-best-practices-anthropic-vs-openai]].
 
 They differ mainly in emphasis: Anthropic is deeper on **composable workflow
 patterns** ([[workflow-patterns]]), **context engineering**, **harness design**,
@@ -55,7 +66,8 @@ and **skills/steering** ([[agent-skills]], [[agent-steering]]); OpenAI is deeper
 
 - [[anthropic]] — *Building Effective Agents* + operational blog posts; maker of
   [[claude]], [[claude-code]], [[claude-agent-sdk]], [[claude-managed-agents]]
-- [[openai]] — *A Practical Guide to Building Agents*; [[openai-agents-sdk]]
+- [[openai]] — *A Practical Guide to Building Agents*; [[openai-agents-sdk]],
+  [[openai-agents-api]], [[openai-codex]]
 - [[cursor]] — practitioner evidence on coding swarms, coordination, and model
   economics
 
@@ -65,7 +77,7 @@ and **skills/steering** ([[agent-skills]], [[agent-steering]]); OpenAI is deeper
   · [[tool-design]] · [[workflow-patterns]] · [[agent-orchestration]] ·
   [[agent-instructions]] · [[guardrails]] · [[agent-skills]] · [[agent-steering]] ·
   [[context-engineering]] · [[agent-harness]] · [[agent-evals]] ·
-  [[multi-agent-economics]] · [[prompt-tuning-axes]]
+  [[multi-agent-economics]] · [[prompt-tuning-axes]] · [[model-context-protocol]]
 
 ## Scope note: prompting vs. architecture
 
@@ -74,8 +86,11 @@ labs converging on "start simple" raises confidence the principle is real. It is
 *not* useful for **prompting**, which is written against one model's behavior and
 is therefore a per-model contract. Model-scoped prompting guidance is filed in
 `wiki/sources/` with `models:`/`as_of:` frontmatter and is never synthesized
-across vendors or generations. The durable framework is
-[[prompt-tuning-axes]].
+across vendors or generations. When a vendor stops listing a model as current,
+its page is marked `status: legacy` and points to its replacement; on
+2026-10-12 the Opus 5, Sonnet 5, Fable 5, and GPT-5.6 pages became legacy. The
+durable framework is [[prompt-tuning-axes]], whose axes held steady across that
+change while several settings reversed.
 
 ## Wiki health
 
@@ -91,10 +106,16 @@ across vendors or generations. The durable framework is
 - **Done:** [[cursor-agent-swarm-model-economics]] adds practitioner evidence
   about coordination-heavy coding and whole-system model economics; its custom
   VCS and single benchmark limit generalization.
-- Remaining engineering posts are narrower/tangential (advanced tool use, the
-  "think" tool, code execution with MCP, agentic-coding best practices,
-  postmortems) — ingest selectively if a specific question needs them. **MCP**
-  has no page yet and is a candidate concept.
+- **Done (2026-10-12):** 30 further Anthropic and OpenAI sources (Nov 2025 –
+  Oct 2026), including advanced tool use and code execution with MCP. **MCP**
+  now has a page: [[model-context-protocol]].
+- Not yet ingested, agent-relevant Anthropic Engineering posts: Claude Code
+  sandboxing (Oct 2025), Claude Code best practices (Apr 2025), the "think" tool
+  (Mar 2025), building a C compiler with parallel Claudes (Feb 2026),
+  AI-resistant technical evaluations (Jan 2026), and eval awareness on
+  BrowseComp (Mar 2026).
 - Add further perspectives (Google, LangChain, academic) to test how universal
   these "best practices" really are.
-- Deepen OpenAI-side harness/context-engineering coverage to match Anthropic's.
+- OpenAI-side harness and context coverage is now partial (Codex platform,
+  Agents API, skills). It still lacks counterparts to Anthropic's long-running
+  harness and eval-noise posts.

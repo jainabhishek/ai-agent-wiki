@@ -2,17 +2,21 @@
 title: "OpenAI: Model Guidance — GPT-5.6"
 type: source
 created: 2026-08-06
-updated: 2026-08-06
+updated: 2026-10-12
 author: OpenAI
 date: accessed 2026-08-06
 source_url: https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6
 source_path: raw/openai-prompt-guidance-gpt-5-6.md
 models: [gpt-5.6-sol, gpt-5.6-terra, gpt-5.6-luna]
 as_of: 2026-08-06
+status: legacy
+superseded_by: [openai-prompting-gpt-6-astra]
 tags: [prompting, model-specific, openai, gpt-5-6]
 ---
 
 # OpenAI: Model Guidance — GPT-5.6
+
+> **Legacy (checked 2026-10-12).** OpenAI's models page no longer lists GPT-5.6 Sol, Terra, or Luna; the current lineup is GPT-6 Astra, GPT-6.1 Sol, and GPT-6 Luna. The claims below stay true of the legacy model; for the current model, see [[openai-prompting-gpt-6-astra]].
 
 > OpenAI's model-specific prompting guidance for the GPT-5.6 series — outcome-first
 > prompts, aggressive scaffolding removal, and a staged migration workflow.

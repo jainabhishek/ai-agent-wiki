@@ -2,7 +2,7 @@
 title: Agent Harness
 type: concept
 created: 2026-06-21
-updated: 2026-07-21
+updated: 2026-10-12
 tags: [harness, architecture, agents, sessions, best-practices]
 ---
 
@@ -25,11 +25,39 @@ to managed platforms ([[claude-managed-agents]]). (see
 
 A durable production pattern: run the **harness (brain)** separately from the
 **sandbox (hands)** where code/tools execute, connected by a **session** — an
-append-only log of every model call, tool call, and result. Yields parallel
-spin-up latency wins, credential isolation (vaults outside the sandbox), and
-resumable, auditable runs. This is the concrete form of the run-loop / exit-
-condition idea in [[agent-orchestration]] and the persistence idea in
-[[context-engineering]].
+append-only log of every model call, tool call, and result. Yields latency wins
+(mechanism disputed; see Contradictions), credential isolation (vaults outside
+the sandbox), and resumable, auditable runs. This is the concrete form of the
+run-loop / exit-condition idea in [[agent-orchestration]] and the persistence
+idea in [[context-engineering]].
+
+- **Interfaces are the stable part.** Because every harness component goes
+  stale as models improve, [[claude-managed-agents]] fixes small interfaces
+  instead of a harness (a "meta-harness"): one `execute(name, input) → string`
+  call for every sandbox or tool, so a dead container is a tool error the model
+  can handle, and a session log outside the harness, so a fresh harness can
+  resume from the last event. Session storage stays separate from context
+  management. (see [[anthropic-eng-scaling-managed-agents]])
+- **Secrets stay outside the sandbox.** A proxy or vault holds the real
+  credential and injects it on egress, only to allowlisted hosts; the sandbox
+  sees a placeholder or a session token. Seen in Managed Agents (MCP OAuth
+  vault, Git token used only at init), scheduled automations, and Claude Code
+  cloud sessions (a branch-scoped push credential). (see
+  [[anthropic-eng-scaling-managed-agents]],
+  [[anthropic-building-effective-agent-automations]],
+  [[anthropic-claude-code-in-the-cloud]], [[guardrails]])
+- **Isolation strength follows oversight.** Anthropic matches the isolation
+  pattern to how much the user can oversee: an ephemeral container where no one
+  watches, an OS-level sandbox with a human in the loop, a sealed local VM for a
+  desktop agent. Across deployments, standard primitives (hypervisors, syscall
+  filters, container runtimes) held; custom glue around them failed. (see
+  [[anthropic-eng-how-we-contain-claude]])
+- **Resource headroom is part of the environment.** In one agentic coding
+  benchmark, extra container resources up to about 3x the task spec fixed
+  infrastructure errors without changing the score; beyond that, resources let
+  the agent use different strategies, so the limit changes what is measured.
+  Specify a guaranteed floor and a separate kill ceiling. (see
+  [[anthropic-eng-infrastructure-noise-evals]], [[agent-evals]])
 
 ## Harness–model co-evolution
 
@@ -43,9 +71,75 @@ upgrade, and delete scaffolding the model has outgrown.**
   capability." Prefer general-purpose tools and let the model do more
   ([[tool-design]], [[agent-design-principles]]).
 
+- **Every component encodes an assumption** about what the model cannot do.
+  When a new model ships, remove components one at a time and re-measure; in
+  the planner / generator / evaluator case study some components became
+  unnecessary while others still paid off. (see
+  [[anthropic-eng-harness-design-long-running-apps]],
+  [[anthropic-eng-scaling-managed-agents]])
+- **Tools are harness too.** Claude Code retired tools and reminders that had
+  helped earlier models but constrained later ones. (see
+  [[anthropic-seeing-like-an-agent]], [[tool-design]])
+
 **Implication:** delegate harness tuning to the platform/SDK where you can, and
 spend your effort on domain expertise, tools, and context — not on maintaining a
 custom loop.
+
+## Harness as a reusable runtime
+
+- **The agent loop is the reusable part; the product is separate.** OpenAI
+  presents the open-source [[openai-codex]] harness (conversation state,
+  streaming, tool use, sandbox and approval policies) as a runtime to embed. The
+  host application owns the UI, the context and tools exposed, where the agent
+  runs, which actions need approval, and how results return. Harness settings
+  alone (retained reasoning plus compaction) more than doubled one model's
+  ARC-AGI-3 score with sixfold fewer output tokens (secondary figure). (see
+  [[openai-codex-as-a-platform]])
+- **Who runs the loop** is a choice: a vendor-managed harness
+  ([[openai-agents-api]], [[claude-managed-agents]]), an SDK in your app
+  ([[openai-agents-sdk]], [[claude-agent-sdk]]), or your own loop over a raw
+  model API. OpenAI's rule trades integration effort against control of
+  deployment, storage, and approvals. (see [[openai-agents-api-guide]])
+- **Repo-level configuration is the portable part.** In Claude Code cloud
+  sessions, `CLAUDE.md`, rules, skills, agents, commands, `.mcp.json`, and
+  project hooks travel with the repo; per-user config (`~/.claude`) does not.
+  Test commands must therefore live in repo config. (see
+  [[anthropic-claude-code-in-the-cloud]], [[agent-steering]])
+- **Model-written harnesses.** Claude Code can write a task-specific
+  multi-agent harness per request (dynamic workflows); static harnesses such as
+  an SDK must stay generic. (see [[anthropic-harness-for-every-task]],
+  [[workflow-patterns]])
+
+## Loop mechanics in production
+
+- **Cache hit rate is a production metric.** The Claude Code team lays out the
+  request static-first, sends changing state as messages, never swaps models or
+  tool sets mid-session, and treats hit-rate drops as incidents (SEVs). (see
+  [[anthropic-prompt-caching-is-everything]], [[context-engineering]])
+- **Append-only history.** Return assistant turns exactly as received and never
+  edit earlier turns; add reminders by appending them (for example as
+  turn-scoped system messages) and leaving them in place, never by inserting and
+  later deleting. Edits that break the prompt cache also invalidate preserved
+  thinking. Exact API behaviors are model-scoped; see
+  [[anthropic-prompting-claude-fable-5-1]],
+  [[anthropic-prompting-claude-opus-5-5]],
+  [[anthropic-prompting-claude-sonnet-5-5]].
+- **Message placement affects injection resistance.** Never put user text inside
+  a tool result; append mid-turn user words after the last tool result; keep
+  harness notices in a separate system message; cap repeated harness reminders,
+  because frequent harness text after tool results can look like injection.
+  (see [[anthropic-prompting-claude-sonnet-5-5]], [[guardrails]])
+- **Unattended loops need explicit stop handling.** A text-only end of turn can
+  be a progress report rather than completion. Pattern: a model-updated
+  checklist; a continuation message naming open items when no blocker is
+  stated; optionally a small model judging a stated completion condition; a cap
+  of two or three automatic continuations; wait for background commands and
+  subagents. (see [[anthropic-prompting-claude-opus-5-5]])
+- **The client must be able to see progress.** On some current models,
+  between-tool notes arrive as thinking blocks that a text-only client does not
+  show unless it opts in. Check the model-scoped page before assuming a silent
+  agent is idle. (see [[anthropic-prompting-claude-opus-5-5]],
+  [[anthropic-prompting-claude-sonnet-5-5]])
 
 ## Concrete long-running patterns
 
@@ -78,7 +172,8 @@ system, including downstream worker behavior. (see
 
 ## Key entities
 
-- [[anthropic]], [[claude]], [[claude-agent-sdk]], [[claude-managed-agents]]
+- [[anthropic]], [[claude]], [[claude-agent-sdk]], [[claude-managed-agents]],
+  [[claude-code]], [[openai-codex]], [[openai-agents-api]]
 
 ## Appears in
 
@@ -87,7 +182,27 @@ system, including downstream worker behavior. (see
 - [[anthropic-eng-effective-harnesses-long-running-agents]]
 - [[anthropic-eng-context-engineering]]
 - [[cursor-agent-swarm-model-economics]]
+- [[anthropic-eng-scaling-managed-agents]]
+- [[anthropic-eng-harness-design-long-running-apps]]
+- [[anthropic-eng-how-we-contain-claude]]
+- [[anthropic-eng-infrastructure-noise-evals]]
+- [[anthropic-prompt-caching-is-everything]]
+- [[anthropic-seeing-like-an-agent]]
+- [[anthropic-harness-for-every-task]]
+- [[anthropic-building-effective-agent-automations]]
+- [[anthropic-claude-code-in-the-cloud]]
+- [[anthropic-prompting-claude-opus-5-5]]
+- [[anthropic-prompting-claude-sonnet-5-5]]
+- [[anthropic-prompting-claude-fable-5-1]]
+- [[openai-codex-as-a-platform]]
+- [[openai-agents-api-guide]]
 
 ## Contradictions / open questions
 
-- _None — strongly consistent with the start-simple / prune-complexity theme._
+- Otherwise strongly consistent with the start-simple / prune-complexity theme.
+- **Mechanism of the brain–hands latency win.**
+  [[anthropic-evolution-of-agentic-surfaces]] (2026-06-10) says reasoning starts
+  while the sandbox spins up in parallel;
+  [[anthropic-eng-scaling-managed-agents]] (2026-04-08) says containers are
+  provisioned only when a tool call needs one. Both report the same figures.
+  Recorded in full on [[claude-managed-agents]].

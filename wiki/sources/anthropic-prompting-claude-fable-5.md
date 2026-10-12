@@ -2,17 +2,21 @@
 title: "Anthropic: Prompting Claude Fable 5"
 type: source
 created: 2026-08-06
-updated: 2026-08-06
+updated: 2026-10-12
 author: Anthropic
 date: accessed 2026-08-06
 source_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
 source_path: raw/anthropic-prompting-claude-fable-5.md
 models: [claude-fable-5, claude-mythos-5]
 as_of: 2026-08-06
+status: legacy
+superseded_by: [anthropic-prompting-claude-fable-5-1]
 tags: [prompting, model-specific, anthropic, fable-5, mythos-5, long-horizon]
 ---
 
 # Anthropic: Prompting Claude Fable 5
+
+> **Legacy (checked 2026-10-12).** Anthropic's models overview lists Claude Fable 5 under "Legacy models". The claims below stay true of the legacy model; for the current model, see [[anthropic-prompting-claude-fable-5-1]].
 
 > Anthropic's model-specific prompting page for Claude Fable 5 and Claude Mythos 5
 > — long-horizon autonomy, memory systems, scaffolding removal, and the
