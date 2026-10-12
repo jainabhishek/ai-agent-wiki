@@ -123,6 +123,10 @@ tree also isolates context by role—planners retain intent while workers retain
 only a narrow implementation leaf. (see
 [[cursor-agent-swarm-model-economics]], [[agent-orchestration]])
 
+- **A checklist file as a scratchpad.** For large multi-step jobs such as
+  migrations or lint backlogs, have the agent keep a Markdown checklist and work
+  through it item by item. (see [[anthropic-eng-claude-code-best-practices]])
+
 ## The three long-horizon techniques
 
 For work exceeding a single context window ([[anthropic-eng-context-engineering]]):
@@ -224,6 +228,7 @@ curated artifact beats re-retrieving raw context every turn.
 - [[anthropic-harness-for-every-task]]
 - [[anthropic-prompting-claude-haiku-5-5]]
 - [[anthropic-building-with-sonnet-5-5]]
+- [[anthropic-eng-claude-code-best-practices]]
 
 ## Contradictions / open questions
 

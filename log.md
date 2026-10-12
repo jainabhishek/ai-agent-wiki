@@ -305,3 +305,31 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   whether to keep paraphrase or copy prompts verbatim; paraphrase stays.
 - the three Aug 2026 Anthropic prompting captures that quote prompt blocks
   verbatim are left unchanged, because `raw/` is immutable.
+
+## [2026-10-12] ingest | six Anthropic Engineering backlog posts
+- summaries: [[anthropic-eng-claude-code-sandboxing]] (Oct 2025),
+  [[anthropic-eng-claude-code-best-practices]] (Apr 2025),
+  [[anthropic-eng-think-tool]] (Mar 2025), [[anthropic-eng-building-c-compiler]]
+  (Feb 2026), [[anthropic-eng-ai-resistant-evaluations]] (Jan 2026),
+  [[anthropic-eng-eval-awareness-browsecomp]] (Mar 2026)
+- trigger: the human asked to add the six posts that the earlier 2026-10-12
+  ingest named as not yet ingested.
+- superseded content: the best-practices URL now redirects to a maintained docs
+  page (modified 2026-10-06); the raw capture holds the 2025 text from the
+  Wayback Machine plus a labeled second capture of the successor page. A Dec
+  2025 banner on the think-tool post recommends extended thinking instead.
+- no `models:` field on any of the six; each names the model and date its
+  findings were measured on.
+- contradictions recorded: [[guardrails]] — "an injection inside the sandbox
+  cannot impact user security" (Oct 2025) vs. exfiltration through an
+  allowlisted domain (May 2026); [[agent-evals]] — starting a test where the
+  current model struggles vs. the failure-fingerprint warning;
+  [[tool-design]] — long tool guidance in the system prompt (Mar 2025) vs. in
+  the tool description only (Jul 2026); [[agent-orchestration]] — multi-agent
+  BrowseComp gains vs. 3.7x unintended solutions; [[multi-agent-economics]] —
+  no-planner design vs. planner-plus-workers advice.
+- resolved: the open question in [[agent-orchestration]] about replication on
+  ordinary git repositories now has one data point ([[anthropic-eng-building-c-compiler]]).
+- touched: index, overview, [[anthropic]], [[claude-code]], [[guardrails]],
+  [[agent-evals]], [[agent-orchestration]], [[agent-harness]], [[tool-design]],
+  [[multi-agent-economics]], [[context-engineering]], [[model-context-protocol]]

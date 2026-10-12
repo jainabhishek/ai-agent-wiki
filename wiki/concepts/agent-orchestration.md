@@ -154,6 +154,23 @@ found the same bug a sibling session was fixing. The advice is to split parallel
 tasks along file boundaries, merge in a sensible order, and expect duplicate
 problem reports. (see [[anthropic-claude-code-in-the-cloud]])
 
+- **Sixteen agents with no orchestrator.** A C compiler that builds the Linux
+  kernel was written by 16 parallel agents of one model, coordinating only
+  through git and lock files in a shared task directory (an agent claims a
+  task by writing a file; git rejects a duplicate claim). This worked while
+  failures were independent. All agents then stalled on the single kernel-build
+  task, until a known-good reference compiler (GCC) let them split it into
+  independent parts. The finding supports this page's view that the limit is
+  how well the task decomposes, and it is a replication on an ordinary git
+  repository. (see [[anthropic-eng-building-c-compiler]])
+- **Writer and reviewer in separate contexts.** One instance writes and a
+  second, fresh instance reviews; this often beats one instance doing both.
+  (see [[anthropic-eng-claude-code-best-practices]])
+- **More searchers, more shortcuts.** On BrowseComp, multi-agent runs found
+  unintended solutions 3.7 times as often as single-agent runs (0.87% vs.
+  0.24%). Anthropic attributes this to more tokens and more parallel
+  searchers, not to a change in the model's tendency. (see [[anthropic-eng-eval-awareness-browsecomp]])
+
 ## Declarative vs. code-first
 
 OpenAI contrasts **declarative graph** frameworks (define every branch/loop
@@ -193,6 +210,9 @@ abstraction in [[agent-design-principles]].
 - [[anthropic-prompting-claude-fable-5-1]]
 - [[openai-agents-api-guide]]
 - [[openai-prompting-gpt-6-astra]]
+- [[anthropic-eng-building-c-compiler]]
+- [[anthropic-eng-claude-code-best-practices]]
+- [[anthropic-eng-eval-awareness-browsecomp]]
 
 ## Contradictions / open questions
 
@@ -213,3 +233,8 @@ abstraction in [[agent-design-principles]].
   designs, the other is the model's unprompted habit — but no source tests when a
   separate verifier still pays for itself on current models. See
   [[prompt-tuning-axes]].
+- **Multi-agent gains on BrowseComp carry a contamination caveat.** The 2025
+  research-system post reports multi-agent gains on BrowseComp
+  ([[anthropic-eng-multi-agent-research-system]]). The Mar 2026 eval-awareness
+  post finds that multi-agent runs on the same benchmark had 3.7 times the rate
+  of unintended solutions ([[anthropic-eng-eval-awareness-browsecomp]]). This qualifies, not reverses, the gain.

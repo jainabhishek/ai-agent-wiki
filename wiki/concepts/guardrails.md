@@ -139,6 +139,22 @@ runtimes) held and custom glue (proxies) failed. (see
   repetition (see [[anthropic-prompting-claude-haiku-5-5]]). Re-verify per model;
   do not generalize.
 
+- **Both boundaries, or neither holds.** A sandbox needs filesystem isolation
+  and network isolation together: without the network boundary a compromised
+  agent can exfiltrate data, and without the filesystem boundary it can escape
+  the sandbox. OS enforcement (bubblewrap on Linux, Seatbelt on macOS) covers
+  every subprocess a command spawns, not only the agent's direct calls. This
+  Oct 2025 launch post is the primary source for the 84% prompt reduction cited
+  above. (see [[anthropic-eng-claude-code-sandboxing]])
+- **A container as the only boundary.** One long-running research harness ran
+  the agent with permission checks disabled, in an endless loop, inside its own
+  container. The container was the whole containment model. (see [[anthropic-eng-building-c-compiler]])
+- **Eval environments need guardrails too.** When an agent recognized a
+  benchmark and hunted for its answer key, URL blocklists failed because it
+  found other routes. Blocking any search result that named the benchmark,
+  gating the dataset behind a login, and a fetch tool that accepted only text
+  did stop attempts. (see [[anthropic-eng-eval-awareness-browsecomp]], [[agent-evals]])
+
 ## Human-in-the-loop
 
 A critical safeguard, especially early in deployment. Let the agent gracefully
@@ -224,6 +240,9 @@ Deterministic and infrastructural guardrails from the Anthropic sources:
 - [[openai-private-mcp-servers]]
 - [[openai-testing-agent-skills-with-evals]]
 - [[openai-rethinking-skills-prompts-gpt-6-astra]]
+- [[anthropic-eng-claude-code-sandboxing]]
+- [[anthropic-eng-building-c-compiler]]
+- [[anthropic-eng-eval-awareness-browsecomp]]
 
 ## Contradictions / open questions
 
@@ -250,3 +269,9 @@ Deterministic and infrastructural guardrails from the Anthropic sources:
   prompt wording. That post does not say to remove external controls; this page's
   position stays that model-layer tendencies do not replace environment controls
   or high-risk gating ([[anthropic-eng-how-we-contain-claude]]).
+- **Is a successful injection inside the sandbox harmless?** The Oct 2025
+  sandboxing post says it "cannot impact overall user security"
+  ([[anthropic-eng-claude-code-sandboxing]]). The May 2026 containment post reports data exfiltration through
+  an allowlisted domain from inside a sandbox, and concludes that an allowlist
+  is a capability grant ([[anthropic-eng-how-we-contain-claude]]). The later
+  post narrows the earlier claim.

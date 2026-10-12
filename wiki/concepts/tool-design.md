@@ -88,6 +88,14 @@ their necessity as the model advances. (see [[harnessing-claudes-intelligence]],
   autonomously without breaking the cache (see
   [[anthropic-prompt-caching-is-everything]]).
 
+- **The "think" tool, absorbed by the model.** In Mar 2025 Anthropic proposed a
+  no-op `think` tool that gave the model a scratchpad between tool calls, with
+  gains on policy-heavy, sequential tool use (measured on Claude 3.7 Sonnet). A
+  Dec 2025 banner on the post recommends built-in extended thinking instead in
+  most cases; interleaved and adaptive thinking now reason between tool calls
+  without a tool. This is a worked example of retiring a tool once the model
+  does the job itself. (see [[anthropic-eng-think-tool]])
+
 ## Scaling to large tool libraries
 
 Anthropic's [[model-context-protocol]] work reports that a five-server MCP setup
@@ -226,6 +234,7 @@ capability. Investing here pays off before any orchestration complexity. See
 - [[openai-codex-as-a-platform]]
 - [[openai-agents-api-guide]]
 - [[openai-skills-for-oss-maintenance]]
+- [[anthropic-eng-think-tool]]
 
 ## Contradictions / open questions
 
@@ -244,3 +253,9 @@ capability. Investing here pays off before any orchestration complexity. See
   to newer models. Read as model-generation dependent; re-test per model before
   adding or removing examples.
 - OpenAI on tool taxonomy and Anthropic on interface craft remain complementary.
+- **Where long tool guidance belongs.** The think-tool post (Mar 2025) found
+  that long guidance for the tool worked better in the system prompt than in
+  the tool description ([[anthropic-eng-think-tool]]). The Jul 2026 context-engineering post keeps
+  tool guidance only in the tool description
+  ([[anthropic-new-rules-context-engineering-claude-5]]). The two posts target
+  different model generations.

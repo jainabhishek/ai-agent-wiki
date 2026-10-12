@@ -109,11 +109,10 @@ change while several settings reversed.
 - **Done (2026-10-12):** 30 further Anthropic and OpenAI sources (Nov 2025 –
   Oct 2026), including advanced tool use and code execution with MCP. **MCP**
   now has a page: [[model-context-protocol]].
-- Not yet ingested, agent-relevant Anthropic Engineering posts: Claude Code
-  sandboxing (Oct 2025), Claude Code best practices (Apr 2025), the "think" tool
-  (Mar 2025), building a C compiler with parallel Claudes (Feb 2026),
-  AI-resistant technical evaluations (Jan 2026), and eval awareness on
-  BrowseComp (Mar 2026).
+- **Done (2026-10-12):** the six remaining agent-relevant Anthropic Engineering
+  posts, including [[anthropic-eng-building-c-compiler]] (16 agents with no
+  orchestrator) and [[anthropic-eng-eval-awareness-browsecomp]] (an agent that
+  found its benchmark's answer key).
 - Add further perspectives (Google, LangChain, academic) to test how universal
   these "best practices" really are.
 - OpenAI-side harness and context coverage is now partial (Codex platform,

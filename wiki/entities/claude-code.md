@@ -128,6 +128,17 @@ the subject of several ingested sources on agent best practices:
   `/claude-api hillclimb` commands are described in
   [[anthropic-automating-eval-design-hillclimbing]].
 
+- **Sandbox (Oct 2025).** `/sandbox` turns on the sandboxed bash tool:
+  filesystem and network isolation enforced by the OS, which cut permission
+  prompts by 84% internally. Claude Code on the web keeps the real GitHub token
+  outside the sandbox; a git proxy checks a scoped credential and the target
+  branch before it attaches the token. (see [[anthropic-eng-claude-code-sandboxing]])
+- **History (Apr 2025 guide).** The original best-practices post relied on
+  CLAUDE.md as memory (written with the `#` key), custom commands in
+  `.claude/commands`, and a "think" … "ultrathink" keyword ladder. Auto-memory,
+  skills, and adaptive thinking with effort have since replaced these. The old
+  URL now redirects to a maintained docs page. (see [[anthropic-eng-claude-code-best-practices]])
+
 ## Relationships
 
 - Built by [[anthropic]]; related to the [[claude-agent-sdk]] and
@@ -150,6 +161,9 @@ the subject of several ingested sources on agent best practices:
 - [[anthropic-building-with-sonnet-5-5]]
 - [[anthropic-getting-most-out-of-opus-5-5]]
 - [[anthropic-automating-eval-design-hillclimbing]]
+- [[anthropic-eng-claude-code-sandboxing]]
+- [[anthropic-eng-claude-code-best-practices]]
+- [[anthropic-eng-building-c-compiler]]
 
 ## Contradictions / open questions
 

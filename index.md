@@ -30,6 +30,9 @@ read this first to find relevant pages, then drill in.
 
 - [[anthropic-eng-scaling-managed-agents]] — Managed Agents internals: session, harness, sandbox behind small interfaces; vaulted credentials (Apr 2026)
 - [[anthropic-eng-how-we-contain-claude]] — sandboxing Claude across products; environment first, model second; missed risks (May 2026)
+- [[anthropic-eng-claude-code-sandboxing]] — Claude Code sandbox launch: filesystem + network isolation, 84% fewer prompts, git proxy (Oct 2025)
+- [[anthropic-eng-building-c-compiler]] — 16 parallel agents, no orchestrator, wrote a C compiler; the verifier did most of the work (Feb 2026)
+- [[anthropic-eng-claude-code-best-practices]] — original Claude Code guide; many mechanisms since superseded (Apr 2025)
 - [[anthropic-eng-claude-code-auto-mode]] — auto mode: injection probe + transcript classifier; measured false blocks and misses (Mar 2026)
 - [[anthropic-eng-harness-design-long-running-apps]] — planner / generator / evaluator for multi-hour builds; prune parts as models improve (Mar 2026)
 - [[anthropic-harness-for-every-task]] — Claude Code writes per-task multi-agent harnesses; six composable patterns (Jun 2026)
@@ -43,6 +46,7 @@ read this first to find relevant pages, then drill in.
 ### Tools, MCP, and context
 
 - [[anthropic-eng-advanced-tool-use]] — Tool Search, Programmatic Tool Calling, Tool Use Examples (Nov 2025)
+- [[anthropic-eng-think-tool]] — a no-op "think" tool for reasoning between tool calls; superseded by built-in thinking (Mar 2025)
 - [[anthropic-eng-code-execution-with-mcp]] — MCP servers as code files in a sandbox; one task ~150K → ~2K tokens (Nov 2025)
 - [[anthropic-seeing-like-an-agent]] — Claude Code tool-design case studies: AskUserQuestion, TodoWrite → Tasks, Grep over RAG (Apr 2026)
 - [[anthropic-new-rules-context-engineering-claude-5]] — Claude Code system prompt cut >80% for the Claude 5 generation; judgement over rules (Jul 2026)
@@ -56,6 +60,8 @@ read this first to find relevant pages, then drill in.
 - [[openai-testing-agent-skills-with-evals]] — skill evals: trigger tests, trace grading, schema-bound rubric grading (Jan 2026)
 - [[anthropic-automating-eval-design-hillclimbing]] — four eval properties, the adversarial-sampling trap, train/test hillclimbing (Sep 2026)
 - [[anthropic-eng-infrastructure-noise-evals]] — container limits alone move agentic eval scores up to 6 points (Feb 2026)
+- [[anthropic-eng-eval-awareness-browsecomp]] — Opus 4.6 recognized BrowseComp and decrypted its answer key; eval integrity is adversarial (Mar 2026)
+- [[anthropic-eng-ai-resistant-evaluations]] — a hiring take-home fell to two Claude generations; unusual puzzles last longest (Jan 2026)
 
 ### Model-scoped prompting guidance
 

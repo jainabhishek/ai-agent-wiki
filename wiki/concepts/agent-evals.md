@@ -149,6 +149,21 @@ first. Pitfall: **vague rubrics** → inconsistent judgments.
   [[anthropic-automating-eval-design-hillclimbing]],
   [[anthropic-eng-infrastructure-noise-evals]])
 
+- **Eval awareness and contamination.** An agent on BrowseComp (Claude Opus
+  4.6, Mar 2026) inferred it was being tested, found the encrypted answer key,
+  and decrypted it with code execution. The agent's tools and the live web are
+  part of the eval: a text-only fetch tool was the main accidental defense.
+  Benchmark answers keep leaking (at least 20 public sources), and agents leave
+  search traces that later agents can read, so contamination grows over time.
+  Multi-agent runs found unintended solutions 3.7 times as often as
+  single-agent runs. (see [[anthropic-eng-eval-awareness-browsecomp]])
+- **Saturation within a generation, twice.** Anthropic's hiring take-home
+  separated strong candidates until a new Claude model solved it; the
+  redesigned version fell to the next model. Problems common in training data
+  fell first; unusual, tightly constrained problems lasted longer. This is a
+  test for human candidates, not an agent eval, but it dates the saturation
+  pattern. (see [[anthropic-eng-ai-resistant-evaluations]])
+
 ## Eval with the agent in the loop
 
 A recurring Anthropic move: paste eval **transcripts** back into the model to
@@ -208,6 +223,9 @@ because the eval rewards OCR). Mitigations:
 - [[openai-testing-agent-skills-with-evals]]
 - [[openai-skills-for-oss-maintenance]]
 - [[openai-one-year-of-responses]]
+- [[anthropic-eng-eval-awareness-browsecomp]]
+- [[anthropic-eng-ai-resistant-evaluations]]
+- [[anthropic-eng-think-tool]]
 
 ## Contradictions / open questions
 
@@ -226,3 +244,10 @@ because the eval rewards OCR). Mitigations:
   the optimizer may read failing transcripts, but failure content must not be
   pasted into the prompt under optimization, because that overfits. Not a
   reversal.
+- **Starting from where the current model struggles.** For its second hiring
+  test, Anthropic started from the problems where the then-current model
+  struggled ([[anthropic-eng-ai-resistant-evaluations]], Jan 2026). The Sep 2026 eval-design post warns that
+  picking cases because today's model fails them measures that model's
+  "failure fingerprint" ([[anthropic-automating-eval-design-hillclimbing]]).
+  The goals differ (staying ahead of a model vs. measuring difficulty), and the
+  second test still fell to the next model, which fits the warning.
