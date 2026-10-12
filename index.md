@@ -116,5 +116,5 @@ vendor stops listing a model as current, its page moves to "Legacy" below with
 
 - [[agent-building-best-practices-anthropic-vs-openai]] — where the two guides
   agree/differ + a distilled best-practices checklist
-- [[obsidian-graph-analysis]] — current wiki graph topology, hubs, caveats, and
+- [[obsidian-graph-analysis]] — wiki graph topology (refreshed Oct 2026: 77 pages, 1,255 links), hubs, caveats, and
   recommended Obsidian filters

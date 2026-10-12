@@ -281,3 +281,17 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   places.
 - checks: `tools/search.py --orphans` reports no orphans; every `[[link]]` in
   wiki/, index.md, and log.md resolves to a page.
+
+## [2026-10-12] query | refresh Obsidian graph analysis
+- updated synthesis: [[obsidian-graph-analysis]]
+- summary: the wiki-only graph grew from 35 pages and 408 links (June) and 44
+  pages and 516 links (`main`, August) to 77 pages and 1,255 links, with 419
+  reciprocal pairs, one connected component, no unresolved links, and no pages
+  without a `wiki/` inbound link. Concept hubs grew most:
+  [[context-engineering]] and [[agent-harness]] 18–19 → 51 inbound links,
+  [[guardrails]] 14 → 45. OpenAI coverage roughly doubled; Anthropic sources
+  still outnumber OpenAI about 3 to 1.
+- method: a script collects wikilinks from every page under `wiki/`, drops
+  self-links and duplicates, and computes components on the undirected graph.
+  The August column reruns it on `main`.
+- touched: [[obsidian-graph-analysis]], index
