@@ -219,3 +219,65 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - applied to [[anthropic-prompting-claude-opus-5]],
   [[anthropic-prompting-claude-sonnet-5]], [[anthropic-prompting-claude-fable-5]],
   [[openai-prompt-guidance-gpt-5-6]] (see the 2026-10-12 lint entry above).
+
+## [2026-10-12] ingest | Anthropic and OpenAI agent guidance, Nov 2025 – Oct 2026 (30 sources)
+- trigger: the 2026-10-12 lint above. The human asked to keep the legacy
+  prompting pages and add everything the lint listed as missing.
+- model-scoped (current models): [[anthropic-prompting-claude-fable-5-1]],
+  [[anthropic-prompting-claude-opus-5-5]], [[anthropic-prompting-claude-sonnet-5-5]],
+  [[anthropic-prompting-claude-haiku-5-5]], [[anthropic-building-with-sonnet-5-5]],
+  [[anthropic-getting-most-out-of-opus-5-5]], [[openai-prompting-gpt-6-astra]],
+  [[openai-rethinking-skills-prompts-gpt-6-astra]]
+- new since 2026-08-06: [[anthropic-building-effective-agent-automations]],
+  [[anthropic-claude-code-in-the-cloud]],
+  [[anthropic-automating-eval-design-hillclimbing]],
+  [[openai-automating-repetitive-work-codex]], [[openai-codex-as-a-platform]],
+  [[openai-agents-api-guide]]
+- older, never ingested: [[anthropic-eng-how-we-contain-claude]],
+  [[anthropic-eng-scaling-managed-agents]], [[anthropic-eng-claude-code-auto-mode]],
+  [[anthropic-eng-harness-design-long-running-apps]],
+  [[anthropic-eng-infrastructure-noise-evals]], [[anthropic-eng-advanced-tool-use]],
+  [[anthropic-eng-code-execution-with-mcp]],
+  [[anthropic-new-rules-context-engineering-claude-5]],
+  [[anthropic-harness-for-every-task]], [[anthropic-prompt-caching-is-everything]],
+  [[anthropic-seeing-like-an-agent]], [[openai-shell-skills-compaction]],
+  [[openai-testing-agent-skills-with-evals]], [[openai-skills-for-oss-maintenance]],
+  [[openai-one-year-of-responses]], [[openai-private-mcp-servers]]
+- new pages: [[model-context-protocol]] (concept), [[openai-agents-api]],
+  [[openai-codex]] (entities)
+- corrections to the lint entry: "Codex as a platform" is dated 2026-08-19 by
+  its byline; the 2026-07-07 was a linked changelog URL. "Rethinking skills and
+  prompts for GPT-6 Astra" is dated 2026-09-11 by its byline.
+- scoping decisions: [[openai-prompting-gpt-6-astra]] is scoped to all three
+  GPT-6 model IDs, because OpenAI calls its practices a starting point for the
+  whole family. [[anthropic-prompting-claude-fable-5-1]] includes
+  `claude-mythos-5-1` from the page metadata only.
+  [[anthropic-new-rules-context-engineering-claude-5]] has no `models:` field,
+  because it names models only as examples of a generation.
+- method: six helpers wrote the source pages in parallel; six more merged their
+  notes into shared pages, each checking every claim against its source page.
+  `raw/` captures are condensed paraphrase (the repo is public).
+- touched: index, overview, [[agent-building-best-practices-anthropic-vs-openai]],
+  [[anthropic]], [[openai]], [[openai-agents-sdk]], [[claude]], [[claude-code]],
+  [[claude-managed-agents]], [[claude-agent-sdk]], and the concept pages
+  [[agent-harness]], [[guardrails]], [[agent-steering]], [[context-engineering]],
+  [[agent-instructions]], [[agent-evals]], [[workflow-patterns]],
+  [[multi-agent-economics]], [[agents-vs-workflows]], [[tool-design]],
+  [[agent-core-components]], [[agent-skills]], [[agent-orchestration]],
+  [[prompt-tuning-axes]], [[agent-design-principles]]
+- contradictions recorded (both claims kept, with sources and dates):
+  [[claude-managed-agents]] — where the latency win came from (sandbox spins up
+  in parallel, Jun 2026, vs. containers created only on first tool call, Apr
+  2026); [[tool-design]] — worked examples in tool descriptions (Dec 2024 and
+  Nov 2025 for, Jul 2026 against); [[agent-evals]] — "target weaknesses" vs.
+  the failure-fingerprint warning (Sep 2026); [[agent-instructions]] —
+  step-level instructions (2025) vs. judgement over blanket rules (2026);
+  [[agent-steering]] — auto-memory narrows `CLAUDE.md` (Jul 2026);
+  [[guardrails]] — cloud sessions and scheduled agents have no per-command
+  approval; [[prompt-tuning-axes]] — three settings reversed between the 5 and
+  5.x generations; [[agent-orchestration]] — separate verifier subagents vs.
+  "no reviewer subagents unless asked"; [[openai]] — no Terra tier in GPT-6;
+  [[anthropic-getting-most-out-of-opus-5-5]] — blog and docs disagree in four
+  places.
+- checks: `tools/search.py --orphans` reports no orphans; every `[[link]]` in
+  wiki/, index.md, and log.md resolves to a page.
