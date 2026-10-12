@@ -333,3 +333,10 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - touched: index, overview, [[anthropic]], [[claude-code]], [[guardrails]],
   [[agent-evals]], [[agent-orchestration]], [[agent-harness]], [[tool-design]],
   [[multi-agent-economics]], [[context-engineering]], [[model-context-protocol]]
+
+## [2026-10-12] query | refresh Obsidian graph analysis (after backlog ingest)
+- updated synthesis: [[obsidian-graph-analysis]]
+- summary: 83 pages, 53 of them sources; 1,364 unique directed links; 445
+  reciprocal pairs; one connected component; no unresolved links; no pages
+  without a `wiki/` inbound link. Same script as the earlier refresh today.
+- touched: [[obsidian-graph-analysis]], index
