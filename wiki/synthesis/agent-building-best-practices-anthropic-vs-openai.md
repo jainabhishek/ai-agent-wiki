@@ -2,7 +2,7 @@
 title: "Agent-Building Best Practices: Anthropic vs. OpenAI"
 type: synthesis
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-10-12
 tags: [agents, best-practices, comparison, synthesis]
 ---
 
@@ -88,15 +88,48 @@ These reinforce rather than contradict the shared thesis: the new principles
 ("ask what you can stop doing," progressive disclosure, harness co-evolution) are
 all forms of *start simple and add complexity only when it earns its keep.*
 
+## Update: architecture convergence, Nov 2025 – Oct 2026 (2026-10-12)
+
+Thirty further sources from both vendors narrow the gap noted above. OpenAI now
+publishes harness, skills, and context guidance of its own, and the two vendors
+reach the same architecture on four points. Per the wiki's scope note, this
+compares **architecture only**; per-model prompting advice stays on the
+model-scoped source pages.
+
+| Architecture point | Anthropic | OpenAI |
+|--------------------|-----------|--------|
+| **Hosted agent runtime** | [[claude-managed-agents]]: session, harness, and sandbox behind small interfaces ([[anthropic-eng-scaling-managed-agents]]) | [[openai-agents-api]]: managed Codex harness with durable sessions and hosted or self-hosted sandboxes ([[openai-agents-api-guide]]) |
+| **Harness as a reusable runtime** | Interfaces are the stable part; the harness changes as models improve ([[anthropic-eng-scaling-managed-agents]]) | The open [[openai-codex]] harness embeds in a host app, which owns UI, tools, and approvals ([[openai-codex-as-a-platform]]) |
+| **Credentials out of the agent's reach** | Vault plus a proxy that swaps a session token for the real MCP credential ([[anthropic-eng-scaling-managed-agents]]) | `domain_secrets` injected by a sidecar, so the model sees placeholders ([[openai-shell-skills-compaction]]); browser sign-in through a dedicated request ([[openai-agents-api-guide]]) |
+| **Skills as routed, on-demand context** | Progressive disclosure; short descriptions; lightweight multi-file guides ([[anthropic-new-rules-context-engineering-claude-5]]) | Descriptions as routing logic; root file as a router; trigger evals ([[openai-shell-skills-compaction]], [[openai-rethinking-skills-prompts-gpt-6-astra]], [[openai-testing-agent-skills-with-evals]]) |
+
+Two differences in emphasis remain:
+
+- **Anthropic publishes its containment record in detail**, including risks it
+  missed and measured classifier error rates. See
+  [[anthropic-eng-how-we-contain-claude]], [[anthropic-eng-claude-code-auto-mode]],
+  [[guardrails]].
+- **OpenAI frames runtime choice as an explicit three-way decision** (Agents API,
+  Agents SDK, Responses API) by who runs the loop and who owns state. Anthropic
+  offers the analogous layers ([[claude-managed-agents]], [[claude-agent-sdk]],
+  the Messages API) without one decision guide in the ingested sources. See
+  [[openai-agents-api-guide]].
+
+Both vendors also tell builders to delete instructions written for weaker models.
+That advice is prompting, so the wiki records it per model and does not merge
+it here. See [[prompt-tuning-axes]].
+
 ## Caveats & open questions
 
 - Anthropic's *Building Effective Agents* piece is condensed in our raw capture;
   re-verify against the source URL if a claim is load-bearing.
-- The deeper Anthropic *engineering* posts (anthropic.com/engineering: context
-  engineering, writing tools for agents, long-running harnesses) are still
-  un-ingested — they would add primary-source depth behind the blog summaries.
-- OpenAI-side depth on harness/context engineering is comparatively thin in the
-  ingested guide — a candidate for a future OpenAI source.
+- ~~The deeper Anthropic engineering posts are un-ingested.~~ Resolved: the core
+  engineering posts were ingested on 2026-06-21, and most of the rest on
+  2026-10-12.
+- ~~OpenAI-side depth on harness/context engineering is thin.~~ Partly resolved
+  on 2026-10-12 by the Codex, Agents API, and skills sources. OpenAI still has no
+  counterpart in the wiki to Anthropic's long-running-harness and eval-noise
+  posts.
 
 ## Sources & pages drawn on
 
@@ -109,4 +142,11 @@ all forms of *start simple and add complexity only when it earns its keep.*
   [[agent-instructions]], [[guardrails]], [[agent-skills]], [[agent-steering]],
   [[context-engineering]], [[agent-harness]]
 - [[anthropic]], [[openai]], [[openai-agents-sdk]], [[claude]], [[claude-code]],
-  [[claude-agent-sdk]], [[claude-managed-agents]]
+  [[claude-agent-sdk]], [[claude-managed-agents]], [[openai-agents-api]],
+  [[openai-codex]]
+- 2026-10-12 update: [[anthropic-eng-scaling-managed-agents]],
+  [[anthropic-eng-how-we-contain-claude]], [[anthropic-eng-claude-code-auto-mode]],
+  [[anthropic-new-rules-context-engineering-claude-5]], [[openai-agents-api-guide]],
+  [[openai-codex-as-a-platform]], [[openai-shell-skills-compaction]],
+  [[openai-rethinking-skills-prompts-gpt-6-astra]],
+  [[openai-testing-agent-skills-with-evals]]

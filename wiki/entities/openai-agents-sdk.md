@@ -3,7 +3,7 @@ title: OpenAI Agents SDK
 type: entity
 subtype: product
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-10-12
 tags: [openai, sdk, agents, tooling]
 ---
 
@@ -31,14 +31,26 @@ programming constructs rather than pre-defining an entire graph upfront.
   violation. (see [[guardrails]])
 - Contrasted with **declarative graph** frameworks, which it argues become
   cumbersome as workflows grow dynamic.
+- Since 2026-09-10 it sits beside a managed alternative, the
+  [[openai-agents-api]]. OpenAI rates the SDK "medium" integration effort: your
+  application runs the loop and owns custom tools and workflows. (see
+  [[openai-agents-api-guide]])
+- OpenAI maintains the Python and TypeScript SDK repositories with
+  [[openai-codex]], repo-local skills, and `AGENTS.md` rules. The repositories
+  merged 457 PRs from December 2025 to February 2026, up from 316 in the
+  previous three months; the post gives no controlled comparison. (see
+  [[openai-skills-for-oss-maintenance]])
 
 ## Relationships
 
 - Built and maintained by [[openai]].
+- Managed counterpart: [[openai-agents-api]].
 
 ## Appears in
 
 - [[openai-practical-guide-to-building-agents]]
+- [[openai-agents-api-guide]]
+- [[openai-skills-for-oss-maintenance]]
 
 ## Contradictions / open questions
 
