@@ -55,9 +55,9 @@ says the harness changes are "less specific to Opus 5.5".
 - Fewer turns: Zeta Labs reported fewer turns and tool calls per task than on
   Opus 5, at nearly half the cost, with twice as many of its hardest tasks
   completed. This is a customer report.
-- The post quotes Addy Osmani's "The cost of a task on Opus 5.5": on well-scoped
+- The post quotes Addy Osmani's "What a task costs on Opus 5.5" ([[anthropic-what-a-task-costs-opus-5-5]]): on well-scoped
   tasks the turn counts match and only the price cut applies, and the gap is largest
-  on open-ended tasks. That post is not in this wiki.
+  on open-ended tasks. That post notes one exception to the cache claim above: on Bedrock, Google Cloud's Agent Platform, or a Claude apps gateway, changing effort still clears the cache.
 - Output generation is more than 30% faster than Opus 5.
 
 ### Claude Code harness (dated 2026-09; not specific to Opus 5.5)
