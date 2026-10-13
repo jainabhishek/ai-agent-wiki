@@ -2,7 +2,7 @@
 title: "Anthropic: Running an AI-native engineering org"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Fiona Fung (Anthropic; Code w/ Claude SF 2026 talk)
 date: 2026-06-03
 source_url: https://claude.com/resources/articles/running-an-ai-native-engineering-org
@@ -37,7 +37,7 @@ Self-reported: engineers ship real code within their first week; every commit is
 
 ## Concepts
 
-[[guardrails]], [[agent-evals]], [[agent-design-principles]]
+[[guardrails]], [[agent-evals]], [[agent-design-principles]], [[human-agent-teams]].
 
 ## Connections
 

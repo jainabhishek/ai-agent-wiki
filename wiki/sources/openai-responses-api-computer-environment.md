@@ -2,7 +2,7 @@
 title: "OpenAI (Eng): From model to agent — equipping the Responses API with a computer environment"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Bo Xu, Danny Zhang, Rohit Arunachalam (OpenAI)
 date: 2026-03-11
 source_url: https://openai.com/index/equip-responses-api-computer-environment/
@@ -36,7 +36,7 @@ of the 2026-03-11 post. See [[agent-harness]].
   the API runs them in separate container sessions and multiplexes the
   streams into structured tool outputs.
 - **Bounded output.** The model sets an output cap per command; the API keeps
-  the head and tail and marks the truncated middle. See [[tool-design]].
+  the head and tail and marks the truncated middle. See [[tool-placement]].
 - **Native compaction.** Models are trained to emit an encrypted compaction
   item; the next window holds it plus high-value recent items. Server-side
   mode compacts at a configured threshold and tolerates small overages just
@@ -49,7 +49,7 @@ of the 2026-03-11 post. See [[agent-harness]].
 - **Egress proxy with secret placeholders.** All outbound traffic passes a
   sidecar proxy that enforces allowlists and stays observable. Secrets are
   injected per domain at egress; the model and container see only
-  placeholders. See [[guardrails]].
+  placeholders. See [[guardrails]], [[agent-identity-and-access]].
 - **Deterministic skill loading.** Skills are versioned bundles stored by ID.
   Before the model call, the API fetches skill metadata, copies and unpacks the
   bundle into the container, and adds metadata and path to context; the model
@@ -61,8 +61,8 @@ of the 2026-03-11 post. See [[agent-harness]].
 
 ## Concepts
 
-[[agent-harness]], [[context-engineering]], [[agent-skills]], [[guardrails]],
-[[tool-design]], [[agent-core-components]]
+[[agent-harness]], [[context-engineering]], [[agent-skills]], [[guardrails]], [[agent-identity-and-access]],
+[[tool-design]], [[tool-placement]], [[agent-core-components]]
 
 ## Notable claims & data
 

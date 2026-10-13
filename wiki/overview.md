@@ -2,7 +2,7 @@
 title: Overview
 type: overview
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [meta, agents]
 ---
 
@@ -54,7 +54,7 @@ principles (see [[agent-design-principles]] and the full comparison in
    result. Sources from both vendors and their customers report this:
    machine-checked certificates for code migrations, validation ladders for
    security findings, and near-perfect test suites for long runs.
-   ([[agent-evals]], [[anthropic-eng-building-c-compiler]],
+   ([[agent-verification]], [[anthropic-eng-building-c-compiler]],
    [[anthropic-datadog-universal-machine-tool]],
    [[anthropic-comcast-booz-allen-exploit-chains]],
    [[anthropic-ai-code-modernization]], [[openai-harness-engineering]])
@@ -88,7 +88,8 @@ and **skills/steering** ([[agent-skills]], [[agent-steering]]); OpenAI is deeper
   [[agent-instructions]] · [[guardrails]] · [[agent-skills]] · [[agent-steering]] ·
   [[context-engineering]] · [[agent-harness]] · [[agent-evals]] ·
   [[multi-agent-economics]] · [[prompt-tuning-axes]] · [[model-context-protocol]]
-  · [[prompt-injection]] · [[agent-memory]]
+  · [[prompt-injection]] · [[agent-memory]] · [[agent-identity-and-access]]
+  · [[agent-verification]] · [[tool-placement]] · [[human-agent-teams]]
 
 ## Scope note: prompting vs. architecture
 
@@ -133,9 +134,10 @@ change while several settings reversed.
 - OpenAI-side harness coverage now includes the Codex agent loop, App Server,
   and harness engineering. It still lacks a counterpart to Anthropic's
   eval-noise post ([[anthropic-eng-infrastructure-noise-evals]]).
-- Not ingested: OpenAI's "Agent security in the enterprise" white paper, which
-  sits behind a lead form; the OpenAI cookbook (code examples, not guidance);
-  and both vendors' research papers.
+- **Done (2026-10-13):** OpenAI's "Agent security in the enterprise" white
+  paper, from a PDF the human supplied ([[openai-agent-security-enterprise]]).
+  Still not ingested: the OpenAI cookbook (code examples, not guidance) and both
+  vendors' research papers.
 - Customer stories make up a large share of the new sources. They are
   self-reported and vendor-published, so concept pages phrase their claims as
   reports, not rules.

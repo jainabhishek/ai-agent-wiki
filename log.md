@@ -390,3 +390,39 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - touched: index, overview, [[obsidian-graph-analysis]],
   [[agent-building-best-practices-anthropic-vs-openai]], 17 concept pages, 10
   entity pages.
+
+## [2026-10-13] ingest | OpenAI — Agent security in the enterprise (white paper)
+- summary: [[openai-agent-security-enterprise]]
+- source: a PDF the human downloaded from OpenAI's learning hub and supplied
+  (30 pages, cover dated August 2026, listed 2026-09-02). The 2026-10-12 sweep
+  had skipped it because it sits behind a lead form. Captured as condensed
+  paraphrase per the raw-capture rule.
+- touched: [[agent-identity-and-access]] (new "Task-scoped authority" section:
+  task tokens exchanged for narrow credentials, four access-request questions,
+  stopping vs. revoking), [[guardrails]] (reach and blast radius, advisory vs.
+  enforced controls, expansion gate, incident response), [[prompt-injection]],
+  [[model-context-protocol]] (tools as a supply chain), [[agent-memory]],
+  [[openai]], overview, index; links restored on
+  [[openai-running-codex-safely]], [[anthropic-ciso-guide-agentic-ai]],
+  [[anthropic-zero-trust-for-ai-agents]].
+- open question extended on [[agent-identity-and-access]]: the paper binds each
+  task token to the initiating user while treating the agent as a distinct
+  principal, a third design beside Claude Tag's and Asana's.
+
+## [2026-10-13] lint | split four concept pages that held two topics
+- trigger: the 2026-10-12 merge left four pages covering two topics each, which
+  the schema's atomic-pages rule forbids. The human said to split them.
+- splits (old slug keeps its main topic, so existing links stay valid):
+  [[agent-orchestration]] → [[human-agent-teams]]; [[tool-design]] →
+  [[tool-placement]]; [[guardrails]] → [[agent-identity-and-access]];
+  [[agent-evals]] → [[agent-verification]].
+- [[human-agent-teams]] was thin after the move, so it was filled from 20
+  source pages; it records four tensions, including whether planning or review
+  is the new bottleneck, and whether each PR needs human review.
+- back-reference sweep: 40 source pages re-pointed where the linking sentence
+  concerns a moved topic; 15 more gained a link to [[human-agent-teams]].
+- also fixed: 9 sources cited on concept pages but missing from their "Appears
+  in" lists (5 pages). Sources listed but not cited inline were kept.
+- checks: `tools/search.py --orphans` reports no orphans; a link script finds no
+  unresolved wikilinks across 184 pages and 3,367 links; each new page's
+  "Appears in" equals the sources it cites.

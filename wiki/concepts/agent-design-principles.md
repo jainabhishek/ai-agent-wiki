@@ -2,7 +2,7 @@
 title: Agent Design Principles
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [agents, best-practices, principles, evals]
 ---
 
@@ -160,6 +160,8 @@ before multi), and [[tool-design]] (clarity over count).
 - [[anthropic-getting-started-with-loops]]
 - [[claude-customer-genspark]]
 - [[anthropic-agentic-coding-ci-test-impact]]
+- [[anthropic-prompting-claude-fable-5]]
+- [[openai-prompt-guidance-gpt-5-6]]
 
 ## Contradictions / open questions
 

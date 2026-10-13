@@ -2,7 +2,7 @@
 title: "Claude customer story: Shortcut spreadsheet agent on Opus 4.6"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Anthropic (claude.com customer stories); spokesperson Nico Christie, Fundamental Research Labs
 date: "accessed 2026-10-12"
 source_url: https://claude.com/customers/shortcut
@@ -50,7 +50,7 @@ then plans with the user and hands the approved plan to a fresh agent.
 ## Concepts
 
 [[agent-orchestration]], [[context-engineering]], [[agent-evals]],
-[[agent-harness]]
+[[agent-harness]], [[human-agent-teams]].
 
 ## Notable claims & data
 

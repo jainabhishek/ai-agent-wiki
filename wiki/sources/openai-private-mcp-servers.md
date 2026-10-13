@@ -2,7 +2,7 @@
 title: "OpenAI: Making Private MCP Servers Reachable Without Making Them Public"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Denys Kurylenko (OpenAI)
 date: 2026-06-26
 source_url: https://developers.openai.com/blog/connect-private-mcp-servers-to-openai-products
@@ -54,7 +54,7 @@ REST targets. Date from page byline: 2026-06-26.
 
 ## Concepts
 
-[[tool-design]], [[guardrails]], [[agent-harness]]
+[[tool-design]], [[tool-placement]], [[guardrails]], [[agent-harness]]
 
 ## Notable claims & data
 

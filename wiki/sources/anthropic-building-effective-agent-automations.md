@@ -2,7 +2,7 @@
 title: "Anthropic: Building Effective Agent Automations"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Lance Martin and CJ Avilla (Anthropic, claude.dev blog)
 date: 2026-10-08
 source_url: https://claude.dev/blog/building-effective-agent-automations/
@@ -30,7 +30,7 @@ agent is a versioned configuration (model, system prompt, tools); a separate
 and the first message of each run. Every scheduled firing starts a fresh session
 in a fresh sandbox. The main content is a set of state-management and
 least-privilege rules, condensed by the authors into six rules (see Key points).
-See [[agent-harness]], [[guardrails]], [[context-engineering]].
+See [[agent-harness]], [[guardrails]], [[agent-identity-and-access]], [[context-engineering]].
 
 ## Key points
 

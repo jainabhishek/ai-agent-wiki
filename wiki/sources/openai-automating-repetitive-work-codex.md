@@ -2,7 +2,7 @@
 title: "OpenAI: Automating repetitive work at OpenAI with Codex"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Jeremy Lewi (OpenAI)
 date: 2026-08-25
 source_url: https://developers.openai.com/blog/automating-repetitive-work-at-openai-with-codex
@@ -42,7 +42,7 @@ Each finished notebook becomes context for the next run. See
   registers browser-side tools through WebMCP: read Runme instructions, run
   bounded JavaScript programs over notebook content, and read the docs. A
   traditional MCP server would add infrastructure and change where notebook data
-  is handled. See [[tool-design]].
+  is handled. See [[tool-placement]].
 - **Codex features used:** a persistent goal (long-running work) keeps Codex on
   task. Automatic approval review checks eligible actions without changing the
   existing permission boundaries. See [[guardrails]].
@@ -62,7 +62,7 @@ Each finished notebook becomes context for the next run. See
 
 ## Concepts
 
-[[context-engineering]], [[guardrails]], [[tool-design]], [[agent-harness]],
+[[context-engineering]], [[guardrails]], [[tool-design]], [[tool-placement]], [[agent-harness]],
 [[workflow-patterns]]
 
 ## Connections

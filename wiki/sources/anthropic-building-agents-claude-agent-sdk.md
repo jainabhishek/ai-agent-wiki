@@ -2,7 +2,7 @@
 title: "Anthropic: Building agents with the Claude Agent SDK"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Anthropic (claude.com articles) — Thariq Shihipar
 date: 2025-09-29
 source_url: https://claude.com/resources/articles/building-agents-with-the-claude-agent-sdk
@@ -48,7 +48,7 @@ practices have since evolved.
   2. Visual feedback from screenshots, for example through a Playwright MCP
      server.
   3. LLM-as-judge, described as "not a very robust method" with latency cost.
-  See [[agent-evals]].
+  See [[agent-verification]].
 - **Improve by reading failures.** Missing information means the search APIs
   need restructuring. Repeated failures need a formal rule in the tools.
   Errors the agent cannot fix need better tools. Variance across features

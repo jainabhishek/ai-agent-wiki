@@ -2,7 +2,7 @@
 title: "OpenAI: Supercharging Codex with JetBrains MCP at Skyscanner"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Jack Waller (Software Engineer, Skyscanner) — guest post on the OpenAI Developers blog
 date: 2026-01-11
 source_url: https://developers.openai.com/blog/skyscanner-codex-jetbrains-mcp
@@ -33,7 +33,7 @@ self-reported. The post names no model.
 ## Key points
 
 - **The IDE as a feedback tool.** The agent uses the same compile and inspect
-  loop that humans use. See [[tool-design]].
+  loop that humans use. See [[tool-placement]].
 - **Shorter loop.** Without MCP the loop has five steps: generate, work out how
   to run tests, run them (possibly with user approval), parse the failure, fix.
   With MCP it has three: generate, ask for file problems, fix the reported
@@ -52,7 +52,7 @@ self-reported. The post names no model.
 
 ## Concepts
 
-[[model-context-protocol]], [[tool-design]], [[agent-harness]],
+[[model-context-protocol]], [[tool-design]], [[tool-placement]], [[agent-harness]],
 [[agent-instructions]], [[context-engineering]]
 
 ## Notable claims & data

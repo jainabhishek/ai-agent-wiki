@@ -2,7 +2,7 @@
 title: "OpenAI: How OpenAI uses Codex"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: OpenAI
 date: 2026-01-14
 source_url: https://openai.com/business/guides-and-resources/how-openai-uses-codex/
@@ -68,7 +68,7 @@ and exploration. See [[openai-codex]].
 ## Concepts
 
 [[agent-instructions]], [[agent-harness]], [[workflow-patterns]],
-[[agent-orchestration]]
+[[agent-orchestration]], [[human-agent-teams]].
 
 ## Connections
 

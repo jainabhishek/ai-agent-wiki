@@ -2,7 +2,7 @@
 title: "Anthropic: Building effective human-agent teams"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Kristen Swanson (Anthropic Education team)
 date: 2026-06-24
 source_url: https://claude.com/resources/articles/building-effective-human-agent-teams
@@ -21,10 +21,10 @@ Anthropic published this perspective piece on claude.com on 2026-06-24. It is th
 ## Key points
 
 - **Lesson 1: work in public.** Agents know only what is written and searchable. Anthropic sets a few workspace-level security boundaries and lets context flow freely inside each boundary, instead of making per-item sharing decisions. New channels default to org-public, and teams write meeting notes and artifacts for agents as primary readers. Private work goes through DMs or personal MCP connectors. (see [[context-engineering]], [[guardrails]])
-- **Lesson 2: one roster with defined roles.** Each human and agent has a written role, a scope, and the right tools. Skill files define agent roles, so others can stand up the same agent type. Without roles, people run side fleets of personal AIs that duplicate work and fragment context. (see [[agent-skills]], [[agent-orchestration]])
+- **Lesson 2: one roster with defined roles.** Each human and agent has a written role, a scope, and the right tools. Skill files define agent roles, so others can stand up the same agent type. Without roles, people run side fleets of personal AIs that duplicate work and fragment context. (see [[agent-skills]], [[human-agent-teams]])
 - **Lesson 3: a human-set north star.** Humans write the north star and name which agents may propose new workstreams.
 - **Lesson 4: earn autonomy per task type.** Grant autonomy in proportion to demonstrated reliability, and track autonomy per task type. Review agent work manually at first. Retest as models change, because old guardrails can constrain a stronger model. (see [[agent-design-principles]])
-- **Verification before human review.** The best long-running agents check their own work with tests, rubrics, and style guides. A "Doer-Verifier" harness gives one agent the task and a second agent the check. (see [[agent-harness]], [[agent-evals]])
+- **Verification before human review.** The best long-running agents check their own work with tests, rubrics, and style guides. A "Doer-Verifier" harness gives one agent the task and a second agent the check. (see [[agent-harness]], [[agent-verification]])
 - **Human attention is the scarce resource.** Agents batch questions, restate key context, and limit the items each human sees. Some teams set daily caps on agent output so that human review stays sustainable.
 
 ## Notable claims & data
@@ -39,7 +39,7 @@ Anthropic published this perspective piece on claude.com on 2026-06-24. It is th
 
 ## Concepts
 
-[[context-engineering]], [[agent-orchestration]], [[agent-skills]], [[agent-harness]], [[agent-evals]], [[guardrails]], [[agent-design-principles]]
+[[context-engineering]], [[agent-orchestration]], [[human-agent-teams]], [[agent-skills]], [[agent-harness]], [[agent-evals]], [[guardrails]], [[agent-design-principles]]
 
 ## Connections
 

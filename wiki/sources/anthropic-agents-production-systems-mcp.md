@@ -2,7 +2,7 @@
 title: "Anthropic: Building agents that reach production systems with MCP"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Anthropic (claude.com articles)
 date: 2026-04-22
 source_url: https://claude.com/resources/articles/building-agents-that-reach-production-systems-with-mcp
@@ -24,7 +24,7 @@ The post (claude.com, 2026-04-22) names three integration paths. **Direct API ca
 - **Server: group tools by intent, not endpoint.** Do not mirror an API one-to-one; one `create_issue_from_thread` beats four primitive calls. (see [[tool-design]], [[anthropic-eng-writing-tools-for-agents]])
 - **Server: code orchestration for large surfaces.** For hundreds of operations, expose a thin tool that accepts a script run in a server-side sandbox. Cloudflare's server: two tools (`search`, `execute`) cover ~2,500 endpoints in ~1K tokens.
 - **Server: rich semantics.** MCP Apps (first official extension) returns inline interactive UI. Elicitation pauses a tool call for user input: *form mode* (schema → native form; missing parameter, destructive-action confirmation) and *URL mode* (browser hand-off for downstream OAuth, payments, credentials that must not transit the client; Claude Code only at publication).
-- **Server: standardized auth.** CIMD (Client ID Metadata Documents) for OAuth client registration is Anthropic's recommended approach. Claude Managed Agents Vaults hold and refresh user OAuth tokens, referenced by vault ID at session creation. (see [[claude-managed-agents]], [[guardrails]])
+- **Server: standardized auth.** CIMD (Client ID Metadata Documents) for OAuth client registration is Anthropic's recommended approach. Claude Managed Agents Vaults hold and refresh user OAuth tokens, referenced by vault ID at session creation. (see [[claude-managed-agents]], [[agent-identity-and-access]])
 - **Private networks.** MCP tunnels in Claude Managed Agents use an outbound-only connection; no exposed ports.
 - **Client: progressive disclosure.** Tool search cuts tool-definition tokens by 85%+; programmatic tool calling cuts ~37% of tokens on complex multi-step workflows (Anthropic testing, from [[anthropic-eng-advanced-tool-use]]). (see [[context-engineering]])
 - **MCP + skills.** MCP gives access; skills give the procedure. Ship both as a plugin (skills, MCP servers, hooks, LSP servers, subagents) or publish a skill beside the server; an MCP extension to deliver skills from servers is in progress. (see [[agent-skills]])

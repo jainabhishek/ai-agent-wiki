@@ -2,7 +2,7 @@
 title: "Anthropic: How ABC Legal turned every employee into a builder with Claude Managed Agents"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Anthropic (claude.com articles)
 date: 2026-08-17
 source_url: https://claude.com/resources/articles/how-abc-legal-turned-every-employee-into-a-builder-with-claude-managed-agents
@@ -57,6 +57,10 @@ review agent at ~98% agreement with the compliance team.
   states that not every task deserves an agent.
 - **The main hurdle was git, not AI.** Business users had to learn clone and
   pull-request workflows.
+
+## Concepts
+
+[[human-agent-teams]]
 
 ## Connections
 

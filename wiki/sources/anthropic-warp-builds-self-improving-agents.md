@@ -2,7 +2,7 @@
 title: "Anthropic: How Warp builds self-improving agents on Claude"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Michael Segner (Anthropic, claude.com articles)
 date: 2026-08-26
 source_url: https://claude.com/resources/articles/how-warp-builds-self-improving-agents-on-claude
@@ -61,7 +61,7 @@ merges the PR, and the next run inherits it. No model name is given.
 ## Concepts
 
 [[agent-skills]], [[agent-evals]], [[guardrails]], [[agent-harness]],
-[[context-engineering]]
+[[context-engineering]], [[human-agent-teams]].
 
 ## Notable claims & data
 

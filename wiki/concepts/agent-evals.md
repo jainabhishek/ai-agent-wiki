@@ -2,7 +2,7 @@
 title: Agent Evals
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [evals, measurement, agents, best-practices, verification]
 ---
 
@@ -19,17 +19,6 @@ tags: [evals, measurement, agents, best-practices, verification]
   [[agent-design-principles]])
 - [[anthropic]] frames optimization of prompts, tools, and harnesses as
   eval-gated — add complexity only when it demonstrably improves outcomes.
-- **Give the agent a check it can run.** A task should state what done looks
-  like and the command that proves it; without one, "you review changes nobody
-  has run." (see [[anthropic-claude-code-in-the-cloud]]) A strong goal names a
-  test standard: "port this library and treat the original unit tests as the
-  success check" beats "implement the plan in this file". (see
-  [[openai-codex-maxxing-long-running-work]]) A 25-hour Codex run ran lint,
-  typecheck, tests, and build after each milestone and repaired failures
-  before moving on. (see [[openai-run-long-horizon-tasks-codex]]) An exit code
-  of 0 is not proof: OpenAI's SDK maintainers have the model compare each
-  example's captured output with the example's source intent. (see
-  [[openai-skills-for-oss-maintenance]])
 - **Evals buy iteration speed.** Outtake reports that manual transcript review
   did not scale; it codified the review as a graded check judged by an agent,
   and found that imperfect early evals still helped. It first ran
@@ -63,10 +52,8 @@ configuration is documented and matched. (see
 | **Model-based** (LLM-as-judge: rubrics, NL assertions, pairwise) | nuance, open-ended tasks | non-deterministic; needs calibration |
 | **Human** (SME, crowdsource, A/B) | gold standard | expensive, slow |
 
-The Agent SDK post orders verification methods by robustness: rules-based
-feedback (lint, types) first, visual feedback from screenshots second, and
-LLM-as-judge last, which it calls "not a very robust method" with a latency
-cost. (see [[anthropic-building-agents-claude-agent-sdk]])
+In-loop verification methods for a single run (rules-based feedback,
+screenshots, LLM-as-judge) are ordered by robustness on [[agent-verification]].
 
 ## How to build eval sets
 
@@ -121,9 +108,6 @@ cost. (see [[anthropic-building-agents-claude-agent-sdk]])
   **reset between trials** (shared state causes correlated failures). Each
   skill-creator eval runs in a separate agent with a clean context, so runs do
   not contaminate each other. (see [[anthropic-improving-skill-creator]])
-- **Verify like a human user** for end-to-end tasks (e.g. browser automation), not
-  just unit/API checks — often needs *explicit* prompting. (see
-  [[anthropic-eng-effective-harnesses-long-running-agents]])
 
 ### Evals from real production work
 
@@ -244,73 +228,14 @@ first. Pitfall: **vague rubrics** → inconsistent judgments.
   [[anthropic-automating-eval-design-hillclimbing]]) skill-creator's comparator
   agents judge skill v1 vs v2, or skill vs no skill, without knowing which is
   which. (see [[anthropic-improving-skill-creator]])
-- **Separate evaluator over self-critique.** Agents asked to judge their own work
-  praise mediocre output; a separate, skeptical, tunable evaluator agent was more
-  tractable than making the generator self-critical. Weighted, explicitly worded
-  criteria make subjective quality (e.g. design) gradable, and the wording
-  steers output style. Early evaluators still approved flawed work and needed
-  several rounds of prompt tuning. (see
-  [[anthropic-eng-harness-design-long-running-apps]]) Dynamic workflows name the
-  same failure "self-preferential bias" and counter it with an adversarial
-  verifier agent plus rubric. (see [[anthropic-harness-for-every-task]]) Rubric
-  outcomes in Claude Managed Agents are graded by a separate grader agent. (see
-  [[anthropic-verification-loops-with-skills]]) The "Doer-Verifier" harness
-  gives one agent the task and a second agent the check. (see
-  [[anthropic-building-effective-human-agent-teams]])
-- **A judge can be scaffolding.** Spotify reports that an LLM judge raised PR
-  success from about 20–30% to 80% early on (the speaker's recollection), and
-  that it later removed the judge once models and the harness improved. (see
-  [[claude-customer-spotify-boris-office-hours]])
 
-## Verification as the bottleneck
+## Verification of a single run
 
-- **The claim.** Datadog reports that verification, not generation, is the
-  bottleneck, and invests in closing the gap between generated and proven
-  code. (see [[anthropic-datadog-universal-machine-tool]]) Anthropic's
-  modernization guide says that in regulated settings verification usually
-  costs more than writing. (see [[anthropic-ai-code-modernization]]) Spotify
-  reports that Boris Cherny calls under-investing in the verification loop a
-  common mistake. (see [[claude-customer-spotify-boris-office-hours]])
-- **Certificates.** The modernization guide defines a certificate as
-  machine-checkable evidence for each change: original and new tests, a
-  coverage threshold, benchmarks, adversarial reviews in fresh context
-  windows, UI checks, differential output checks, round-trips of state and
-  wire formats, a staging soak, scans, and a clean build. Put expensive checks
-  behind cheaper gates. (see [[anthropic-ai-code-modernization]])
-- **Validation ladders.** For security patches: write a failing test first,
-  then check in order that the build passes, the original proof of concept
-  stops working, nothing regresses, and a fresh agent fails to re-attack the
-  patch. (see [[anthropic-llms-secure-source-code]]) Comcast reports a ladder
-  for findings: a finding becomes a vulnerability only after validation, and
-  a vulnerability is exploitable only if it can be exploited in the target
-  environment. (see [[anthropic-comcast-booz-allen-exploit-chains]])
-- **Independent, adversarial verifiers.** Discovery agents that also verified
-  their own findings self-censored true positives. The secure-code guide runs
-  the verifier in a fresh container with no shared filesystem or history, and
-  prompts it to assume the finding is a false positive. Partners report that
-  this roughly halved non-exploitable findings. (see
-  [[anthropic-llms-secure-source-code]]) Anthropic reports that the share of
-  PRs with substantive review comments rose from 16% to 54% after review
-  agents had to write a proof that each finding is valid. (see
-  [[anthropic-securing-ai-native-sdlc]])
-- **The early-victory problem.** Verifiers declare success after one or two
-  tests. The fix is concrete criteria, edge cases, negative tests, and an
-  explicit instruction to run the complete suite. Give the verifier the
-  artifact, the success criteria, and tools, not the build history. (see
-  [[anthropic-building-multi-agent-systems]]) A vague verifier in a
-  generator-verifier loop rubber-stamps; cap iterations and define a fallback.
-  (see [[anthropic-multi-agent-coordination-patterns]])
-- **Protect the check from the agent.** A hook blocks test-file edits during
-  bug fixes, so the agent cannot weaken its own check. (see
-  [[anthropic-ai-native-sdlc-playbook]])
-- **Give the agent targeted checks and signals.** Agents need a specific set
-  of valid tests more than humans do, because humans can judge which failures
-  apply to them. Instrument services as Claude's "eyes and ears" (for example,
-  CI jobs in = jobs out) so it can hill-climb fixes. (see
-  [[anthropic-agentic-coding-ci-test-impact]])
-- **Package repeated checks.** Turn the corrections you repeat on every
-  feature into verification skills, run standalone, embedded, chained, or on
-  every PR. (see [[anthropic-verification-loops-with-skills]])
+Checks that gate one run's output, as opposed to measuring an agent across a
+task set, live on [[agent-verification]]. That page covers verification as the
+bottleneck, giving the agent a command that proves done, certificates and
+validation ladders, and separate or adversarial verifiers (including
+self-critique vs a separate evaluator, and the early-victory problem).
 
 ## Model-swap gates
 
@@ -510,7 +435,8 @@ because the eval rewards OCR). Mitigations:
 
 - [[agent-design-principles]], [[tool-design]], [[agent-harness]],
   [[workflow-patterns]], [[agent-core-components]], [[agent-skills]],
-  [[guardrails]], [[prompt-injection]], [[multi-agent-economics]]
+  [[guardrails]], [[prompt-injection]], [[multi-agent-economics]],
+  [[agent-verification]]
 
 ## Key entities
 
@@ -521,16 +447,11 @@ because the eval rewards OCR). Mitigations:
 
 - [[anthropic-eng-demystifying-evals]]
 - [[anthropic-eng-writing-tools-for-agents]]
-- [[anthropic-eng-effective-harnesses-long-running-agents]]
 - [[cursor-agent-swarm-model-economics]]
 - [[anthropic-automating-eval-design-hillclimbing]]
 - [[anthropic-eng-infrastructure-noise-evals]]
 - [[anthropic-eng-claude-code-auto-mode]]
-- [[anthropic-eng-harness-design-long-running-apps]]
-- [[anthropic-harness-for-every-task]]
-- [[anthropic-claude-code-in-the-cloud]]
 - [[openai-testing-agent-skills-with-evals]]
-- [[openai-skills-for-oss-maintenance]]
 - [[openai-one-year-of-responses]]
 - [[anthropic-eng-eval-awareness-browsecomp]]
 - [[anthropic-eng-ai-resistant-evaluations]]
@@ -548,16 +469,8 @@ because the eval rewards OCR). Mitigations:
   [[openai-practical-guide-building-with-gpt-6]], [[anthropic-advisor-strategy]],
   [[anthropic-spending-your-effort]], [[claude-customer-spotify-boris-office-hours]],
   [[anthropic-building-agents-claude-agent-sdk]]
-- Verification: [[anthropic-datadog-universal-machine-tool]],
-  [[anthropic-ai-code-modernization]], [[anthropic-llms-secure-source-code]],
-  [[anthropic-comcast-booz-allen-exploit-chains]],
-  [[anthropic-securing-ai-native-sdlc]], [[anthropic-building-multi-agent-systems]],
-  [[anthropic-multi-agent-coordination-patterns]],
-  [[anthropic-agentic-coding-ci-test-impact]],
-  [[anthropic-verification-loops-with-skills]],
-  [[anthropic-building-effective-human-agent-teams]],
-  [[openai-codex-maxxing-long-running-work]],
-  [[openai-run-long-horizon-tasks-codex]]
+- Human review and autonomy: [[anthropic-securing-ai-native-sdlc]],
+  [[anthropic-building-effective-human-agent-teams]]
 - Skill, plan, and configuration evals: [[anthropic-complete-guide-building-skills]],
   [[anthropic-improving-skill-creator]], [[anthropic-coderabbit-agent-orchestration]],
   [[anthropic-ai-native-sdlc-playbook]], [[anthropic-self-service-data-analytics]],

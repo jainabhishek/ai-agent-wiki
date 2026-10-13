@@ -2,7 +2,7 @@
 title: "Anthropic: How Balyasny Asset Management evaluates and governs Claude Fable 5"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Anthropic (claude.com articles); interviewee Charlie Flanagan (Balyasny)
 date: 2026-09-17
 source_url: https://claude.com/resources/articles/working-at-the-frontier-how-balyasny-asset-management-evaluates-and-governs-claude-fable-5
@@ -40,7 +40,7 @@ of agents.
 - **Controls around the model, not the model as the control.** Approved data
   boundaries, least privilege, tool-level permissions, logging, human review of
   material outputs, escalation paths. A stronger model gets no wider authority
-  and cannot grant itself access. See [[guardrails]].
+  and cannot grant itself access. See [[guardrails]], [[agent-identity-and-access]].
 - **Strongest model where errors propagate.** Fable runs planning and analysis
   stages, because mistakes there flow into every downstream deliverable. See
   [[multi-agent-economics]].

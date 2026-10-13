@@ -2,7 +2,7 @@
 title: "Anthropic: The AI-Native SDLC Playbook"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Louis Claxton (Anthropic Applied AI)
 date: 2026-08-21
 source_url: https://claude.com/resources/articles/the-ai-native-sdlc-playbook
@@ -50,10 +50,10 @@ CI, managed settings, Claude Security, and Claude Tag.
   a page. See [[agent-instructions]].
 - **Parallel sessions vs subagents**: worktree-isolated sessions raise tasks in
   flight; subagents (e.g. a report-only verifier) keep each session focused.
-  Ceiling = what one person can review. See [[agent-orchestration]].
+  Ceiling = what one person can review. See [[agent-orchestration]], [[human-agent-teams]].
 - **Feedback loop**: one-command checks with quantified targets; failing test
   first for bug fixes; a hook blocks test-file edits during fixes so the agent
-  cannot weaken its own check. See [[agent-evals]].
+  cannot weaken its own check. See [[agent-verification]].
 - **Evals as configuration CI**: 20–50 real tasks; run on schedule and on any
   change to `CLAUDE.md`, skills, or hooks; gate config changes on pass rate; each
   incident becomes an eval.

@@ -2,7 +2,7 @@
 title: "Anthropic: Maximizing the Value of Your Claude Code Sessions"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Lydia Hallie (Anthropic)
 date: 2026-08-14
 source_url: https://claude.com/resources/articles/maximizing-the-value-of-your-claude-code-sessions
@@ -69,7 +69,7 @@ reason over.
 ## Concepts
 
 [[context-engineering]], [[agent-orchestration]], [[agent-skills]],
-[[model-context-protocol]]
+[[model-context-protocol]], [[tool-placement]]
 
 ## Notable claims & data
 

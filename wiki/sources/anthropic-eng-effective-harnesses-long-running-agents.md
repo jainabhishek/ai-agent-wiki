@@ -2,7 +2,7 @@
 title: "Anthropic (Eng): Effective Harnesses for Long-Running Agents"
 type: source
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-10-13
 author: Anthropic Engineering
 date: 2025
 source_url: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
@@ -41,7 +41,7 @@ the failure modes that emerge without structure. (see [[agent-harness]],
 ## Concepts
 
 [[agent-harness]], [[context-engineering]], [[agent-orchestration]],
-[[agent-evals]], [[agent-design-principles]]
+[[agent-evals]], [[agent-verification]], [[agent-design-principles]]
 
 ## Entities
 
@@ -50,7 +50,7 @@ the failure modes that emerge without structure. (see [[agent-harness]],
 ## Notable claims & data
 
 - Verification is a prompting problem as much as a capability one: explicit
-  "test as a human would" instruction was the unlock. Feeds [[agent-evals]].
+  "test as a human would" instruction was the unlock. Feeds [[agent-verification]].
 - Open question: does a single generalist agent beat specialized
   testing/QA/cleanup agents? Ties to [[agent-orchestration]] multi-agent tradeoffs.
 

@@ -2,15 +2,16 @@
 title: Agent Orchestration
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [orchestration, multi-agent, single-agent, patterns]
 ---
 
 # Agent Orchestration
 
 > How to structure execution once you've chosen an agent: the run loop, when to
-> stay single-agent, OpenAI's two and Anthropic's five multi-agent patterns, model
-> routing, and the human review limit on parallel work. Both vendors agree:
+> stay single-agent, OpenAI's two and Anthropic's five multi-agent patterns, and
+> model routing. How people work with agents is on [[human-agent-teams]]. Both
+> vendors agree:
 > **maximize a single agent first.** (see [[openai-practical-guide-to-building-agents]],
 > [[agent-design-principles]])
 
@@ -95,11 +96,10 @@ read-only subagent map a subsystem to a file before the main agent edits. (see
 exploration files and a plan to a fresh session, and the verification agent reads
 the same files. (see [[anthropic-unreasonable-effectiveness-of-html]]) The Sora
 Android team at OpenAI saved plans to files so that other Codex instances could
-reuse them. (see [[openai-sora-android-with-codex]]) Two case studies report the
-same shape. Shortcut plans with the user, then hands the approved plan to a fresh
-agent so that its context stays clean (see [[claude-customer-shortcut]]).
-CodeRabbit runs a planning layer that writes a requirements document before
-Claude Code starts (see [[anthropic-coderabbit-agent-orchestration]]).
+reuse them. (see [[openai-sora-android-with-codex]]) A case study reports the
+same shape: CodeRabbit runs a planning layer that writes a requirements document
+before Claude Code starts (see [[anthropic-coderabbit-agent-orchestration]]).
+Planning with the user before the hand-off is on [[human-agent-teams]].
 
 How readily a given model delegates is a per-model behavior, tuned in the prompt;
 see axis 5 of [[prompt-tuning-axes]]. For example, OpenAI supplies a prompt for a
@@ -337,42 +337,12 @@ problem reports. (see [[anthropic-claude-code-in-the-cloud]])
   0.24%). Anthropic attributes this to more tokens and more parallel
   searchers, not to a change in the model's tendency. (see [[anthropic-eng-eval-awareness-browsecomp]])
 
-## Parallel sessions and the human review limit
+## Parallel sessions and human-agent teams
 
-Parallel sessions are not subagents. Worktree-isolated sessions raise the number
-of tasks in flight; subagents keep each session focused. The ceiling on parallel
-sessions is what one person can review. (see [[anthropic-ai-native-sdlc-playbook]])
-OpenAI reports the same limit independently. On Sora for Android, parallel Codex
-sessions moved the bottleneck from writing code to human decisions, review, and
-integration, and each added session added coordination overhead: Brooks' law
-applied to agent sessions (see [[openai-sora-android-with-codex]], a late-2025
-model). The Symphony team found that an engineer could run three to five
-interactive sessions before context switching cut productivity. (see
-[[openai-symphony-codex-orchestration]])
-
-**The ticket as the unit of delegated work.** Symphony replaces session
-supervision with ticket-level delegation. A service polls the issue tracker,
-creates a workspace per active issue, and runs an agent there until the issue
-leaves an active state. Humans review at handoff states. One issue can yield
-several PRs or none. Agents decompose large work into a task graph with
-blockers, and only unblocked tasks dispatch. The scheduler is deterministic
-ordinary code: claim states, reconciliation before each dispatch, exponential
-backoff, and stall detection. Treating the agents themselves as rigid nodes in a
-state machine failed; the agents get objectives plus tools instead. The
-scheduler only reads the tracker; ticket changes are agent tool calls. OpenAI
-self-reports a 500% increase in landed PRs for some teams. Ambiguous or
-judgment-heavy work stays in interactive sessions. (see
-[[openai-symphony-codex-orchestration]], [[agents-vs-workflows]]) Block reports
-engineers working with about 45 concurrent agents, a number that
-single-conversation tools do not scale to. (see [[anthropic-block-orchestrates-fable]])
-
-**Human-agent teams as a loop.** Slack describes a handoff loop: agents draft,
-summarize, monitor, and prepare; a human reviews, decides, and redirects. A shared
-channel is the work queue, and humans set priority. (see
-[[anthropic-slack-human-agent-teams]]) Anthropic's team guidance puts every human
-and agent in one roster, each with a written role, scope, and tools. Without
-roles, people run side fleets of personal agents that duplicate work. (see
-[[anthropic-building-effective-human-agent-teams]])
+The number of parallel agent sessions is limited by how much work one person can
+review, not by how many agents can run. Some teams delegate whole tickets to
+agents instead of supervising sessions, and some teams give every human and
+agent a written role in one roster. These topics are on [[human-agent-teams]].
 
 ## Declarative vs. code-first
 
@@ -386,7 +356,8 @@ abstraction in [[agent-design-principles]].
 - [[workflow-patterns]], [[agent-core-components]], [[tool-design]],
   [[agent-design-principles]], [[guardrails]], [[agent-harness]],
   [[context-engineering]], [[prompt-tuning-axes]], [[multi-agent-economics]],
-  [[agent-skills]], [[agent-memory]], [[agents-vs-workflows]]
+  [[agent-skills]], [[agent-memory]], [[agents-vs-workflows]],
+  [[human-agent-teams]]
 
 ## Key entities
 
@@ -439,16 +410,15 @@ abstraction in [[agent-design-principles]].
 - [[anthropic-cybersecurity-triage-agents]]
 - [[anthropic-improving-skill-creator]]
 - [[anthropic-getting-started-with-loops]]
-- [[anthropic-slack-human-agent-teams]]
-- [[anthropic-building-effective-human-agent-teams]]
 - [[claude-customer-shortcut]]
 - [[claude-customer-caylent]]
 - [[claude-customer-genspark]]
 - [[claude-customer-greptile]]
 - [[claude-customer-rocket-money]]
-- [[openai-symphony-codex-orchestration]]
 - [[openai-sora-android-with-codex]]
 - [[openai-how-openai-uses-codex]]
+- [[anthropic-prompting-claude-fable-5]]
+- [[anthropic-prompting-claude-sonnet-5-5]]
 
 ## Contradictions / open questions
 

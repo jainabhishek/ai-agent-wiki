@@ -2,7 +2,7 @@
 title: "Anthropic: Claude on call — Claude Tag as first responder for CI/CD failures"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Sachin Malhotra (Anthropic), with Michael Segner
 date: 2026-08-18
 source_url: https://claude.com/resources/articles/ai-ci-cd-on-call
@@ -38,7 +38,7 @@ Self-reported: first SITREP in every recent incident that had one, typically wit
 
 ## Concepts
 
-[[agent-orchestration]], [[agent-skills]], [[context-engineering]], [[agent-steering]], [[model-context-protocol]], [[guardrails]], [[workflow-patterns]]
+[[agent-orchestration]], [[agent-skills]], [[context-engineering]], [[agent-steering]], [[model-context-protocol]], [[guardrails]], [[workflow-patterns]], [[human-agent-teams]].
 
 ## Connections
 

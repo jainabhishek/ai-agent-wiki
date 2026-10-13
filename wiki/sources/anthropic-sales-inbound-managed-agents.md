@@ -2,7 +2,7 @@
 title: "Anthropic: How Anthropic's sales team rebuilt inbound with Claude Managed Agents"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Carl Johnson (Anthropic, claude.com articles)
 date: 2026-09-30
 source_url: https://claude.com/resources/articles/how-anthropics-sales-team-rebuilt-inbound-with-claude-managed-agents
@@ -48,6 +48,10 @@ orchestration. The model version is not named.
   and close about 5 days faster.
 - One engineer built the first version in a few weeks.
 - One rep: about 10 → 6 emails per deal; closed-won output 2.5x.
+
+## Concepts
+
+[[human-agent-teams]]
 
 ## Connections
 

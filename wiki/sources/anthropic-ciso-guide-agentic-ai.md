@@ -2,7 +2,7 @@
 title: "Anthropic: Zero risk isn't the job — a CISO's guide to agentic AI"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Jason Clinton (Deputy CISO, Anthropic)
 date: 2026-07-17
 source_url: https://claude.com/resources/articles/ciso-guide-to-agentic-ai
@@ -45,4 +45,4 @@ Jason Clinton (Deputy CISO, Anthropic) published this on claude.com on 2026-07-1
 
 ## Connections
 
-Companion pieces by the same author and team: [[anthropic-securing-ai-native-sdlc]] (applies these controls to the SDLC) and [[anthropic-zero-trust-for-ai-agents]] (the white paper behind least agency). Related: [[anthropic-agent-identity-access-model]], [[anthropic-eng-how-we-contain-claude]], [[anthropic-prompt-injection-defenses-browser]], OpenAI's "Agent security in the enterprise" white paper (Sep 2026; not ingested because it is behind a lead form).
+Companion pieces by the same author and team: [[anthropic-securing-ai-native-sdlc]] (applies these controls to the SDLC) and [[anthropic-zero-trust-for-ai-agents]] (the white paper behind least agency). Related: [[anthropic-agent-identity-access-model]], [[anthropic-eng-how-we-contain-claude]], [[anthropic-prompt-injection-defenses-browser]], [[openai-agent-security-enterprise]].
