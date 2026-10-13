@@ -9,7 +9,8 @@ tags: [orchestration, multi-agent, single-agent, patterns]
 # Agent Orchestration
 
 > How to structure execution once you've chosen an agent: the run loop, when to
-> stay single-agent, and the two multi-agent patterns. Both guides agree:
+> stay single-agent, OpenAI's two and Anthropic's five multi-agent patterns, model
+> routing, and the human review limit on parallel work. Both vendors agree:
 > **maximize a single agent first.** (see [[openai-practical-guide-to-building-agents]],
 > [[agent-design-principles]])
 
@@ -57,6 +58,27 @@ prefix again; a subagent on the other model with a hand-off message avoids that.
 Claude Code's Explore agents run on a smaller model this way. (see
 [[anthropic-prompt-caching-is-everything]])
 
+**When subagents hurt.** Anthropic lists five cases where a subagent costs more
+than it saves: sequential work where each step depends on the last, edits to the
+same file, small tasks, a sprawling roster of specialists (automatic routing gets
+less reliable; a handful is typical), and agents that must talk to each other,
+because a subagent reports only to the main thread. (see
+[[anthropic-subagents-in-claude-code]]) A subagent pays off for a job with much
+disposable output; for a small job it is overhead. (see
+[[anthropic-claude-code-session-cost]], [[anthropic-claude-code-session-management]])
+Multi-agent systems typically use 3–10x the tokens of a single agent for the same
+task. In a role split (planner, implementer, tester, reviewer), the subagents
+spent more tokens on coordination than on work. Before splitting for tool
+overload, try on-demand tool discovery; before splitting for context limits, try
+compaction. (see [[anthropic-building-multi-agent-systems]]) The commerce-agents
+authors report that one agent with skills beat a subagent-per-domain design on
+quality, often at lower cost per task, because each handoff loses state and adds
+tokens and latency. In their design a subagent fits only as a tool for
+self-contained work, such as deep research that returns a compact answer. A hand-off
+fits a domain that already has its own agent; the test is who owns the
+conversation. (see
+[[anthropic-anatomy-of-commerce-agents]], [[agent-skills]])
+
 **Why split planning from execution.** One context that both plans and executes
 shows three failure modes: *agentic laziness* (stopping partway through a long item
 list), *self-preferential bias* (grading its own work), and *goal drift* (losing
@@ -65,6 +87,19 @@ Claude Code's dynamic workflows the model writes a per-task orchestration script
 with `agent`, `parallel`, and `pipeline` primitives; this costs more tokens, so it
 suits complex, high-value tasks. (see [[anthropic-harness-for-every-task]],
 [[workflow-patterns]], [[multi-agent-economics]])
+
+**Plan in one context, execute in a fresh one.** Sources from both vendors hand a
+plan artifact to a fresh executor. Claude Code's large-codebase guidance has a
+read-only subagent map a subsystem to a file before the main agent edits. (see
+[[anthropic-claude-code-large-codebases]]) An Anthropic author hands a web of
+exploration files and a plan to a fresh session, and the verification agent reads
+the same files. (see [[anthropic-unreasonable-effectiveness-of-html]]) The Sora
+Android team at OpenAI saved plans to files so that other Codex instances could
+reuse them. (see [[openai-sora-android-with-codex]]) Two case studies report the
+same shape. Shortcut plans with the user, then hands the approved plan to a fresh
+agent so that its context stays clean (see [[claude-customer-shortcut]]).
+CodeRabbit runs a planning layer that writes a requirements document before
+Claude Code starts (see [[anthropic-coderabbit-agent-orchestration]]).
 
 How readily a given model delegates is a per-model behavior, tuned in the prompt;
 see axis 5 of [[prompt-tuning-axes]]. For example, OpenAI supplies a prompt for a
@@ -85,6 +120,72 @@ Both can be modeled as graphs (agents = nodes; edges = tool calls or handoffs).
 The guiding principle across patterns: keep components **flexible, composable,
 and driven by clear prompts.**
 
+## Multi-agent coordination patterns (Anthropic)
+
+[[anthropic-multi-agent-coordination-patterns]] (2026-04-10) names five patterns.
+Start with orchestrator-subagent, which covers the most cases at the least
+overhead. Move to another pattern only when a specific need appears. Production
+systems often combine patterns.
+
+| Pattern | Mechanism | Fits | Failure modes |
+|---|---|---|---|
+| **Generator-verifier** | a generator drafts; a verifier accepts or rejects against explicit criteria and returns feedback; loop to acceptance or a cap | — (the source gives no fit for this pattern) | a vague verifier rubber-stamps; loops oscillate. Mitigate with an iteration cap plus a fallback (see [[workflow-patterns]]) |
+| **Orchestrator-subagent** | a lead plans, delegates bounded subtasks, and synthesizes | clear decomposition, low interdependence | the orchestrator is an information bottleneck; sequential dispatch adds tokens without speed |
+| **Agent teams** | a coordinator spawns persistent workers that claim tasks from a shared queue and keep context across assignments | independent long-running work, such as a per-service migration | no sharing of intermediate findings; hard completion detection when durations vary; conflicting edits on shared resources |
+| **Message bus** | agents publish and subscribe; a router delivers by topic; new agents join without rewiring | event-driven pipelines, such as security alert triage | hard tracing; silent drops or misroutes; an LLM router adds its own errors |
+| **Shared state** | no coordinator; agents read and write a persistent store | findings that must flow between agents | duplicate or contradictory work; reactive loops. Locking, versioning, and partitioning fix write conflicts; loops need explicit termination (time budget, N cycles with no new findings, or a judge agent) |
+
+Pairwise choice rules from the same source:
+- Short, focused subtasks → orchestrator-subagent. Sustained context per worker →
+  agent teams.
+- A fixed sequence → orchestrator. Emergent, event-driven flow, where the
+  orchestrator's conditionals multiply → message bus.
+- Partitioned work → agent teams. Findings that flow between agents → shared
+  state.
+- A pipeline of stages → message bus. Accumulating knowledge → shared state.
+
+How the five map to other pages: orchestrator-subagent is OpenAI's manager pattern
+and the orchestrator-workers workflow; generator-verifier is evaluator-optimizer
+([[workflow-patterns]]); agent teams are the peer option for agents that must
+talk, which subagents cannot do ([[anthropic-subagents-in-claude-code]]). The
+16-agent compiler below is shared state in practice. The OpenAI guide names only
+the manager and handoff patterns; the message bus and shared state have no
+counterpart in this wiki's OpenAI sources.
+
+## Tiered model routing
+
+A multi-agent design lets each role run on a different model class. The sources
+show three shapes. Benchmark figures are model-scoped and stay on the source
+pages; cost trade-offs are on [[multi-agent-economics]].
+- **Frontier planner, cheaper workers.** Block reports that a frontier model
+  designs data models and specs and directs up to dozens of cheaper workers that
+  edit files and run tests; frontier tokens concentrate in upfront planning. (see
+  [[anthropic-block-orchestrates-fable]]) CodeRabbit reports that its largest
+  model runs the orchestration loop, a mid-size model sequences planning steps,
+  and the smallest does narrow work such as context distillation; eval results on
+  cost and latency set the routing. (see [[anthropic-coderabbit-agent-orchestration]])
+  Caylent reports a small model for high-volume parsing and a mid-size model for
+  synthesis, and gives each stage agent only the tools that its stage needs. (see
+  [[claude-customer-caylent]], [[tool-design]])
+- **Cheap classifier, specialist subagents.** Rocket Money reports a cheap
+  classifier that routes each request to a single-responsibility subagent, plus
+  one formatter subagent that writes every reply, so that each failure traces to
+  one classifier or call. (see [[claude-customer-rocket-money]], routing in
+  [[workflow-patterns]])
+- **Advisor (the inverse of orchestrator-worker).** A cheap executor model runs
+  the whole loop and consults a frontier advisor model only at a decision that it
+  cannot resolve. The advisor reads the shared context and returns a plan, a
+  correction, or a stop signal. It never calls tools and never writes
+  user-facing output. There is no decomposition, worker pool, or orchestration
+  code. Evaluate three configurations: the executor alone, the executor plus the
+  advisor, and the advisor model alone. (see [[anthropic-advisor-strategy]],
+  [[anthropic-choosing-claude-model]])
+
+A routing rule for any of these shapes: give a small model only work where a
+misread is cheap to spot, such as lookups and log reading, not code edits. The
+main model pays for every detour that a misread causes. (see
+[[anthropic-what-a-task-costs-opus-5-5]])
+
 ## Trust and checks at the subagent boundary
 
 - **Subagent output is an injection path.** An orchestrator that trusts subagent
@@ -100,6 +201,37 @@ and driven by clear prompts.**
   before accepting it. (see [[anthropic-getting-most-out-of-opus-5-5]]) The
   architecture form is adversarial verification: a separate agent checks the work
   against a rubric. (see [[anthropic-harness-for-every-task]])
+- **Isolate the verifier.** Give a verification subagent the artifact, the
+  success criteria, and tools, not the build history. Feed its issues back to the
+  implementer in a retry loop with a cap. (see
+  [[anthropic-building-multi-agent-systems]]) In security scanning, discovery
+  agents that also verified their own findings self-censored true positives. The
+  verifier runs in a fresh container with no shared filesystem or conversation
+  history, sees only the finding and the codebase, and is prompted to assume that
+  the finding is a false positive. Partners report that this roughly halved
+  non-exploitable findings. (see [[anthropic-llms-secure-source-code]])
+- **The early victory problem.** A verifier tends to declare success after one or
+  two tests. Counter it with concrete criteria, edge cases, negative tests, and an
+  explicit instruction to run the complete suite. (see
+  [[anthropic-building-multi-agent-systems]])
+- **Many narrow reviewers, and no self-approval.** Anthropic's CI runs several
+  reviewer agents on every PR, each scoped to one concern, instead of one
+  mega-prompt. The stated reasons: they do not share blind spots, one can catch
+  another's compromise or mistake, and effort is not spread thin. Each finding
+  needs a written proof. (see [[anthropic-securing-ai-native-sdlc]]) The authoring
+  agent cannot approve its own PR (separation of duties). (see
+  [[anthropic-ai-native-sdlc-playbook]])
+- **Identity at agent-to-agent boundaries.** When work is split across agents,
+  each agent needs its own ID and its own credentials; shared credentials defeat
+  the split. Before an agent accepts a delegated task, it verifies the delegating
+  agent's identity and authorization. Each step is authorized again, and every
+  inter-agent message is logged. (see [[anthropic-zero-trust-for-ai-agents]])
+  Anthropic's Deputy CISO reports that a model swap alone, in an incident-response
+  agent, produced new agent-to-agent behavior: the agent asked a code-writing
+  Claude instance over Slack for a fix, which still went through human PR review.
+  The lesson drawn: draw boundaries around access and actions, including access to
+  other agents, not around what the current model is believed to do. (see
+  [[anthropic-ciso-guide-agentic-ai]], [[guardrails]])
 - **Quarantine untrusted input.** Read-only reader agents summarize untrusted
   content into structured output; a separate privileged actor acts only on the
   summaries. (see [[anthropic-harness-for-every-task]])
@@ -127,7 +259,8 @@ Both are model-scoped; the source pages hold the details.
 [[anthropic-eng-multi-agent-research-system]] quantifies the tradeoff:
 - A lead-agent + parallel-subagent system **beat single-agent Opus 4 by 90.2%**
   on breadth-first research; parallelism (3–5 subagents, 3+ parallel tool calls
-  each) cut research time up to 90%.
+  each) cut research time up to 90%. The baseline is the same subagents spawned
+  serially, not a single agent (see Contradictions / open questions).
 - But **token usage alone explains ~80% of performance variance** — the gain
   comes from spreading work across separate context windows
   ([[context-engineering]]), not orchestration complexity itself.
@@ -137,9 +270,40 @@ Both are model-scoped; the source pages hold the details.
 - Prompt the orchestrator with **effort-scaling rules** (agent count by query
   complexity) and **explicit delegation** (objective, output format, boundaries).
 
-## Coding swarms and coordination
+## Decomposition and coordination
 
-Cursor's SQLite experiment shows that shared-context coding is not categorically
+**Decompose by context, not by role.** [[anthropic-building-multi-agent-systems]]
+makes context-centric decomposition its main design rule. A problem-centric split
+divides work by type (feature writer, test writer, reviewer). It loses context at
+each handoff, and the agents play a "telephone game". A context-centric split
+follows context boundaries. Good boundaries: independent research paths,
+components with a clean API contract, and blackbox verification. Bad boundaries:
+sequential phases of one piece of work, tightly coupled components, and shared
+state. The same guide accepts only three reasons to go multi-agent: context
+protection, parallelizable work, and specialization.
+
+**Partition, then fan out.** A first pass partitions the search space, parallel
+agents search each partition, and a final system-level pass uses their findings.
+Adding agents without partitions gave mostly duplicates. (see
+[[anthropic-llms-secure-source-code]]) The cloud-sessions advice below, to split
+along file boundaries, is the same principle. Fan-out units in the sources:
+- One executor subagent per source of truth (Grafana, logs, PagerDuty, GitHub,
+  Kubernetes, Slack), merged by the orchestrator into one situation report. (see
+  [[anthropic-ai-ci-cd-on-call]])
+- Parallel query sub-agents in security alert triage, with a synthesized
+  summary. (see [[anthropic-cybersecurity-triage-agents]])
+- One subagent per spreadsheet sheet, reported by Shortcut. (see
+  [[claude-customer-shortcut]])
+- Several frontier models planning in parallel, with Claude reconciling the
+  plans, reported by Genspark. (see [[claude-customer-genspark]])
+- A memory sub-agent that retrieves team standards and learned codebase quirks,
+  reported by Greptile. (see [[claude-customer-greptile]], [[agent-memory]])
+- One clean-context agent per eval run, so that runs do not contaminate each
+  other. (see [[anthropic-improving-skill-creator]])
+- Best-of-N: several candidates in parallel, then pick one or combine parts.
+  (see [[openai-how-openai-uses-codex]])
+
+**Coding swarms.** Cursor's SQLite experiment shows that shared-context coding is not categorically
 incompatible with multi-agent work, but the harness must carry coordination that
 ordinary Git workflows leave to humans. Its new swarm assigned shared design
 decisions to planners, delegated disjoint leaves, reconciled decision documents,
@@ -165,11 +329,50 @@ problem reports. (see [[anthropic-claude-code-in-the-cloud]])
   repository. (see [[anthropic-eng-building-c-compiler]])
 - **Writer and reviewer in separate contexts.** One instance writes and a
   second, fresh instance reviews; this often beats one instance doing both.
-  (see [[anthropic-eng-claude-code-best-practices]])
+  (see [[anthropic-eng-claude-code-best-practices]],
+  [[anthropic-subagents-in-claude-code]], [[anthropic-getting-started-with-loops]])
+  Verifier isolation is covered under the subagent boundary above.
 - **More searchers, more shortcuts.** On BrowseComp, multi-agent runs found
   unintended solutions 3.7 times as often as single-agent runs (0.87% vs.
   0.24%). Anthropic attributes this to more tokens and more parallel
   searchers, not to a change in the model's tendency. (see [[anthropic-eng-eval-awareness-browsecomp]])
+
+## Parallel sessions and the human review limit
+
+Parallel sessions are not subagents. Worktree-isolated sessions raise the number
+of tasks in flight; subagents keep each session focused. The ceiling on parallel
+sessions is what one person can review. (see [[anthropic-ai-native-sdlc-playbook]])
+OpenAI reports the same limit independently. On Sora for Android, parallel Codex
+sessions moved the bottleneck from writing code to human decisions, review, and
+integration, and each added session added coordination overhead: Brooks' law
+applied to agent sessions (see [[openai-sora-android-with-codex]], a late-2025
+model). The Symphony team found that an engineer could run three to five
+interactive sessions before context switching cut productivity. (see
+[[openai-symphony-codex-orchestration]])
+
+**The ticket as the unit of delegated work.** Symphony replaces session
+supervision with ticket-level delegation. A service polls the issue tracker,
+creates a workspace per active issue, and runs an agent there until the issue
+leaves an active state. Humans review at handoff states. One issue can yield
+several PRs or none. Agents decompose large work into a task graph with
+blockers, and only unblocked tasks dispatch. The scheduler is deterministic
+ordinary code: claim states, reconciliation before each dispatch, exponential
+backoff, and stall detection. Treating the agents themselves as rigid nodes in a
+state machine failed; the agents get objectives plus tools instead. The
+scheduler only reads the tracker; ticket changes are agent tool calls. OpenAI
+self-reports a 500% increase in landed PRs for some teams. Ambiguous or
+judgment-heavy work stays in interactive sessions. (see
+[[openai-symphony-codex-orchestration]], [[agents-vs-workflows]]) Block reports
+engineers working with about 45 concurrent agents, a number that
+single-conversation tools do not scale to. (see [[anthropic-block-orchestrates-fable]])
+
+**Human-agent teams as a loop.** Slack describes a handoff loop: agents draft,
+summarize, monitor, and prepare; a human reviews, decides, and redirects. A shared
+channel is the work queue, and humans set priority. (see
+[[anthropic-slack-human-agent-teams]]) Anthropic's team guidance puts every human
+and agent in one roster, each with a written role, scope, and tools. Without
+roles, people run side fleets of personal agents that duplicate work. (see
+[[anthropic-building-effective-human-agent-teams]])
 
 ## Declarative vs. code-first
 
@@ -182,7 +385,8 @@ abstraction in [[agent-design-principles]].
 
 - [[workflow-patterns]], [[agent-core-components]], [[tool-design]],
   [[agent-design-principles]], [[guardrails]], [[agent-harness]],
-  [[context-engineering]], [[prompt-tuning-axes]], [[multi-agent-economics]]
+  [[context-engineering]], [[prompt-tuning-axes]], [[multi-agent-economics]],
+  [[agent-skills]], [[agent-memory]], [[agents-vs-workflows]]
 
 ## Key entities
 
@@ -213,6 +417,38 @@ abstraction in [[agent-design-principles]].
 - [[anthropic-eng-building-c-compiler]]
 - [[anthropic-eng-claude-code-best-practices]]
 - [[anthropic-eng-eval-awareness-browsecomp]]
+- [[anthropic-multi-agent-coordination-patterns]]
+- [[anthropic-building-multi-agent-systems]]
+- [[anthropic-subagents-in-claude-code]]
+- [[anthropic-advisor-strategy]]
+- [[anthropic-choosing-claude-model]]
+- [[anthropic-what-a-task-costs-opus-5-5]]
+- [[anthropic-coderabbit-agent-orchestration]]
+- [[anthropic-block-orchestrates-fable]]
+- [[anthropic-anatomy-of-commerce-agents]]
+- [[anthropic-claude-code-session-cost]]
+- [[anthropic-claude-code-session-management]]
+- [[anthropic-claude-code-large-codebases]]
+- [[anthropic-unreasonable-effectiveness-of-html]]
+- [[anthropic-llms-secure-source-code]]
+- [[anthropic-securing-ai-native-sdlc]]
+- [[anthropic-ai-native-sdlc-playbook]]
+- [[anthropic-zero-trust-for-ai-agents]]
+- [[anthropic-ciso-guide-agentic-ai]]
+- [[anthropic-ai-ci-cd-on-call]]
+- [[anthropic-cybersecurity-triage-agents]]
+- [[anthropic-improving-skill-creator]]
+- [[anthropic-getting-started-with-loops]]
+- [[anthropic-slack-human-agent-teams]]
+- [[anthropic-building-effective-human-agent-teams]]
+- [[claude-customer-shortcut]]
+- [[claude-customer-caylent]]
+- [[claude-customer-genspark]]
+- [[claude-customer-greptile]]
+- [[claude-customer-rocket-money]]
+- [[openai-symphony-codex-orchestration]]
+- [[openai-sora-android-with-codex]]
+- [[openai-how-openai-uses-codex]]
 
 ## Contradictions / open questions
 
@@ -232,7 +468,25 @@ abstraction in [[agent-design-principles]].
   no quality change. The two may not conflict — one is a harness the developer
   designs, the other is the model's unprompted habit — but no source tests when a
   separate verifier still pays for itself on current models. See
-  [[prompt-tuning-axes]].
+  [[prompt-tuning-axes]]. Newer architecture sources weigh on the harness side:
+  the multi-agent guide (2026-01-23) recommends a verification subagent across
+  domains ([[anthropic-building-multi-agent-systems]]); the source-code security
+  guide (2026-05-27) reports that an isolated adversarial verifier roughly halved
+  non-exploitable findings ([[anthropic-llms-secure-source-code]], partner-reported);
+  and Anthropic's CI uses several narrow reviewer agents
+  ([[anthropic-securing-ai-native-sdlc]], 2026-07-21). None of them measures the
+  cost of the verifier against a single agent on a current model.
+- **Does parallelism buy speed?** The research-system post (2025) reports that
+  parallel subagents cut research time up to 90%
+  ([[anthropic-eng-multi-agent-research-system]]). The multi-agent guide
+  (2026-01-23) says that parallelism buys thoroughness, not speed, and that a
+  multi-agent run often takes longer overall than a single agent
+  ([[anthropic-building-multi-agent-systems]]). The baselines differ: the 90%
+  figure compares 3–5 subagents spawned at once with the same subagents spawned
+  serially; the guide compares a multi-agent system with one agent, and it agrees
+  that parallelism cuts time against sequential work. So the two claims are
+  compatible. No source measures wall-clock time for multi-agent against
+  single-agent on the same research task.
 - **Multi-agent gains on BrowseComp carry a contamination caveat.** The 2025
   research-system post reports multi-agent gains on BrowseComp
   ([[anthropic-eng-multi-agent-research-system]]). The Mar 2026 eval-awareness
