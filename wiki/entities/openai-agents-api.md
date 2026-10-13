@@ -49,6 +49,30 @@ and let the developer choose where the sandbox runs. (see
 - AWS Bedrock Managed Agents is built on the Agents API. (see
   [[openai-agents-api-guide]])
 
+### Responses API runtime features (the layer below)
+
+The sources below describe the Responses API, which the Agents API guide names
+as the "build the loop yourself" option. None of them says whether the Agents
+API reuses these mechanisms.
+
+- **Design basis.** Responses keeps encrypted reasoning state across turns
+  (`previous_response_id` or passed-back reasoning items), returns typed output
+  items, and runs hosted tools server-side. (see
+  [[openai-why-we-built-responses-api]])
+- **Hosted computer environment (2026-03-11).** With hosted tools, the
+  Responses API runs the loop itself: shell commands in a container, native
+  compaction, an egress proxy that injects secrets per domain as placeholders,
+  and deterministic skill loading. The source compares this loop–container
+  split to [[anthropic-eng-scaling-managed-agents]]. (see
+  [[openai-responses-api-computer-environment]])
+- **WebSocket mode (2026-04-22).** The client keeps `response.create` and
+  `previous_response_id`; the server caches the previous response, tool
+  definitions, and rendered tokens in memory per connection. OpenAI reports
+  about 40% faster agent loops, and [[openai-codex]] moved most of its traffic
+  to this mode. (see [[openai-websockets-agentic-workflows]])
+- Mid-turn steering over the Responses WebSocket API queues updates; it does
+  not cancel running tools. (see [[openai-practical-guide-building-with-gpt-6]])
+
 ## Relationships
 
 - Built by [[openai]]; runs the [[openai-codex]] harness.
@@ -61,6 +85,10 @@ and let the developer choose where the sandbox runs. (see
 
 - [[openai-agents-api-guide]]
 - [[openai-codex-as-a-platform]]
+- [[openai-why-we-built-responses-api]]
+- [[openai-responses-api-computer-environment]]
+- [[openai-websockets-agentic-workflows]]
+- [[openai-practical-guide-building-with-gpt-6]]
 
 ## Contradictions / open questions
 

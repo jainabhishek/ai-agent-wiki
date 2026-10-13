@@ -73,6 +73,15 @@ collapses ambiguity into bounded work. Evaluate the whole task tree by accepted
 outcomes, not isolated token prices. (see [[multi-agent-economics]],
 [[cursor-agent-swarm-model-economics]])
 
+The unit of cost is the **completed task, not the token**. Anthropic's
+model-selection guide says a smarter model often costs less per task because it
+needs fewer turns and less thinking, and it recommends starting with the most
+capable model and stepping down. Anthropic's commerce-agent guide sweeps models
+and effort levels and measures cost per completed task. JetBrains reports a
+model that is pricier per token but cheaper per task on some complex,
+long-running work. (see [[anthropic-choosing-claude-model]],
+[[anthropic-anatomy-of-commerce-agents]], [[anthropic-jetbrains-evaluates-fable-5]])
+
 **9. Fail loud; record only confirmed effects.** An agent must not turn a failure
 into a quiet success. If a source cannot be read (a server is down, a token has
 expired), the agent reports that source as unreadable, never as "nothing new", and
@@ -81,6 +90,40 @@ only after the destination confirms it; the agent updates its own records after
 that confirmation, and records an unclear result as unclear. Re-check the live
 source right before acting, because the world changes between read and write. (see
 [[anthropic-building-effective-agent-automations]], [[boundary-contracts]])
+
+**10. Earn autonomy per task type.** Grant autonomy in proportion to the
+reliability the agent has shown, and track it separately for each task type.
+Review agent work by hand at first. Retest when the model changes, because old
+guardrails can constrain a stronger model. (see
+[[anthropic-building-effective-human-agent-teams]], [[guardrails]])
+
+**11. Give the agent the controls a human in that role would have.** OpenAI's
+prompt-injection guidance treats the agent like a human customer-service
+worker: limit damage with the same caps, flags, and approvals that the role
+would carry, rather than relying on the model to resist manipulation. (see
+[[openai-designing-agents-resist-prompt-injection]], [[prompt-injection]])
+
+**12. Code is the general interface.** Anthropic argues that code covers
+almost any digital work, so one general agent with bash and a filesystem plus a
+library of skills replaces many specialized agents. The general agent lacks
+domain expertise, and skills supply it as files. (see
+[[anthropic-building-agents-with-skills]], [[agent-skills]])
+
+**13. A loop needs correct stopping and recovery.** An open-ended loop is only
+viable when the agent stops at the right time and reroutes after a tool error.
+Anthropic defines each loop type by its trigger and its stop condition. Genspark
+reports that its ReAct-style loop failed for two years through infinite loops,
+repeated errors, and not knowing when to stop, and that it replaced its fixed
+workflow graph only once a model could stop correctly and try an alternative
+after a tool error. (see [[anthropic-getting-started-with-loops]],
+[[claude-customer-genspark]], [[agent-harness]])
+
+**14. Plan the infrastructure around agents for agent-scale load.** Anthropic
+reports that its CI jobs grew 25x in six months as agents wrote more code, and
+that a stateless redesign succeeded where three patches to a single-writer
+service failed. Its transferable rules: keep state out of the process from the
+start, and plan for 25x load within two quarters. (see
+[[anthropic-agentic-coding-ci-test-impact]])
 
 ## Why it matters
 
@@ -92,7 +135,8 @@ before multi), and [[tool-design]] (clarity over count).
 
 - [[agents-vs-workflows]], [[agent-orchestration]], [[tool-design]],
   [[guardrails]], [[agent-harness]], [[context-engineering]], [[agent-skills]],
-  [[multi-agent-economics]], [[boundary-contracts]], [[agent-evals]]
+  [[multi-agent-economics]], [[boundary-contracts]], [[agent-evals]],
+  [[prompt-injection]]
 
 ## Key entities
 
@@ -107,6 +151,15 @@ before multi), and [[tool-design]] (clarity over count).
 - [[cursor-agent-swarm-model-economics]]
 - [[anthropic-building-effective-agent-automations]]
 - [[anthropic-building-with-sonnet-5-5]]
+- [[anthropic-choosing-claude-model]]
+- [[anthropic-anatomy-of-commerce-agents]]
+- [[anthropic-jetbrains-evaluates-fable-5]]
+- [[anthropic-building-effective-human-agent-teams]]
+- [[openai-designing-agents-resist-prompt-injection]]
+- [[anthropic-building-agents-with-skills]]
+- [[anthropic-getting-started-with-loops]]
+- [[claude-customer-genspark]]
+- [[anthropic-agentic-coding-ci-test-impact]]
 
 ## Contradictions / open questions
 

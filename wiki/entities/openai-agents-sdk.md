@@ -40,6 +40,10 @@ programming constructs rather than pre-defining an entire graph upfront.
   merged 457 PRs from December 2025 to February 2026, up from 316 in the
   previous three months; the post gives no controlled comparison. (see
   [[openai-skills-for-oss-maintenance]])
+- An Agents SDK app can call [[openai-codex]] as a tool through
+  `codex mcp-server`, which any stdio MCP client can connect to. OpenAI notes
+  that this path exposes only what MCP carries, so richer session data such as
+  diff updates may not map. (see [[openai-codex-app-server-harness]])
 
 ## Relationships
 
@@ -51,6 +55,7 @@ programming constructs rather than pre-defining an entire graph upfront.
 - [[openai-practical-guide-to-building-agents]]
 - [[openai-agents-api-guide]]
 - [[openai-skills-for-oss-maintenance]]
+- [[openai-codex-app-server-harness]]
 
 ## Contradictions / open questions
 

@@ -43,6 +43,60 @@ and a layered guardrails model.
   [[openai-skills-for-oss-maintenance]])
 - Ships Secure MCP Tunnel so its products can reach private MCP servers. (see
   [[openai-private-mcp-servers]], [[model-context-protocol]])
+- Explains the Responses API as an agentic loop that keeps encrypted reasoning
+  state across turns, returns typed output items, and runs hosted tools
+  server-side. (see [[openai-why-we-built-responses-api]]) Later Responses
+  additions include a hosted computer environment and a WebSocket mode. (see
+  [[openai-responses-api-computer-environment]],
+  [[openai-websockets-agentic-workflows]])
+
+### Guidance sources on openai.com
+
+- **Engineering posts** (titled "OpenAI (Eng)" in the wiki) describe internal
+  builds: the Codex agent loop, the App Server, harness engineering, Symphony,
+  the Windows sandbox, the data agent, Sora Android, Tax AI, the Responses
+  computer environment, and WebSocket mode. (see
+  [[openai-unrolling-codex-agent-loop]], [[openai-codex-app-server-harness]],
+  [[openai-harness-engineering]], [[openai-symphony-codex-orchestration]],
+  [[openai-codex-windows-sandbox]], [[openai-in-house-data-agent]],
+  [[openai-sora-android-with-codex]],
+  [[openai-self-improving-tax-agents-codex]],
+  [[openai-responses-api-computer-environment]],
+  [[openai-websockets-agentic-workflows]])
+- **Security posts** ("OpenAI (Security)") cover prompt injection and Codex
+  deployment. (see [[openai-understanding-prompt-injections]],
+  [[openai-hardening-atlas-prompt-injection]], [[openai-agent-link-safety]],
+  [[openai-designing-agents-resist-prompt-injection]],
+  [[openai-running-codex-safely]])
+- **Model guide.** "A practical guide to building with GPT-6" (2026-10-02) is a
+  buyer-oriented companion to the API docs page. It covers GPT-6 Astra,
+  GPT-6.1 Sol, and GPT-6 Luna by display name only. It lists prices per million
+  tokens (input / output / cached): Astra $10 / $50 / $1, 6.1 Sol $2 / $10 /
+  $0.10, Luna $0.10 / $0.50 / $0.01. It recommends measuring cost per
+  successful task before deployment. (see
+  [[openai-practical-guide-building-with-gpt-6]],
+  [[openai-prompting-gpt-6-astra]])
+- **Not ingested.** OpenAI's "Agent security in the enterprise" white paper
+  (Sep 2026) sits behind a lead form, so the wiki has no source page for it.
+  (see [[openai-running-codex-safely]])
+
+### Prompt-injection posture
+
+- OpenAI frames prompt injection as social engineering by a third party and
+  says it is unlikely ever to be fully solved. (see
+  [[openai-understanding-prompt-injections]],
+  [[openai-hardening-atlas-prompt-injection]], [[prompt-injection]])
+- Its 2026 design rule is to limit what a fooled agent can do: analyze sources
+  and sinks, and defend the sinks. "Safe Url" auto-fetches only URLs that an
+  independent public web index has already seen. (see
+  [[openai-designing-agents-resist-prompt-injection]],
+  [[openai-agent-link-safety]])
+- For ChatGPT Atlas, an RL-trained attacker tests a simulated victim agent;
+  found attacks feed adversarial training and non-model fixes. (see
+  [[openai-hardening-atlas-prompt-injection]])
+- Codex at OpenAI runs in a sandbox with a managed network proxy, keyring
+  credentials, and an Auto-review subagent. (see
+  [[openai-running-codex-safely]], [[openai-codex]])
 
 ## Relationships
 
@@ -65,6 +119,23 @@ and a layered guardrails model.
 - [[openai-testing-agent-skills-with-evals]]
 - [[openai-skills-for-oss-maintenance]]
 - [[openai-private-mcp-servers]]
+- [[openai-practical-guide-building-with-gpt-6]]
+- [[openai-why-we-built-responses-api]]
+- Engineering posts: [[openai-unrolling-codex-agent-loop]],
+  [[openai-codex-app-server-harness]], [[openai-harness-engineering]],
+  [[openai-in-house-data-agent]], [[openai-responses-api-computer-environment]],
+  [[openai-websockets-agentic-workflows]],
+  [[openai-symphony-codex-orchestration]], [[openai-codex-windows-sandbox]],
+  [[openai-self-improving-tax-agents-codex]], [[openai-sora-android-with-codex]]
+- Security posts: [[openai-understanding-prompt-injections]],
+  [[openai-hardening-atlas-prompt-injection]], [[openai-agent-link-safety]],
+  [[openai-designing-agents-resist-prompt-injection]],
+  [[openai-running-codex-safely]]
+- Developers blog and Codex guides: [[openai-run-long-horizon-tasks-codex]],
+  [[openai-codex-code-review-rules]], [[openai-skyscanner-codex-jetbrains-mcp]],
+  [[openai-codex-maxxing-long-running-work]], [[openai-how-openai-uses-codex]]
+- Anthropic pages that compare OpenAI products:
+  [[anthropic-auto-mode-default]], [[anthropic-opus-5-5-long-coding-sessions]]
 
 ## Contradictions / open questions
 
@@ -74,3 +145,18 @@ and a layered guardrails model.
 - GPT-6 Sol was released on 2026-09-22 but is absent from the current model
   picker; the Astra guide mentions it only as a model to migrate from. (see
   [[openai-prompting-gpt-6-astra]])
+- **Chat Completions and agentic features.** In 2025-09 OpenAI said Chat
+  Completions "isn't going away" ([[openai-why-we-built-responses-api]]). The
+  GPT-6 Astra docs page (2026-09) says tool calling requires the Responses API;
+  GPT-6 Sol and Luna allow Chat Completions function calling only with
+  `reasoning_effort: "none"` ([[openai-prompting-gpt-6-astra]]). Both can hold: the endpoint
+  remains, but newer models gate agentic features to Responses.
+- **Injection classifiers.** The 2025 practical guide lists safety classifiers
+  that detect jailbreaks and injections
+  ([[openai-practical-guide-to-building-agents]]). In 2025-11 OpenAI described
+  AI monitors that "identify and block" injections
+  ([[openai-understanding-prompt-injections]]). In 2026-03 OpenAI said "AI
+  firewalling" usually misses socially engineered attacks
+  ([[openai-designing-agents-resist-prompt-injection]]). OpenAI does not
+  reconcile these. One possible reading is that monitors watch behavior, not
+  only inputs.

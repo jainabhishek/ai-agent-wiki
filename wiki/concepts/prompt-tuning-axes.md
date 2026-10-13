@@ -42,7 +42,8 @@ lines written for the first must be removed for the second. (see
 
 **2. Reasoning depth.** Effort level, whether thinking is on, and how thinking
 interacts with the output budget. Two recurring traps: effort controls how much a
-model *thinks*, not how much it *says*, so it is not a verbosity lever; and a
+model *thinks*, not how much it *says*, so it is not a verbosity lever (a legacy
+claim that current guidance disputes; see Contradictions); and a
 token budget that caps thinking plus response together can truncate the answer.
 (see [[anthropic-prompting-claude-opus-5]],
 [[anthropic-prompting-claude-sonnet-5]], [[openai-prompt-guidance-gpt-5-6]],
@@ -55,7 +56,31 @@ legacy "think carefully" lines are deletion candidates. (see
 happens when a structured-output format is requested, and whether the reasoning
 setting can change mid-conversation without breaking the prompt cache. (see
 [[anthropic-prompting-claude-sonnet-5-5]], [[anthropic-prompting-claude-haiku-5-5]],
-[[openai-prompting-gpt-6-astra]], [[context-engineering]])
+[[openai-prompting-gpt-6-astra]], [[context-engineering]]) The cache answer can
+differ by access path for the same model, so check it for the platform you
+deploy on. (see [[anthropic-what-a-task-costs-opus-5-5]],
+[[anthropic-spending-your-effort]])
+
+Three durable findings about what the reasoning setting buys:
+
+- **Treat each effort level as a separate model.** Block reports that it
+  benchmarks each use case on every model at every effort level, because effort
+  levels behave like different models rather than a linear dial. Anthropic's
+  commerce-agent guidance sweeps models and effort levels together against
+  quality floors and latency budgets. Benchmark the model × effort grid, not
+  the model alone. (see [[anthropic-block-orchestrates-fable]],
+  [[anthropic-anatomy-of-commerce-agents]], [[anthropic-choosing-claude-model]])
+- **Higher effort fixes missed edge cases, not a wrong approach.** In
+  Anthropic's Terminal-Bench analysis, failures from bugs the tests missed fell
+  as effort rose, while failures from a wrong reading of the task rose. The
+  gain also varies by domain. Before raising effort, give the model a check that
+  exercises the change. (see [[anthropic-spending-your-effort]],
+  [[anthropic-what-a-task-costs-opus-5-5]])
+- **Effort trades user time for autonomy.** With no user in the loop, higher
+  effort explores other readings that one clarifying question would settle; a
+  detailed spec narrows what effort changes. Effort can be set per phase of the
+  work, not once per session. (see [[anthropic-spending-your-effort]],
+  [[agent-steering]])
 
 **3. Tool-use triggering and routing.** Whether the model reaches for tools
 readily or needs a nudge, how thinking state changes that, and which tools are
@@ -155,7 +180,8 @@ pass first and an addition pass second.
 The 2026-10 generation keeps the deletion pass — remove the previous model's
 workarounds, suppression lines, and "ask first" language before tuning (see
 [[anthropic-building-with-sonnet-5-5]], [[anthropic-prompting-claude-fable-5-1]],
-[[openai-rethinking-skills-prompts-gpt-6-astra]]) — but adds a second pattern: detect
+[[openai-rethinking-skills-prompts-gpt-6-astra]], [[openai-practical-guide-building-with-gpt-6]],
+[[anthropic-what-a-task-costs-opus-5-5]]) — but adds a second pattern: detect
 a specific misbehavior and redirect it, often with a harness change rather than
 prompt text. (see [[anthropic-prompting-claude-opus-5-5]])
 
@@ -163,6 +189,8 @@ prompt text. (see [[anthropic-prompting-claude-opus-5-5]])
 
 - **Effort-level names.** The same label can mean materially different
   intelligence on a new model; benchmark by observed behavior, not by name.
+  Internal effort values map to named levels differently for each model. (see
+  [[anthropic-spending-your-effort]], [[anthropic-what-a-task-costs-opus-5-5]])
 - **Effort calibration.** Each generation recalibrates its effort levels and
   defaults, so a sweep from the previous model does not carry over. Re-run the
   effort sweep on every migration. (see [[anthropic-building-with-sonnet-5-5]],
@@ -191,6 +219,14 @@ workarounds first, then re-run the evals before adding anything. (see
 migration goal, even on an eval the model already saturates. (see
 [[anthropic-automating-eval-design-hillclimbing]])
 
+Production teams report the per-model contract directly. Dust reports a
+separate prompt and context strategy for each model behind its model picker.
+Cognition reports that moving a part of the workflow to a different model
+forces changes to prompts, tool definitions, context management, trajectory
+monitoring, and guardrails. n8n reports prompts tailored to one model and
+per-node-type prompt tuning. (see [[claude-customer-dust]],
+[[claude-customer-cognition]], [[claude-customer-n8n]], [[agent-harness]])
+
 ## Related concepts
 
 - [[agent-instructions]], [[agent-design-principles]], [[agent-harness]],
@@ -216,6 +252,15 @@ migration goal, even on an eval the model already saturates. (see
 - [[anthropic-building-with-sonnet-5-5]]
 - [[anthropic-getting-most-out-of-opus-5-5]]
 - [[anthropic-automating-eval-design-hillclimbing]]
+- [[anthropic-spending-your-effort]]
+- [[anthropic-what-a-task-costs-opus-5-5]]
+- [[anthropic-block-orchestrates-fable]]
+- [[anthropic-anatomy-of-commerce-agents]]
+- [[anthropic-choosing-claude-model]]
+- [[openai-practical-guide-building-with-gpt-6]]
+- [[claude-customer-dust]]
+- [[claude-customer-cognition]]
+- [[claude-customer-n8n]]
 
 ## Contradictions / open questions
 
@@ -251,6 +296,17 @@ migration goal, even on an eval the model already saturates. (see
     injection misreads (see [[anthropic-prompting-claude-sonnet-5-5]]). Time and
     token signals are different, and no page says whether a time countdown causes
     budget anxiety.
+- **Does effort shape output, or only thinking? (axis 2 trap).** The first
+  trap under axis 2 comes from [[anthropic-prompting-claude-opus-5]]
+  (2026-08-06, legacy), which says effort controls how much the model thinks,
+  not how much it says. [[anthropic-what-a-task-costs-opus-5-5]] (2026-09-25)
+  says effort shapes all output: thinking, written text, and tool calls, with
+  fewer and shorter tool calls at low effort. The current
+  [[anthropic-prompting-claude-opus-5-5]] page removed the "thinks, not says"
+  claim with no counterpart. Each claim may hold for the model it describes,
+  but the trap is unconfirmed for current models. Whether lower effort shortens
+  visible output on a current model is open: test it rather than assume either
+  claim.
 - **Initiative is folded into axis 8, not a tenth axis.** The GPT-6 Astra page
   treats "initiative and follow-through" as its own behavior (see
   [[openai-prompting-gpt-6-astra]]). Its content — persist versus stop to ask,

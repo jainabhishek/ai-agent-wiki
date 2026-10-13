@@ -54,6 +54,18 @@ in [[agent-skills]] or a docs-search subagent that returns only the answer (see
 `create_incident`) are one of the cases Anthropic lists for worked input examples
 (see [[anthropic-eng-advanced-tool-use]]).
 
+- **When tool count justifies specialist agents.** Anthropic's multi-agent guide
+  names tool count (often 20+), tools that span unrelated domains, and new tools
+  that degrade old tasks as signals for specialization. It advises trying
+  on-demand tool discovery first. Its split of 40+ tools into specialists of
+  8–10 tools is an illustrative example, not a measurement (see
+  [[anthropic-building-multi-agent-systems]]).
+- **Fewer, non-overlapping tools in practice.** OpenAI reports that fewer,
+  non-overlapping tools made its in-house data agent more reliable (see
+  [[openai-in-house-data-agent]]). Caylent reports that each stage agent in its
+  migration pipeline gets only the tools that its stage needs (see
+  [[claude-customer-caylent]]).
+
 ## Use what the model already knows
 
 A complementary Anthropic principle: prefer **general-purpose tools the model is
@@ -76,7 +88,11 @@ their necessity as the model advances. (see [[harnessing-claudes-intelligence]],
   context (see [[anthropic-seeing-like-an-agent]]). An OpenAI Responses API
   builder (Collxn) found built-in web search plus 16 custom tools less complex
   than a full RAG system (see [[openai-one-year-of-responses]]). See
-  [[context-engineering]].
+  [[context-engineering]]. For symbol navigation in large multi-language
+  codebases, Anthropic calls LSP integration one of the highest-value
+  investments, because grep returns thousands of hits and same-named symbols
+  (see [[anthropic-claude-code-large-codebases]]). The two complement each
+  other: search builds context, and LSP resolves symbols.
 - **Structured tool over format instructions for UI-parsed output.** A prompt that
   specified a markdown question format was unreliable; a dedicated blocking
   question tool with structured options gave guaranteed options and composed
@@ -95,6 +111,58 @@ their necessity as the model advances. (see [[harnessing-claudes-intelligence]],
   most cases; interleaved and adaptive thinking now reason between tool calls
   without a tool. This is a worked example of retiring a tool once the model
   does the job itself. (see [[anthropic-eng-think-tool]])
+- **Revisit loop limits as well as tools.** Dust reports that its old defaults
+  (three tool calls per run, maximum eight) truncated results once models could
+  chain more steps, so it redesigned the loop to allow up to 24 calls. The same
+  page also says tool-call depth rose "with no engineering changes", so the
+  attribution is unclear (see [[claude-customer-dust]], [[agent-harness]]).
+
+### Tool calls versus one-shot output, and recovery
+
+- **Discrete tool calls for a rare, strict format.** n8n reports that one-shot
+  generation of a whole workflow JSON failed, because the model had to hold the
+  schema, every node definition, and all connections at once. Discrete calls
+  (add node, connect, configure) worked. n8n lists code generation as its next
+  experiment (see [[claude-customer-n8n]]).
+- **A tool loop needs correct stopping and error recovery.** Genspark reports
+  that a model-driven loop over 150+ tools failed for two years through
+  infinite loops and repeated errors. It worked once a model generation (early
+  2025) stopped correctly and tried an alternative after a tool error (see
+  [[claude-customer-genspark]], [[agent-design-principles]]).
+- **Invest in domain tools, and let the agent ask for more.** Greptile reports
+  that a small team used a vendor SDK for the loop and put its effort into
+  specialized review tools (see [[claude-customer-greptile]]). Outtake reports a
+  loop in which the agent reports missing tools, a separate coding agent writes
+  each tool and a test scenario, and a human judges only the outcome (see
+  [[anthropic-outtake-cyber-investigator]]). Anthropic's security-review post
+  advises letting the model ask for or build its own tools (see
+  [[anthropic-llms-secure-source-code]]).
+
+## Deterministic tools for exact work
+
+The model interprets and plans; deterministic code does retrieval, arithmetic,
+and strict validation.
+
+- **Guidance.** Anthropic's skills guide says to bundle a script for critical
+  validations, because "Code is deterministic; language interpretation isn't"
+  (see [[anthropic-complete-guide-building-skills]]). Scripts in a skill act as
+  tools that need not sit in context; Claude kept rewriting a slide-styling
+  script, so it was saved as `apply_template.py` (see
+  [[anthropic-building-agents-with-skills]]). Scaffold and bundle scripts in a
+  frontend skill cut tokens and raised reliability (see
+  [[anthropic-improving-frontend-design-through-skills]]). See also "Script the
+  deterministic parts" below and [[agent-skills]].
+- **Kepler (case study).** Kepler reports that Claude decomposes the analyst's
+  question, while a query engine retrieves and a formula engine computes. No
+  number is model-generated, and each figure links to a filing line item (see
+  [[anthropic-kepler-verifiable-ai]]).
+- **Caylent (case study).** Caylent reports splitting work so that scripts do
+  the exact tasks and Claude does reasoning and language (see
+  [[claude-customer-caylent]]).
+- **Datadog (case study).** Datadog reports that each Temper capability has a
+  machine-parseable data contract that an agent can discover without docs, next
+  to behavior and authorization contracts (see
+  [[anthropic-datadog-universal-machine-tool]], [[boundary-contracts]]).
 
 ## Scaling to large tool libraries
 
@@ -119,7 +187,11 @@ Nov 2025):
   don't remove**, to keep the cache prefix stable (see
   [[anthropic-prompt-caching-is-everything]],
   [[anthropic-new-rules-context-engineering-claude-5]]). See
-  [[context-engineering]].
+  [[context-engineering]]. Anthropic's multi-agent guide says to try tool search
+  before splitting work into specialist agents (see
+  [[anthropic-building-multi-agent-systems]]). Vapi reports that its Composer
+  agent loads only the tools relevant to the current turn from a catalog of
+  100+ tools (see [[claude-customer-vapi]]).
 - **Programmatic tool calling.** The model writes code that calls tools, filters
   results, and returns only the final output to context. Not for tasks where the
   model must reason over every intermediate result. Document return formats
@@ -134,7 +206,11 @@ Nov 2025):
   [[agent-skills]]. Trade-off: agent-written code needs a sandbox, resource
   limits, and monitoring (see [[anthropic-eng-code-execution-with-mcp]],
   [[guardrails]]). Cloudflare's "Code Mode" reported a similar result
-  independently.
+  independently. Anthropic's MCP production post recommends the same shape for
+  large server surfaces: a thin tool that accepts a script run in a server-side
+  sandbox. Its example is Cloudflare's server, where two tools (`search`,
+  `execute`) cover ~2,500 endpoints in ~1K tokens (see
+  [[anthropic-agents-production-systems-mcp]]).
 
 ## Tool reach and placement
 
@@ -156,6 +232,32 @@ Nov 2025):
   not the harness, decides which context and tools (including app-owned MCP
   servers) are exposed and which actions need approval (see
   [[openai-codex-as-a-platform]]).
+- **Hosted tools versus custom tools.** In OpenAI's Responses API, hosted tools
+  (file search, code interpreter, web search, image generation, MCP) run
+  server-side with no round trip through the developer's backend (see
+  [[openai-why-we-built-responses-api]]). With custom tools the API hands
+  control back to the client's harness; with hosted tools the API runs the loop
+  itself, for example forwarding shell commands to a hosted container (see
+  [[openai-responses-api-computer-environment]], [[agent-core-components]]).
+- **API or connector before computer use.** OpenAI's GPT-6 guide says to use an
+  API or connector when one can do the step, and computer use only for screens,
+  clicks, and forms; for your own app, give the model a code-running tool such
+  as Playwright or PyAutoGUI (see [[openai-practical-guide-building-with-gpt-6]],
+  model-scoped). OpenAI's Codex guide orders surfaces the same way: connectors
+  for Slack, Gmail, Calendar, and GitHub, and computer use only for GUI-only
+  apps (see [[openai-codex-maxxing-long-running-work]]).
+- **The IDE as a feedback tool.** A Skyscanner engineer reports that the
+  JetBrains MCP server gives Codex IDE inspections (`get_file_problems`) and the
+  team's existing run configurations (`execute_run_configuration`). The fix loop
+  shrank from five steps to three, and the agent no longer has to discover how
+  to run tests, format, or lint. The evidence is qualitative (see
+  [[openai-skyscanner-codex-jetbrains-mcp]], [[model-context-protocol]]).
+- **Make the application legible to the agent.** OpenAI reports that, for one
+  internal product, the app boots per git worktree. The agent drives the UI
+  through Chrome DevTools Protocol (DOM snapshots, screenshots, navigation) and
+  queries an ephemeral per-worktree observability stack with LogQL and PromQL.
+  The post warns that this autonomy depends on the repository and may not
+  generalize (see [[openai-harness-engineering]]).
 
 ## Tool output and safety
 
@@ -163,6 +265,22 @@ Nov 2025):
   after approval, so output from trusted tools needs live inspection; a small fast
   classifier can do it (see [[anthropic-eng-how-we-contain-claude]],
   [[guardrails]]).
+- **Bound tool output.** OpenAI's hosted shell lets the model set an output cap
+  per command; the API keeps the head and tail and marks the cut middle (see
+  [[openai-responses-api-computer-environment]]). Claude Code writes command
+  output over a size limit to a file and puts a preview in context (see
+  [[anthropic-claude-code-session-cost]]). Both vendors bound tool output
+  instead of passing it whole into context.
+- **Least agency.** Anthropic's Zero Trust eBook extends least privilege to what
+  each tool can do, how often, and where: for example, a read-only database
+  tool, or an email summarizer with no send or delete rights (see
+  [[anthropic-zero-trust-for-ai-agents]], [[guardrails]]). The same eBook names
+  tool poisoning, rug pulls, and tool chaining as threats; see
+  [[model-context-protocol]] and [[prompt-injection]].
+- **Write the connection and auth path into the skill.** Anthropic's data team
+  reports documenting the connection and authentication path in the analytics
+  skill, so that the agent fails cleanly when access breaks (see
+  [[anthropic-claude-tag-analytics-in-slack]]).
 - **Approval tools work only if called.** In OpenAI's Agents API a confirmation
   function tool helps only when the agent calls it, and clarifying-question tool
   results are visible to the model, so they must never carry credentials (see
@@ -177,13 +295,19 @@ Nov 2025):
 From [[anthropic-eng-writing-tools-for-agents]] (the primary-source deep dive):
 - **Choose the right tools** — "more tools don't always lead to better outcomes."
   Prefer `search_contacts` over `list_contacts`; consolidate operations (a
-  `schedule_event` that finds availability *and* books).
+  `schedule_event` that finds availability *and* books). For MCP servers,
+  Anthropic says to group tools by intent, not by endpoint: one
+  `create_issue_from_thread` beats four primitive calls (see
+  [[anthropic-agents-production-systems-mcp]]).
 - **Namespace** related tools by common prefix (`asana_search`, `jira_search`);
   prefix vs suffix has measurable eval effects.
 - **Return meaningful context** — semantic over technical (`name` not `uuid`); add
   a `response_format` parameter (`concise`/`detailed`).
 - **Token efficiency** — pagination, filtering, truncation with helpful messages;
-  actionable errors over opaque codes.
+  actionable errors over opaque codes. Anthropic's commerce-agent post applies
+  this: tools call the existing search, cart, and inventory systems, trim
+  fields, and return instructions instead of error codes on failure (see
+  [[anthropic-anatomy-of-commerce-agents]]).
 - **Human clarity test** (also in [[anthropic-eng-context-engineering]]): "if a
   human engineer can't definitively say which tool should be used, an AI agent
   can't be expected to do better."
@@ -235,6 +359,33 @@ capability. Investing here pays off before any orchestration complexity. See
 - [[openai-agents-api-guide]]
 - [[openai-skills-for-oss-maintenance]]
 - [[anthropic-eng-think-tool]]
+- [[anthropic-building-multi-agent-systems]]
+- [[openai-in-house-data-agent]]
+- [[claude-customer-caylent]]
+- [[anthropic-claude-code-large-codebases]]
+- [[claude-customer-dust]]
+- [[claude-customer-n8n]]
+- [[claude-customer-genspark]]
+- [[claude-customer-greptile]]
+- [[anthropic-outtake-cyber-investigator]]
+- [[anthropic-llms-secure-source-code]]
+- [[anthropic-complete-guide-building-skills]]
+- [[anthropic-building-agents-with-skills]]
+- [[anthropic-improving-frontend-design-through-skills]]
+- [[anthropic-kepler-verifiable-ai]]
+- [[anthropic-datadog-universal-machine-tool]]
+- [[claude-customer-vapi]]
+- [[anthropic-agents-production-systems-mcp]]
+- [[anthropic-anatomy-of-commerce-agents]]
+- [[openai-why-we-built-responses-api]]
+- [[openai-responses-api-computer-environment]]
+- [[openai-practical-guide-building-with-gpt-6]]
+- [[openai-codex-maxxing-long-running-work]]
+- [[openai-skyscanner-codex-jetbrains-mcp]]
+- [[openai-harness-engineering]]
+- [[anthropic-claude-code-session-cost]]
+- [[anthropic-zero-trust-for-ai-agents]]
+- [[anthropic-claude-tag-analytics-in-slack]]
 
 ## Contradictions / open questions
 

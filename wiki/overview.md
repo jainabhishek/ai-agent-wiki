@@ -17,8 +17,8 @@ How to design, build, and safely deploy LLM agents — the architecture choices,
 tooling, orchestration, context engineering, harness design, and guardrails.
 Grounded in the canonical practitioner guides from [[anthropic]] and [[openai]],
 both vendors' operational posts on harness, runtime, containment, skills, MCP,
-evals, and context (Nov 2025 – Oct 2026), and [[cursor]]'s large-scale
-coding-swarm case study; expandable to other labs, frameworks, and case studies.
+evals, and context (Nov 2025 – Oct 2026), vendor-published customer case
+studies, and [[cursor]]'s large-scale coding-swarm case study; expandable to other labs, frameworks, and case studies.
 
 ## Current thesis
 
@@ -47,7 +47,17 @@ principles (see [[agent-design-principles]] and the full comparison in
    Sandboxes and egress controls bound what an agent *can* do; model-level
    defenses only shape what it *tends* to do. Both vendors' hosted runtimes keep
    credentials outside the sandbox. ([[guardrails]],
-   [[anthropic-eng-how-we-contain-claude]], [[model-context-protocol]])
+   [[anthropic-eng-how-we-contain-claude]], [[model-context-protocol]],
+   [[prompt-injection]])
+9. **Verification, not generation, is the bottleneck.** An autonomous agent
+   solves whatever the checks define, so the checks decide the quality of the
+   result. Sources from both vendors and their customers report this:
+   machine-checked certificates for code migrations, validation ladders for
+   security findings, and near-perfect test suites for long runs.
+   ([[agent-evals]], [[anthropic-eng-building-c-compiler]],
+   [[anthropic-datadog-universal-machine-tool]],
+   [[anthropic-comcast-booz-allen-exploit-chains]],
+   [[anthropic-ai-code-modernization]], [[openai-harness-engineering]])
 
 Since late 2025 the vendors have also converged on architecture: a hosted agent
 runtime ([[claude-managed-agents]], [[openai-agents-api]]), the harness as a
@@ -78,6 +88,7 @@ and **skills/steering** ([[agent-skills]], [[agent-steering]]); OpenAI is deeper
   [[agent-instructions]] · [[guardrails]] · [[agent-skills]] · [[agent-steering]] ·
   [[context-engineering]] · [[agent-harness]] · [[agent-evals]] ·
   [[multi-agent-economics]] · [[prompt-tuning-axes]] · [[model-context-protocol]]
+  · [[prompt-injection]] · [[agent-memory]]
 
 ## Scope note: prompting vs. architecture
 
@@ -115,6 +126,16 @@ change while several settings reversed.
   found its benchmark's answer key).
 - Add further perspectives (Google, LangChain, academic) to test how universal
   these "best practices" really are.
-- OpenAI-side harness and context coverage is now partial (Codex platform,
-  Agents API, skills). It still lacks counterparts to Anthropic's long-running
-  harness and eval-noise posts.
+- **Done (2026-10-12):** a full sweep of claude.com (257 articles and 284
+  customer stories, of which 68 had agent-design content), OpenAI's openai.com
+  Engineering and Security posts, and its learning-hub guides. New concept
+  pages: [[prompt-injection]] and [[agent-memory]].
+- OpenAI-side harness coverage now includes the Codex agent loop, App Server,
+  and harness engineering. It still lacks a counterpart to Anthropic's
+  eval-noise post ([[anthropic-eng-infrastructure-noise-evals]]).
+- Not ingested: OpenAI's "Agent security in the enterprise" white paper, which
+  sits behind a lead form; the OpenAI cookbook (code examples, not guidance);
+  and both vendors' research papers.
+- Customer stories make up a large share of the new sources. They are
+  self-reported and vendor-published, so concept pages phrase their claims as
+  reports, not rules.

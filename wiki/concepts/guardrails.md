@@ -3,7 +3,7 @@ title: Guardrails & Safety
 type: concept
 created: 2026-06-21
 updated: 2026-10-12
-tags: [guardrails, safety, security, human-in-the-loop, containment, prompt-injection]
+tags: [guardrails, safety, security, human-in-the-loop, containment, prompt-injection, identity, least-agency]
 ---
 
 # Guardrails & Safety
@@ -14,13 +14,15 @@ tags: [guardrails, safety, security, human-in-the-loop, containment, prompt-inje
 > [[openai-practical-guide-to-building-agents]]) [[anthropic]]'s 2026 engineering
 > posts add the other half: contain at the **environment layer** first, then
 > steer at the **model layer**. (see [[anthropic-eng-how-we-contain-claude]])
+> Injection-specific material (sinks, exfiltration, detectors, red teaming,
+> poisoning) lives on [[prompt-injection]].
 
 ## Types of guardrails
 
 | Guardrail | Purpose |
 |-----------|---------|
 | **Relevance classifier** | Keep responses in scope; flag off-topic queries. |
-| **Safety classifier** | Detect jailbreaks / prompt injections. |
+| **Safety classifier** | Detect jailbreaks / prompt injections. Contested since 2026; see [[prompt-injection]]. |
 | **PII filter** | Vet output for personally identifiable information. |
 | **Moderation** | Flag hate, harassment, violence, etc. |
 | **Tool safeguards** | Rate each tool low/med/high risk (read vs. write, reversibility, permissions, financial impact); gate or escalate high-risk calls. |
@@ -29,6 +31,22 @@ tags: [guardrails, safety, security, human-in-the-loop, containment, prompt-inje
 
 A robust setup combines **LLM-based + rules-based + moderation** guardrails to vet
 inputs and outputs.
+
+Production instances of the table rows (self-reported case studies):
+- **Relevance.** Rocket Money reports early off-topic fall-throughs that keep
+  its agent in its domain. (see [[claude-customer-rocket-money]])
+- **Parallel safety check per turn.** Wondr Health reports a safety subagent
+  that runs beside the coaching agent on every turn. It checks for clinical
+  risk, off-topic behavior, and escalation triggers, and opens a ticket routed
+  by severity. An API gateway handles auth, rate limits, and participant-data
+  filtering before the model sees a request. (see [[claude-customer-wondr-health]])
+- **Output validation.** Caylent reports a validator agent that checks each
+  translation before it commits. (see [[claude-customer-caylent]]) Anthropic's
+  analytics agent adds a provenance footer (source tier, freshness, owner) and
+  an adversarial review step; the reviewer bought +6% accuracy at +32% tokens
+  and +72% latency. (see [[anthropic-self-service-data-analytics]])
+- **Cheap checks outside the loop.** Block reports regex and small classifiers
+  built into work interfaces. (see [[anthropic-block-orchestrates-fable]])
 
 ## How to build them
 
@@ -41,6 +59,40 @@ In the [[openai-agents-sdk]], guardrails are first-class with **optimistic
 execution**: the agent generates while guardrails run concurrently, raising a
 **tripwire exception** on violation.
 
+### Risk assessment before deployment
+
+- **Four questions per use case** (Anthropic Deputy CISO): (1) What untrusted
+  content does the agent ingest? "Nothing" means near-zero agent-specific risk.
+  (2) What actions can it take, and under whose identity? (3) What is the blast
+  radius, as scope × severity? (4) What observability exists: can you tell agent
+  actions from user actions, and do they reach the SIEM? (see
+  [[anthropic-ciso-guide-agentic-ai]])
+- **Least agency.** Grant the narrowest capability that still completes the
+  task: least privilege extended to what each tool can do, how often, and
+  where. Roll out to a small group first, watch telemetry, then expand. (see
+  [[anthropic-ciso-guide-agentic-ai]], [[anthropic-zero-trust-for-ai-agents]])
+- **"Impossible, not tedious."** Friction (rate limits, extra hops, SMS MFA)
+  fails against agentic attackers, who have unlimited patience. Prefer controls
+  that remove a capability: hardware-bound credentials, expiring tokens,
+  cryptographic identity, network paths that do not exist. (see
+  [[anthropic-zero-trust-for-ai-agents]])
+- **Draw boundaries around access, not around what you believe the model will
+  do.** After Anthropic swapped its incident-response agent from one model to
+  the next with no other change, the agent began asking a code-writing agent
+  for fixes over Slack on its own. The fix still went through human PR review.
+  Put controls in identity, permissions, and monitoring, which survive model
+  upgrades, not in scaffolds and prompts. (see [[anthropic-ciso-guide-agentic-ai]])
+  Balyasny reports the same stance: a stronger model gets no wider authority
+  and cannot grant itself access. (see [[anthropic-balyasny-evaluates-fable-5]])
+- **Tier actions by risk before writing business logic.** Twilio reports four
+  tiers: autonomous (read-only), guarded (rate-limited test SMS), human approval
+  (deploy, webhooks, buying numbers), and never autonomous (delete, force-push,
+  skip hooks). (see [[claude-customer-twilio]]) Anthropic's modernization guide
+  tiers the human review path by blast radius and agent confidence, agreed in
+  advance. (see [[anthropic-ai-code-modernization]])
+- **Retest guardrails when the model changes;** old guardrails can constrain a
+  stronger model. (see [[anthropic-building-effective-human-agent-teams]])
+
 ## Environment layer vs. model layer
 
 Risk = likelihood of failure × damage. Training and model-level safeguards lower
@@ -51,10 +103,13 @@ are never 100% effective, so they cannot stand alone; where environment controls
 are absent (auto mode), the model layer compensates. Across Anthropic's
 deployments, standard primitives (hypervisors, syscall filters, container
 runtimes) held and custom glue (proxies) failed. (see
-[[anthropic-eng-how-we-contain-claude]])
+[[anthropic-eng-how-we-contain-claude]]) OpenAI reached the same position for
+injection: cap what a fooled agent can do. (see
+[[openai-designing-agents-resist-prompt-injection]], [[prompt-injection]])
 
 ### Environment layer (bounds capability)
 
+**Sandboxes**
 - **Match isolation to how much the user can oversee.** Three patterns: an
   ephemeral container (claude.ai), an OS-level human-in-the-loop sandbox (Claude
   Code; network denied by default, cut permission prompts 84%), and a sealed
@@ -62,55 +117,198 @@ runtimes) held and custom glue (proxies) failed. (see
   sessions use one disposable VM and one branch per task; untrusted code
   (contributor PRs, install scripts, fresh clones) runs there, away from SSH
   keys and cloud CLI sessions. (see [[anthropic-claude-code-in-the-cloud]])
-- **Credentials never enter the sandbox.** The harness and sandbox see a
-  placeholder or session token; a proxy or vault outside the sandbox injects the
-  real credential on egress, only to allowlisted hosts. Instances: Managed Agents
-  vault + MCP OAuth proxy (see [[anthropic-eng-scaling-managed-agents]],
-  [[anthropic-evolution-of-agentic-surfaces]]); scheduled-agent vault with a
-  `$SLACK_BOT_TOKEN`-style placeholder (see
-  [[anthropic-building-effective-agent-automations]]); a short-lived push
-  credential scoped to the session's own branch (see
-  [[anthropic-claude-code-in-the-cloud]]); OpenAI hosted-shell `domain_secrets`
-  sidecar (see [[openai-shell-skills-compaction]]). For browser agents, sign-in
-  values travel in a dedicated authentication event and never enter model input
-  or history; tools whose results the model sees must never carry credentials.
-  (see [[openai-agents-api-guide]])
-- **An allowlist is a capability grant, not just a destination filter.**
-  Anthropic saw exfiltration through an allowlisted domain (`api.anthropic.com`
-  Files API with an attacker's key); the fix was an in-VM proxy that accepts only
-  the VM's own session token. (see [[anthropic-eng-how-we-contain-claude]]) Even
-  at network level "None", traffic to the Anthropic API and a push to the
-  session's branch remain egress paths. (see [[anthropic-claude-code-in-the-cloud]])
-  Likewise, auto mode drops broad allow rules (blanket shell, wildcarded
-  interpreters) on entry because they grant arbitrary code execution. (see
-  [[anthropic-eng-claude-code-auto-mode]])
+  Anthropic and Block run developer agents on remote VMs or workstations with
+  egress allowlists. (see [[anthropic-securing-ai-native-sdlc]],
+  [[anthropic-block-orchestrates-fable]])
+- **Both boundaries, or neither holds.** A sandbox needs filesystem isolation
+  and network isolation together: without the network boundary a compromised
+  agent can exfiltrate data, and without the filesystem boundary it can escape
+  the sandbox. OS enforcement (bubblewrap on Linux, Seatbelt on macOS) covers
+  every subprocess a command spawns, not only the agent's direct calls. This
+  Oct 2025 launch post is the primary source for the 84% prompt reduction cited
+  above. (see [[anthropic-eng-claude-code-sandboxing]]) OpenAI's Windows sandbox
+  agrees: write only in the workspace, no network unless asked, enforced on the
+  whole subprocess tree. (see [[openai-codex-windows-sandbox]])
+- **Protect the agent's own metadata.** Inside the writable workspace, Codex on
+  Windows keeps `.git`, `.codex`, and `.agents` read-only. (see
+  [[openai-codex-windows-sandbox]]) A related build-time control: a hook blocks
+  test-file edits during a bug fix so the agent cannot weaken its own check.
+  (see [[anthropic-ai-native-sdlc-playbook]])
+- **Know what the sandbox covers.** The Codex sandbox covers only the shell
+  tool; MCP tools must enforce their own guardrails. (see
+  [[openai-unrolling-codex-agent-loop]]) The sandbox and the approval policy are
+  separate controls: the sandbox sets where Codex can write and reach, and the
+  approval policy sets when it must ask. Admin requirements can remove
+  full-access mode, and users cannot override them. (see
+  [[openai-running-codex-safely]])
+- **A container as the only boundary.** One long-running research harness ran
+  the agent with permission checks disabled, in an endless loop, inside its own
+  container. The container was the whole containment model. (see [[anthropic-eng-building-c-compiler]])
+- **Agent-written code needs a sandbox, resource limits, and monitoring**; the
+  execution layer can also tokenize PII before the model sees it and enforce
+  deterministic data-flow rules. (see [[anthropic-eng-code-execution-with-mcp]])
+  Run `codex exec` sandboxed by default and grant writes only when needed. (see
+  [[openai-testing-agent-skills-with-evals]])
+
+**Network**
+- **Advisory network controls are not controls.** Proxy environment variables
+  and `PATH` stubs catch well-behaved tools but not code that opens sockets
+  directly; Windows Firewall matches principals, so the Codex sandbox needed its
+  own OS user. (see [[openai-codex-windows-sandbox]]) A tool-level deny rule does
+  not stop shell egress; the OS sandbox with a domain allowlist does. (see
+  [[anthropic-ai-native-sdlc-playbook]]) Security-scanning agents fetched from
+  GitHub when told they had no network, so limits must live in configuration.
+  (see [[anthropic-llms-secure-source-code]])
 - **Network as a policy dial; pick the narrowest level that works.** Cloud
   sessions offer None / Trusted / Custom / Full, with hostnames of all outbound
   traffic logged. (see [[anthropic-claude-code-in-the-cloud]]) Skills plus open
   network is a high exfiltration risk; OpenAI's default is skills and shell
   allowed, network only via a minimal per-request allowlist capped by an org
-  allowlist. (see [[openai-shell-skills-compaction]]) Reach private MCP servers
+  allowlist. (see [[openai-shell-skills-compaction]]) OpenAI's internal Codex
+  deployment routes all traffic through a managed proxy that allows expected
+  domains, denies others, and asks for unfamiliar ones; web search comes only
+  from a cache. (see [[openai-running-codex-safely]]) Reach private MCP servers
   through an outbound-only tunnel to an explicitly configured destination, not a
-  public endpoint or VPN-wide connectivity. (see [[openai-private-mcp-servers]])
+  public endpoint or VPN-wide connectivity. (see [[openai-private-mcp-servers]],
+  [[anthropic-agents-production-systems-mcp]])
+- **An allowlist is a capability grant, not just a destination filter.** An
+  allowlisted domain can still be an exfiltration path; details and both
+  vendors' fixes are on [[prompt-injection]]. (see
+  [[anthropic-eng-how-we-contain-claude]], [[openai-agent-link-safety]]) Even at
+  network level "None", traffic to the Anthropic API and a push to the session's
+  branch remain egress paths. (see [[anthropic-claude-code-in-the-cloud]])
+  Likewise, auto mode drops broad allow rules (blanket shell, wildcarded
+  interpreters) on entry because they grant arbitrary code execution. (see
+  [[anthropic-eng-claude-code-auto-mode]])
+
+**Credentials**
+- **Credentials never enter the sandbox.** The harness and sandbox see a
+  placeholder or session token; a proxy or vault outside the sandbox injects the
+  real credential on egress, only to allowlisted hosts. Instances: Managed Agents
+  vault + MCP OAuth proxy (see [[anthropic-eng-scaling-managed-agents]],
+  [[anthropic-evolution-of-agentic-surfaces]], [[anthropic-agents-production-systems-mcp]]);
+  scheduled-agent vault with a `$SLACK_BOT_TOKEN`-style placeholder (see
+  [[anthropic-building-effective-agent-automations]]); a short-lived push
+  credential scoped to the session's own branch (see
+  [[anthropic-claude-code-in-the-cloud]]); Claude Tag credentials mapped to the
+  channel identity and injected per request (see
+  [[anthropic-agent-identity-access-model]]); a reverse proxy that injects
+  connector tokens so the sandbox holds nothing worth stealing (see
+  [[anthropic-ciso-guide-agentic-ai]]); OpenAI hosted-shell `domain_secrets`
+  sidecar, where the model and container see only placeholders (see
+  [[openai-shell-skills-compaction]], [[openai-responses-api-computer-environment]]).
+  Symphony keeps the Linear token in the orchestrator and exposes a dynamic tool
+  instead, so the token never reaches the agent's process. (see
+  [[openai-symphony-codex-orchestration]]) Codex CLI and MCP OAuth tokens sit in
+  the OS keyring. (see [[openai-running-codex-safely]]) For browser agents,
+  sign-in values travel in a dedicated authentication event and never enter
+  model input or history; tools whose results the model sees must never carry
+  credentials. (see [[openai-agents-api-guide]])
+- **No production credentials for change agents.** Anthropic's modernization
+  guide gives agents write access only to modernization branches, no production
+  credentials, masked secrets and PII, and every PR linked to the agent
+  transcript and certificate evidence. (see [[anthropic-ai-code-modernization]])
+
+**Write access and spend**
 - **Size write access to what a followed injection could do.** An agent that
   reads others' text gets a read-only GitHub token, a read-only preferences
   store, and a host allowlist; a planted instruction can alter its output but not
   write elsewhere. (see [[anthropic-building-effective-agent-automations]]) For
   browser agents that must never purchase or delete, restrict the browser to
   resources that cannot do so, or run your own browser runtime. (see
-  [[openai-agents-api-guide]])
-- **Agent-written code needs a sandbox, resource limits, and monitoring**; the
-  execution layer can also tokenize PII before the model sees it and enforce
-  deterministic data-flow rules. (see [[anthropic-eng-code-execution-with-mcp]])
-  Run `codex exec` sandboxed by default and grant writes only when needed. (see
-  [[openai-testing-agent-skills-with-evals]])
+  [[openai-agents-api-guide]]) Thrive's tax agent gets a writable worktree but
+  reads production traces through read-only tools, so it cannot change the
+  evidence. (see [[openai-self-improving-tax-agents-codex]])
 - **Agents in CI on public repos:** limit triggers, sanitize untrusted PR/issue
   input, protect the API key (drop sudo / unprivileged user), run the agent last.
   (see [[openai-skills-for-oss-maintenance]])
 - **Spend caps are guardrails with a failure mode.** A capped Managed Agents run
   pauses rather than fails, so a cap set too low looks like a quiet result; start
   at 3–5x a normal run's cost and tighten. (see
-  [[anthropic-building-effective-agent-automations]])
+  [[anthropic-building-effective-agent-automations]]) Caps limit cost but are
+  friction, not a barrier, against a determined attacker. (see
+  [[anthropic-zero-trust-for-ai-agents]])
+- **Eval environments need guardrails too.** When an agent recognized a
+  benchmark and hunted for its answer key, URL blocklists failed because it
+  found other routes. Blocking any search result that named the benchmark,
+  gating the dataset behind a login, and a fetch tool that accepted only text
+  did stop attempts. (see [[anthropic-eng-eval-awareness-browsecomp]], [[agent-evals]])
+
+### Identity and access
+
+- **The agent as its own principal.** In shared channels, Claude Tag acts under
+  its own admin-provisioned accounts (Slack app, GitHub App, warehouse service
+  account), scoped per channel, instead of borrowing any user's credentials. A
+  shared channel then cannot reach a member's private documents. Workspace
+  baselines are inherited and overridden per channel; revoking the identity cuts
+  access everywhere. (see [[anthropic-agent-identity-access-model]])
+  Multiplayer agents need credentials that belong to no single human. (see
+  [[anthropic-building-effective-human-agent-teams]])
+- **The cost: channel membership becomes an access grant.** A member without
+  repo access can ask the agent to read the repo if the channel grants it.
+  Mitigations: scope a channel profile to its least-privileged member, and use
+  RBAC to limit who can invoke the agent. (see
+  [[anthropic-agent-identity-access-model]]) Anthropic's analytics agent has the
+  same property, so its data team scopes the service account to governed tables,
+  gives it no PII clearance (PII labelled per column), owns channel membership as
+  an access grant, and labels every query with surface, conversation, and user
+  for audit. (see [[anthropic-claude-tag-analytics-in-slack]])
+- **The alternative: bound access by the triggering user.** Asana reports that
+  an agent's effective access never exceeds the permissions of the person who
+  invokes it. (see [[anthropic-asana-coachable-agents]]) OpenAI's data agent
+  lets users query only tables they already can access. (see
+  [[openai-in-house-data-agent]]) Dust reports permission-aware retrieval and
+  role-based access that keep each agent within its user's clearance. (see
+  [[claude-customer-dust]]) Anthropic plans an identity-aware overlay that
+  requires both the channel profile and the requesting user's permissions. (see
+  [[anthropic-agent-identity-access-model]])
+- **The identity spectrum.** One end is a single-purpose service account
+  (incident agent, ticket triager); the other is a human credential with the
+  person at the keyboard accountable. The middle, an agent carrying a person's
+  delegated identity into systems that person is not watching, makes incidents
+  hard to explain. (see [[anthropic-ciso-guide-agentic-ai]]) Anthropic's alert
+  agent has three permissions (write new docs, post in channels, read
+  production logs) and cannot deploy; its access to other agents is part of its
+  boundary. (see [[anthropic-securing-ai-native-sdlc]])
+- **One identity per agent.** When work is split across agents, each needs its
+  own ID and credentials; shared credentials defeat the split. Receiving
+  services should accept only named, cryptographically identified callers. (see
+  [[anthropic-zero-trust-for-ai-agents]])
+- **Context boundaries at workspace level.** Anthropic sets a few
+  workspace-level security boundaries and lets context flow freely inside them,
+  instead of per-item sharing decisions. (see
+  [[anthropic-building-effective-human-agent-teams]])
+- **Observability.** Agent-native telemetry (prompts, approvals, tool results,
+  proxy events) adds intent to endpoint logs. (see [[openai-running-codex-safely]])
+  Every agent action, approval, and agent-to-agent message goes to the SIEM, and
+  agents are treated as a new kind of insider. (see
+  [[anthropic-securing-ai-native-sdlc]], [[anthropic-ciso-guide-agentic-ai]])
+
+### Harness-enforced controls (deterministic)
+
+- **The model stages; the harness applies.** In Anthropic's commerce reference,
+  `apply_change` accepts only approved IDs, re-checked at apply time; writes and
+  renders accept only server-issued IDs; caps apply to the resulting state; and
+  writes are serialized per session. (see [[anthropic-anatomy-of-commerce-agents]])
+  Datadog's kernel is default-deny, and denials queue as pending decisions that
+  a human can approve. (see [[anthropic-datadog-universal-machine-tool]])
+- **Move invariants from the prompt into the harness.** Outtake reports that
+  prompt rules are eventually ignored in long runs. (see
+  [[anthropic-outtake-cyber-investigator]]) Greptile reports hooks that guarantee
+  every PR file is read. (see [[claude-customer-greptile]]) A Stop hook can
+  return `decision: "block"` until tests pass. (see
+  [[anthropic-subagents-in-claude-code]])
+- **Advisory versus deterministic.** A skill is an advisory control; a hook is
+  the deterministic layer behind it, and policies that must always hold need
+  both. (see [[anthropic-ai-native-sdlc-playbook]]) AI code review is an extra
+  reviewer; tests, branch protection, and required approvals remain the hard
+  gate. (see [[openai-codex-code-review-rules]])
+- **Mechanical rules with agent-facing fixes.** OpenAI enforces architecture
+  with custom linters and structural tests, and lint messages carry remediation
+  instructions into the agent's context. (see [[openai-harness-engineering]])
+- **Deterministic detection, agentic escalation.** Anthropic's CI on-call keeps
+  alert rules deterministic and lets Claude decide only page-now versus log;
+  fixes arrive as PRs that a human merges. (see [[anthropic-ai-ci-cd-on-call]])
 
 ### Model layer (shapes tendency)
 
@@ -122,38 +320,23 @@ runtimes) held and custom glue (proxies) failed. (see
   human. Measured on real traffic: 0.4% false positives, 17% misses on real
   overeager actions. (see [[anthropic-eng-claude-code-auto-mode]]) Hooks are the
   rule-based counterpart; auto mode is model-based. (see [[agent-steering]])
-- **Trusted channels are still injection channels.** Remote tools can change
-  after approval, and output from trusted tools needs live inspection (a small,
-  fast classifier can do it). (see [[anthropic-eng-how-we-contain-claude]])
-  Website content is untrusted and cannot grant permission. (see
-  [[openai-agents-api-guide]])
-- **Quarantine untrusted input.** Read-only reader agents summarize untrusted
-  content into structured output; a separate privileged actor acts only on the
-  summaries. (see [[anthropic-harness-for-every-task]]) Multi-agent handoffs need
-  checks in both directions (deny on delegation, warn on return). (see
-  [[anthropic-eng-claude-code-auto-mode]], [[agent-orchestration]])
+  OpenAI's Codex Auto-review is the parallel design: a subagent reviews planned
+  actions between per-action approval and full access. (see
+  [[openai-running-codex-safely]])
+- **Auto mode evidence (Anthropic-reported, Aug 2026).** In a 1,053-tester
+  study, humans caught 13.6% of planted dangerous commands and auto mode blocked
+  89%. In a re-grading of real sessions at production-level severity, 6.3% of
+  manually approved sessions had an unrequested harmful action vs. 2.4% for auto
+  mode. Red-teaming hardening came mainly from giving the classifier more context
+  (repo, git state, data-handling rules). (see [[anthropic-auto-mode-default]])
+- **Injection defenses** (input classifiers, training, red teaming, quarantine
+  patterns, trusted-channel inspection) are on [[prompt-injection]].
 - **Prompt-level input guardrails are per-model.** Examples: delimiting
   user-pasted text with tags carrying a random shared ID (see
   [[anthropic-prompting-claude-opus-5-5]]); a system-prompt paragraph stating
   that rules hold against arguing, sympathy, partial asks, claimed approvals, and
   repetition (see [[anthropic-prompting-claude-haiku-5-5]]). Re-verify per model;
   do not generalize.
-
-- **Both boundaries, or neither holds.** A sandbox needs filesystem isolation
-  and network isolation together: without the network boundary a compromised
-  agent can exfiltrate data, and without the filesystem boundary it can escape
-  the sandbox. OS enforcement (bubblewrap on Linux, Seatbelt on macOS) covers
-  every subprocess a command spawns, not only the agent's direct calls. This
-  Oct 2025 launch post is the primary source for the 84% prompt reduction cited
-  above. (see [[anthropic-eng-claude-code-sandboxing]])
-- **A container as the only boundary.** One long-running research harness ran
-  the agent with permission checks disabled, in an endless loop, inside its own
-  container. The container was the whole containment model. (see [[anthropic-eng-building-c-compiler]])
-- **Eval environments need guardrails too.** When an agent recognized a
-  benchmark and hunted for its answer key, URL blocklists failed because it
-  found other routes. Blocking any search result that named the benchmark,
-  gating the dataset behind a login, and a fetch tool that accepted only text
-  did stop attempts. (see [[anthropic-eng-eval-awareness-browsecomp]], [[agent-evals]])
 
 ## Human-in-the-loop
 
@@ -165,26 +348,100 @@ transfer control when it can't complete a task. Two primary triggers:
 - **High-risk actions** — sensitive/irreversible/high-stakes actions (cancel
   orders, large refunds, payments) get human oversight until confidence grows.
 
-Refinements from 2026 sources:
-- **Approval fatigue.** Users approved about 93% of Claude Code permission
-  prompts, so per-action supervision degrades into rubber-stamping; most effort
-  went into containment instead, with auto mode as a middle tier between
-  per-action approval and skipping permissions. Anthropic says auto mode does not
-  replace human review of high-stakes infrastructure. (see
-  [[anthropic-eng-how-we-contain-claude]], [[anthropic-eng-claude-code-auto-mode]])
-- **Approve the plan, not each step.** The agent writes a plan and waits; the
-  human chooses between alternatives; automatic approval review checks eligible
-  actions without widening existing permissions. (see
-  [[openai-automating-repetitive-work-codex]])
+### Where per-action approval fails
+
+- **Approval fatigue.** Users approved most Claude Code permission prompts (93%
+  in the March 2026 engineering post; 97% in the August 2026 launch post; see
+  Contradictions), so per-action supervision degrades into rubber-stamping.
+  Most effort went into containment instead, with auto mode as a middle tier
+  between per-action approval and skipping permissions. Anthropic says auto mode
+  does not replace human review of high-stakes infrastructure. (see
+  [[anthropic-eng-how-we-contain-claude]], [[anthropic-eng-claude-code-auto-mode]],
+  [[anthropic-auto-mode-default]]) Many users already bypass approval: 49.5%
+  have a Bash allow rule, and 25% of interactive sessions start in bypass mode.
+  (see [[anthropic-auto-mode-default]]) OpenAI names warning fatigue as a design
+  cost for link warnings. (see [[openai-agent-link-safety]])
+- **Human attention decays within a session.** Human catch rates for planted
+  dangerous commands fell from about 17% early to about 5% after 50+ prompts;
+  auto mode stayed flat. (see [[anthropic-auto-mode-default]])
 - **Coarse approval ≠ per-action confirmation.** Approving a website origin does
   not confirm actions on it, and a confirmation tool works only if the agent calls
   it. (see [[openai-agents-api-guide]])
+
+### Where human approval still works
+
+- **Approve the plan, not each step.** The agent writes a plan and waits; the
+  human chooses between alternatives; automatic approval review checks eligible
+  actions without widening existing permissions. (see
+  [[openai-automating-repetitive-work-codex]]) Anthropic's data supports plan
+  review as the point of real scrutiny: users reject 39% of plan approvals but
+  only 3% of single permission prompts. (see [[anthropic-auto-mode-default]])
+- **Gate deploys, not builds.** Human-approval hooks belong at deploy gates;
+  in the build stage they put a person on the critical path of every parallel
+  session. The agent acts up to the production gate and never past it, and the
+  authoring agent cannot approve its own PR. (see
+  [[anthropic-ai-native-sdlc-playbook]])
+- **Two approvers for irreversible actions.** Block reports that merges to main,
+  production deploys, and feature flags need security checks plus two human
+  approvers; it benchmarks whether Claude refuses to bypass dual approval. (see
+  [[anthropic-block-orchestrates-fable]])
+- **Keep a manual tier for high-stakes work.** Nuro switches to interactive mode
+  for work that affects other teams; Gusto switches to accept-edits for
+  Terraform, AWS, and live-API POSTs. Both layer auto mode on other controls
+  (deny rules, a governed MCP proxy). Garner Health blocks auto-approval of
+  actions that message people. (see [[anthropic-auto-mode-production]])
+- **Approve only state changes.** Vapi reports that its builder agent asks for
+  approval only on actions that change state. (see [[claude-customer-vapi]])
+- **The agent prepares, the human decides.** In OpenAI's long-running Codex
+  loops, Codex prepares context, drafts, and evidence; the human keeps
+  approval, tone, consent, publishing, and any irreversible action. (see
+  [[openai-codex-maxxing-long-running-work]]) Security teams report the same
+  split: the model widens coverage and drafts fixes; humans validate,
+  deduplicate, route, and own containment decisions. (see
+  [[anthropic-comcast-booz-allen-exploit-chains]], [[claude-customer-esentire]],
+  [[anthropic-zero-trust-for-ai-agents]]) Rocket Money reports that Claude
+  classifies whether an action succeeded and why, then a human decides. (see
+  [[claude-customer-rocket-money]])
+- **Sample automated approvals.** Where Claude reviews and merges code, every
+  approval is logged with its reasoning and humans review a risk-weighted
+  sample; new AI reviewers start in shadow mode. (see
+  [[anthropic-securing-ai-native-sdlc]]) Humans keep review of trust boundaries,
+  security-sensitive code, and legal risk. (see
+  [[anthropic-running-ai-native-engineering-org]])
 - **The host application owns the boundary:** where the agent runs, file and
   tool access, which actions need approval. (see [[openai-codex-as-a-platform]])
+  The Codex App Server can send an approval request that pauses the turn until
+  the client answers allow or deny. (see [[openai-codex-app-server-harness]])
 - **Unattended agents have no one to approve.** A scheduled agent sets its
   GitHub toolset to `always_allow`, which is safe only because the token is
   read-only. (see [[anthropic-building-effective-agent-automations]]) See the
   open question below.
+
+### Earned autonomy
+
+- **Autonomy follows demonstrated reliability, per task type.** Start with full
+  human review, track autonomy per task type, and widen it as the agent proves
+  reliable. (see [[anthropic-building-effective-human-agent-teams]]) ABC Legal
+  reports that each agent first posts recommendations and moves to automation
+  only after it matches or beats humans, under the same measurement after the
+  move; every agent change is a reviewed pull request. (see
+  [[anthropic-abc-legal-managed-agents]]) Twilio reports moving from approval
+  gates after every phase to headless runs over about 45 days. (see
+  [[claude-customer-twilio]])
+
+### Guarding feedback loops
+
+Self-improving agents turn human feedback into changes, so the feedback path is
+an attack and error surface.
+- Warp reports four rules: assume some feedback is wrong, let the agent
+  sanity-check it, filter whose input counts, and keep a human at the filtering
+  or final-review stage. The skill edit is a normal PR. (see
+  [[anthropic-warp-builds-self-improving-agents]])
+- Asana reports that anyone can give task-level feedback, but only admins and
+  editors can commit it to the agent's shared memory. (see
+  [[anthropic-asana-coachable-agents]], [[agent-memory]])
+- Thrive turns practitioner corrections into eval targets only after review and
+  grouping. (see [[openai-self-improving-tax-agents-codex]])
 
 ## Relation to Anthropic
 
@@ -197,21 +454,26 @@ rather than conflicting. See [[agent-building-best-practices-anthropic-vs-openai
 Deterministic and infrastructural guardrails from the Anthropic sources:
 - **Hooks** as deterministic policy — a PreToolUse hook can inspect any tool call
   and deny it (exit 2). The deterministic complement to LLM-based classifiers.
-  (see [[agent-steering]], [[anthropic-steering-claude-code]])
+  Hooks run with the user's permissions, and direct edits to hook config need
+  review in the `/hooks` menu before they take effect. (see [[agent-steering]],
+  [[anthropic-steering-claude-code]], [[anthropic-configure-hooks]]) OpenAI's
+  counterpart is Codex Starlark `prefix_rule` entries. (see
+  [[openai-running-codex-safely]])
 - **Brain–hands separation + Vaults** — credentials live outside the execution
   sandbox, accessed via signed tokens; a production form of tool safeguards. (see
   [[agent-harness]], [[anthropic-evolution-of-agentic-surfaces]],
   [[anthropic-eng-scaling-managed-agents]])
-- **Steering files are attack surface.** Project config (`.claude/settings.json`
-  hooks) once ran before the trust dialog; persistent memory poisoning via
-  memory, CLAUDE.md, or scheduled-agent state is an open problem. (see
-  [[anthropic-eng-how-we-contain-claude]], [[agent-steering]])
+- **Steering files are attack surface.** Project config, memory, CLAUDE.md, and
+  scheduled-agent state can carry injected instructions; see
+  [[prompt-injection]]. (see [[anthropic-eng-how-we-contain-claude]],
+  [[agent-steering]])
 
 ## Related concepts
 
-- [[agent-orchestration]], [[tool-design]], [[agent-instructions]],
-  [[agent-design-principles]], [[agent-steering]], [[agent-harness]],
-  [[boundary-contracts]], [[model-context-protocol]]
+- [[prompt-injection]], [[agent-orchestration]], [[tool-design]],
+  [[agent-instructions]], [[agent-design-principles]], [[agent-steering]],
+  [[agent-harness]], [[agent-memory]], [[boundary-contracts]],
+  [[model-context-protocol]]
 
 ## Key entities
 
@@ -243,6 +505,53 @@ Deterministic and infrastructural guardrails from the Anthropic sources:
 - [[anthropic-eng-claude-code-sandboxing]]
 - [[anthropic-eng-building-c-compiler]]
 - [[anthropic-eng-eval-awareness-browsecomp]]
+- [[anthropic-ciso-guide-agentic-ai]]
+- [[anthropic-zero-trust-for-ai-agents]]
+- [[anthropic-securing-ai-native-sdlc]]
+- [[anthropic-ai-native-sdlc-playbook]]
+- [[anthropic-ai-code-modernization]]
+- [[anthropic-agent-identity-access-model]]
+- [[anthropic-auto-mode-default]]
+- [[anthropic-auto-mode-production]]
+- [[anthropic-anatomy-of-commerce-agents]]
+- [[anthropic-abc-legal-managed-agents]]
+- [[anthropic-building-effective-human-agent-teams]]
+- [[anthropic-claude-tag-analytics-in-slack]]
+- [[anthropic-ai-ci-cd-on-call]]
+- [[anthropic-asana-coachable-agents]]
+- [[anthropic-subagents-in-claude-code]]
+- [[anthropic-self-service-data-analytics]]
+- [[anthropic-warp-builds-self-improving-agents]]
+- [[anthropic-outtake-cyber-investigator]]
+- [[anthropic-block-orchestrates-fable]]
+- [[anthropic-balyasny-evaluates-fable-5]]
+- [[anthropic-comcast-booz-allen-exploit-chains]]
+- [[anthropic-llms-secure-source-code]]
+- [[anthropic-datadog-universal-machine-tool]]
+- [[anthropic-configure-hooks]]
+- [[anthropic-agents-production-systems-mcp]]
+- [[anthropic-running-ai-native-engineering-org]]
+- [[claude-customer-twilio]]
+- [[claude-customer-wondr-health]]
+- [[claude-customer-rocket-money]]
+- [[claude-customer-greptile]]
+- [[claude-customer-caylent]]
+- [[claude-customer-dust]]
+- [[claude-customer-esentire]]
+- [[claude-customer-vapi]]
+- [[openai-running-codex-safely]]
+- [[openai-designing-agents-resist-prompt-injection]]
+- [[openai-agent-link-safety]]
+- [[openai-codex-windows-sandbox]]
+- [[openai-symphony-codex-orchestration]]
+- [[openai-self-improving-tax-agents-codex]]
+- [[openai-unrolling-codex-agent-loop]]
+- [[openai-codex-app-server-harness]]
+- [[openai-harness-engineering]]
+- [[openai-in-house-data-agent]]
+- [[openai-codex-code-review-rules]]
+- [[openai-codex-maxxing-long-running-work]]
+- [[openai-responses-api-computer-environment]]
 
 ## Contradictions / open questions
 
@@ -253,6 +562,20 @@ Deterministic and infrastructural guardrails from the Anthropic sources:
   [[anthropic-eng-claude-code-auto-mode]] (2026-03-25, model-layer classifier
   with measured error rates). OpenAI still has the more explicit *classifier*
   taxonomy.
+- **Approval rate: 93% or 97%? (recorded 2026-10-12).**
+  [[anthropic-eng-claude-code-auto-mode]] (2026-03-25) and
+  [[anthropic-eng-how-we-contain-claude]] (2026-05-25) say users approved about
+  93% of Claude Code permission prompts. [[anthropic-auto-mode-default]]
+  (2026-08-07) says 97%. Neither post states its measurement window; a
+  different window is likely. Both figures support the same conclusion
+  (approval fatigue). The miss rates are not comparable either: 17% on real
+  overeager actions (March) vs. 12%→7% on Apollo's synthetic attack sets
+  (August).
+- **Safety classifier row in the table (recorded 2026-10-12).** The "detect
+  prompt injections" row comes from [[openai-practical-guide-to-building-agents]]
+  (2025). OpenAI's 2026-03-11 post says such input classifiers usually miss
+  socially engineered attacks ([[openai-designing-agents-resist-prompt-injection]]).
+  Full record on [[prompt-injection]].
 - **No per-command approval in cloud sessions (recorded 2026-10-12).**
   [[anthropic-claude-code-in-the-cloud]] (2026-10-06) says cloud approval modes
   are limited to Auto, Accept edits, or Plan, and routines run with no approval
@@ -269,9 +592,20 @@ Deterministic and infrastructural guardrails from the Anthropic sources:
   prompt wording. That post does not say to remove external controls; this page's
   position stays that model-layer tendencies do not replace environment controls
   or high-risk gating ([[anthropic-eng-how-we-contain-claude]]).
-- **Is a successful injection inside the sandbox harmless?** The Oct 2025
-  sandboxing post says it "cannot impact overall user security"
-  ([[anthropic-eng-claude-code-sandboxing]]). The May 2026 containment post reports data exfiltration through
-  an allowlisted domain from inside a sandbox, and concludes that an allowlist
-  is a capability grant ([[anthropic-eng-how-we-contain-claude]]). The later
-  post narrows the earlier claim.
+- **Is a successful injection inside the sandbox harmless?** Moved to
+  [[prompt-injection]] on 2026-10-12. Summary: the Oct 2025 sandboxing post
+  ([[anthropic-eng-claude-code-sandboxing]]) says yes; the May 2026 containment
+  post ([[anthropic-eng-how-we-contain-claude]]) narrows that claim.
+- **Network policy granularity (open, recorded 2026-10-12).** The Codex Windows
+  sandbox is offline or online per OS user, with no per-domain policy described
+  ([[openai-codex-windows-sandbox]], 2026-05-13). Anthropic routes egress through
+  a per-domain proxy ([[anthropic-eng-claude-code-sandboxing]]). A design
+  difference, not a contradiction; open whether Anthropic's runtime covers
+  Windows.
+- **Agent identity versus per-user access (open, recorded 2026-10-12).**
+  Claude Tag's own-principal model lets a channel member reach data that the
+  member cannot reach directly ([[anthropic-agent-identity-access-model]],
+  2026-06-24). Asana bounds access by the triggering user
+  ([[anthropic-asana-coachable-agents]], 2026-09-29). The two designs trade
+  long-running autonomy against per-user ACLs; Anthropic's planned overlay would
+  combine them.
