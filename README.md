@@ -2,9 +2,10 @@
 
 A knowledge base on **building effective AI agents** — architecture choices,
 tools, orchestration, context engineering, harness design, and guardrails —
-synthesized from primary guidance by Anthropic and OpenAI, Anthropic's
-engineering posts on harness, skills, steering, and context, and attributed
-practitioner case studies such as Cursor's coding-swarm experiments.
+synthesized from primary guidance by Anthropic and OpenAI: their engineering
+and security posts, developer blogs, per-model prompting guides, and white
+papers, plus vendor-published customer case studies and Cursor's coding-swarm
+experiments.
 
 It's maintained by an LLM agent ([Claude Code](https://www.anthropic.com/claude-code),
 via [`CLAUDE.md`](CLAUDE.md)) and meant to be **read by both humans and other
@@ -19,8 +20,12 @@ topic (see [Start your own](#start-your-own)).
 
 ## What's inside
 
-The corpus is **13 source summaries · 8 entities · 14 concepts · 2 syntheses**,
-covering how to design, build, and safely deploy LLM agents.
+The corpus is **148 source summaries · 10 entities · 23 concepts · 2 syntheses**
+(as of 2026-10-13), covering how to design, build, and safely deploy LLM agents.
+Coverage: Anthropic's Engineering blog, `claude.dev`, and `claude.com` articles;
+OpenAI's developer blog, its openai.com Engineering and Security posts, and its
+guides. [`log.md`](log.md) records what was ingested, when, and what was left
+out.
 
 - Start at [`wiki/overview.md`](wiki/overview.md) for the full thesis, or
   [`index.md`](index.md) for the catalog of every page.
@@ -28,8 +33,12 @@ covering how to design, build, and safely deploy LLM agents.
 **The thesis in one line:** the labs strongly agree on a few load-bearing
 principles — *don't build an agent unless you need one*, *start simple and add
 complexity only when evals justify it*, *tools are the highest-leverage surface*,
-*instructions must be unambiguous*, *safety is layered*, and *engineer the
-context and harness, then prune them*. They differ mainly in emphasis.
+*instructions must be unambiguous*, *safety is layered*, *engineer the context
+and harness, then prune them*, *optimize the whole system, not one model call*,
+*contain at the environment layer and keep secrets out of the agent's reach*,
+and *verification, not generation, is the bottleneck*. They differ mainly in
+emphasis, and since late 2025 they have converged on much of the same harness
+architecture independently.
 
 ### What a page looks like
 
@@ -59,7 +68,8 @@ Excerpt from [`wiki/concepts/agents-vs-workflows.md`](wiki/concepts/agents-vs-wo
 ### As an agent
 
 - Read [`CLAUDE.md`](CLAUDE.md) first — it's the schema and operating contract
-  for this wiki.
+  for this wiki. [`AGENTS.md`](AGENTS.md) is a generated copy for agents that
+  look for that file name.
 - Read [`index.md`](index.md) to find candidate pages before reading anything
   else; run `tools/search.py "<query>"` for what isn't obvious from the index.
 - Prefer citing an existing `wiki/` page over re-deriving an answer from
@@ -73,6 +83,7 @@ Excerpt from [`wiki/concepts/agents-vs-workflows.md`](wiki/concepts/agents-vs-wo
 python3 tools/search.py "your query"     # ranked results across wiki/
 python3 tools/search.py --orphans        # pages with no inbound links
 python3 tools/search.py --list           # every page with its title
+python3 tools/sync_agents.py             # regenerate AGENTS.md from CLAUDE.md
 ```
 
 Pure stdlib — no install step.
@@ -83,9 +94,9 @@ Three layers:
 
 | Layer | Path | Who owns it |
 |-------|------|-------------|
-| **Raw sources** | `raw/` | You. Immutable. The LLM reads, never edits. |
+| **Raw sources** | `raw/` | You supply files; the agent writes condensed captures of web pages. Immutable once added. |
 | **The wiki** | `wiki/` | The LLM. Summaries, entity & concept pages, synthesis. |
-| **The schema** | `CLAUDE.md` | Both. Conventions + workflows the LLM follows. |
+| **The schema** | `CLAUDE.md` (+ generated `AGENTS.md`) | Both. Conventions + workflows the LLM follows. |
 
 Three operations:
 
@@ -95,6 +106,15 @@ Three operations:
   citations, and files durable answers back into `wiki/synthesis/`.
 - **Lint** — periodically ask the agent to health-check: contradictions, stale
   claims, orphans, missing pages, data gaps.
+
+Two conventions matter for a wiki about fast-moving models:
+
+- **Model-scoped pages.** Prompting advice is a per-model contract, so pages
+  whose claims hold only for certain models carry `models:` and `as_of:`. When a
+  vendor stops listing a model as current, its page is marked `status: legacy`
+  and points to its replacement. Concept pages hold durable axes, never values.
+- **Contradictions are recorded, not overwritten.** When sources disagree, both
+  claims stay on the page with their sources and dates.
 
 ## Layout
 
@@ -111,12 +131,14 @@ log.md          # append-only timeline of ingests/queries/lints
 templates/      # page templates the LLM copies from
 tools/search.py # local BM25 search over the wiki (no dependencies)
 CLAUDE.md       # the schema — read by the agent every session
+AGENTS.md       # generated copy of CLAUDE.md (tools/sync_agents.py)
 ```
 
 ## Getting started
 
 1. Add a source: drop a `.md`/`.pdf`/`.txt` into `raw/` (the
-   [Obsidian Web Clipper](https://obsidian.md/clipper) is great for web articles).
+   [Obsidian Web Clipper](https://obsidian.md/clipper) is great for web articles),
+   or give the agent a URL and it writes a condensed capture.
 2. Tell the agent: *"ingest the new source in raw/"*.
 3. Browse the result in Obsidian — follow the wikilinks and the graph view.
 4. Ask questions: *"what do my sources say about X?"* — good answers get filed
@@ -134,18 +156,20 @@ rm -rf raw/* wiki/sources/* wiki/entities/* wiki/concepts/* wiki/synthesis/*
 : > log.md                                # reset the timeline
 ```
 
-Keep `CLAUDE.md` (the schema), `templates/`, and `tools/`. Edit
+Keep `CLAUDE.md` (the schema), `AGENTS.md`, `templates/`, and `tools/`. Edit
 `wiki/overview.md` and `index.md` to describe your new topic, then start
 ingesting. The agent reads `CLAUDE.md` every session and follows it.
 
 ## License & sources
 
-The **scaffold** — `CLAUDE.md`, `templates/`, `tools/`, and this README — is
+The **scaffold** — `CLAUDE.md`, `AGENTS.md`, `templates/`, `tools/`, and this README — is
 released under the [MIT License](LICENSE-scaffold.md); fork and adapt it freely.
 
-The **`raw/` directory contains third-party articles** (e.g. from Anthropic and
-OpenAI) reproduced for personal research. Copyright remains with their
-respective authors; they are **not** covered by the MIT License and are not
+The **`raw/` directory contains captures of third-party articles** (e.g. from
+Anthropic and OpenAI) made for personal research. Since 2026-10-12 the agent
+writes them as condensed paraphrase with only short quotes; a few earlier
+captures quote example prompts in full. Copyright remains with the respective
+authors; the captures are **not** covered by the MIT License and are not
 redistributed for any other use. Everything under `wiki/` is LLM-generated
 summary and synthesis that cites those sources.
 

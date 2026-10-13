@@ -19,6 +19,10 @@ Read this file at the start of every session. It is the contract.
 3. **This file (`CLAUDE.md`)** — The schema. Conventions and workflows. You and
    the human co-evolve it as the wiki matures. When you discover a convention
    that works, write it down here.
+   <!-- sync-note -->
+   `AGENTS.md` is a generated copy of this file for agents that read that file
+   name. After any change here, run `python3 tools/sync_agents.py`.
+   <!-- /sync-note -->
 
 Navigation files at the repo root:
 - **`index.md`** — content catalog (what exists, by category).

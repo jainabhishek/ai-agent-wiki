@@ -19,6 +19,10 @@ Read this file at the start of every session. It is the contract.
 3. **This file (`AGENTS.md`)** — The schema. Conventions and workflows. You and
    the human co-evolve it as the wiki matures. When you discover a convention
    that works, write it down here.
+   <!-- sync-note -->
+   Generated from `CLAUDE.md` by `tools/sync_agents.py`. Do not edit this
+   file directly; edit `CLAUDE.md` and rerun the script.
+   <!-- /sync-note -->
 
 Navigation files at the repo root:
 - **`index.md`** — content catalog (what exists, by category).
@@ -59,6 +63,37 @@ back-reference sweep.
   Add a `## Contradictions / open questions` note recording both claims, their
   sources, and dates. Flag it to the human.
 
+### Model-scoped pages
+
+Prompting guidance is a **per-model contract**, not shared theory — a prompt is
+written against one model's behavior, so cross-vendor or cross-generation
+synthesis of prompting advice is not actionable and must not be filed. Compare
+labs only for *architecture* claims, where independent convergence is evidence.
+
+Any page carrying claims true only of specific models must declare:
+
+```yaml
+models: [claude-opus-5, gpt-5.6-sol]   # exact API model IDs
+as_of: YYYY-MM-DD                       # date the claims were verified
+```
+
+Rules for these pages:
+
+- **Scope follows the vendor's own current/legacy split.** Ingest guidance only
+  for models the vendor lists as current; do not invent a version rule of our own
+  (e.g. "5-series only"), which needs hand-editing at every release.
+- **Values live in `wiki/sources/`, never in concepts.** Concept pages hold
+  durable axes and frameworks; a concept page must not contain effort settings,
+  token limits, parameter names, or per-model behaviors.
+- **A model leaving its vendor's current list makes every page scoped to it stale
+  by construction.** Re-verify, retire, or mark legacy; do not silently carry
+  forward.
+- **Marking a page legacy.** Keep the page, and add `status: legacy` plus
+  `superseded_by: [<slug>, ...]` to its frontmatter. Put a one-line banner at
+  the top of the body that names the vendor's legacy listing, the date checked,
+  and the replacement pages. Move the page to the "Legacy" subsection of
+  `index.md`. Do not edit the page's claims: they stay true of the legacy model.
+
 ---
 
 ## Operations
@@ -76,6 +111,15 @@ back-reference sweep.
 6. Update **`index.md`** (add new pages, refresh one-line summaries).
 7. Append an entry to **`log.md`** (see format below).
 8. Bump `updated:` frontmatter on every page you touched.
+
+**Agent-written captures of web sources.** When the agent fetches a web page
+into `raw/`, the capture is a condensed paraphrase, not a copy. The repo is
+public and the sources are copyrighted. Keep every heading, number, parameter
+name, and code identifier; paraphrase prose and example prompts; quote at most a
+few short phrases (under 15 words each). The header records the URL, publisher,
+byline date, capture date, and the fetch method actually used. Captures written
+before 2026-10-12 that quote prompt blocks verbatim stay as they are, because
+`raw/` is immutable.
 
 ### Query (the human asks a question)
 

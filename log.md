@@ -426,3 +426,15 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - checks: `tools/search.py --orphans` reports no orphans; a link script finds no
   unresolved wikilinks across 184 pages and 3,367 links; each new page's
   "Appears in" equals the sources it cites.
+
+## [2026-10-13] schema | sync AGENTS.md with CLAUDE.md; refresh README
+- found: `AGENTS.md`, the copy of the schema for agents that read that file
+  name, last changed in June. It lacked the model-scoped/legacy rules
+  (2026-08-06, 2026-10-12) and the raw-capture paraphrase rule (2026-10-12), so
+  non-Claude agents followed an older contract.
+- fix: `tools/sync_agents.py` regenerates `AGENTS.md` from `CLAUDE.md` (name
+  swap plus a "generated, do not edit" note); `--check` exits 1 when stale.
+  `CLAUDE.md` now says to run it after any schema change.
+- README: page counts (13/8/14/2 → 148/10/23/2), source coverage, the nine-point
+  thesis, the raw-capture and model-scoped conventions, and the `AGENTS.md`
+  file.
