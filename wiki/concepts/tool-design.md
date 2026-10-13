@@ -2,7 +2,7 @@
 title: Tool Design
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [tools, aci, best-practices, agents]
 ---
 
@@ -214,50 +214,11 @@ Nov 2025):
 
 ## Tool reach and placement
 
-- **Private MCP connectivity.** [[openai]]'s Secure MCP Tunnel lets hosted
-  products reach [[model-context-protocol]] servers inside enterprise networks
-  through an outbound-only, customer-run client that forwards only to an
-  explicitly configured local server. OpenAI rejected public endpoints,
-  third-party tunnels, and VPN/peering as too broad (see
-  [[openai-private-mcp-servers]], [[guardrails]]).
-- **Browser-side tools.** Runme, a static client-side app, registers tools in
-  the browser through WebMCP instead of running an MCP server, which would add
-  infrastructure and change where notebook data is handled (see
-  [[openai-automating-repetitive-work-codex]]).
-- **One tool interface for every "hand".** Anthropic's Managed Agents harness
-  calls every sandbox or tool through one `execute(name, input) → string`
-  interface; a dead container surfaces as a tool error the model can handle (see
-  [[anthropic-eng-scaling-managed-agents]]).
-- **Host owns the tool surface.** In OpenAI's Codex platform the host application,
-  not the harness, decides which context and tools (including app-owned MCP
-  servers) are exposed and which actions need approval (see
-  [[openai-codex-as-a-platform]]).
-- **Hosted tools versus custom tools.** In OpenAI's Responses API, hosted tools
-  (file search, code interpreter, web search, image generation, MCP) run
-  server-side with no round trip through the developer's backend (see
-  [[openai-why-we-built-responses-api]]). With custom tools the API hands
-  control back to the client's harness; with hosted tools the API runs the loop
-  itself, for example forwarding shell commands to a hosted container (see
-  [[openai-responses-api-computer-environment]], [[agent-core-components]]).
-- **API or connector before computer use.** OpenAI's GPT-6 guide says to use an
-  API or connector when one can do the step, and computer use only for screens,
-  clicks, and forms; for your own app, give the model a code-running tool such
-  as Playwright or PyAutoGUI (see [[openai-practical-guide-building-with-gpt-6]],
-  model-scoped). OpenAI's Codex guide orders surfaces the same way: connectors
-  for Slack, Gmail, Calendar, and GitHub, and computer use only for GUI-only
-  apps (see [[openai-codex-maxxing-long-running-work]]).
-- **The IDE as a feedback tool.** A Skyscanner engineer reports that the
-  JetBrains MCP server gives Codex IDE inspections (`get_file_problems`) and the
-  team's existing run configurations (`execute_run_configuration`). The fix loop
-  shrank from five steps to three, and the agent no longer has to discover how
-  to run tests, format, or lint. The evidence is qualitative (see
-  [[openai-skyscanner-codex-jetbrains-mcp]], [[model-context-protocol]]).
-- **Make the application legible to the agent.** OpenAI reports that, for one
-  internal product, the app boots per git worktree. The agent drives the UI
-  through Chrome DevTools Protocol (DOM snapshots, screenshots, navigation) and
-  queries an ephemeral per-worktree observability stack with LogQL and PromQL.
-  The post warns that this autonomy depends on the repository and may not
-  generalize (see [[openai-harness-engineering]]).
+Where a tool runs and who owns it now has its own page: [[tool-placement]]. It
+covers hosted versus client-side tools, API or connector before computer use,
+IDE and browser-side tools, and private MCP reach. It also covers the host
+application that owns the tool surface and approvals, and output caps on tool
+results.
 
 ## Tool output and safety
 
@@ -265,12 +226,6 @@ Nov 2025):
   after approval, so output from trusted tools needs live inspection; a small fast
   classifier can do it (see [[anthropic-eng-how-we-contain-claude]],
   [[guardrails]]).
-- **Bound tool output.** OpenAI's hosted shell lets the model set an output cap
-  per command; the API keeps the head and tail and marks the cut middle (see
-  [[openai-responses-api-computer-environment]]). Claude Code writes command
-  output over a size limit to a file and puts a preview in context (see
-  [[anthropic-claude-code-session-cost]]). Both vendors bound tool output
-  instead of passing it whole into context.
 - **Least agency.** Anthropic's Zero Trust eBook extends least privilege to what
   each tool can do, how often, and where: for example, a read-only database
   tool, or an email summarizer with no send or delete rights (see
@@ -331,7 +286,7 @@ capability. Investing here pays off before any orchestration complexity. See
 
 - [[agent-core-components]], [[agent-instructions]], [[agent-orchestration]],
   [[agent-skills]], [[agent-harness]], [[agent-evals]], [[context-engineering]],
-  [[model-context-protocol]], [[guardrails]]
+  [[model-context-protocol]], [[guardrails]], [[tool-placement]]
 
 ## Key entities
 
@@ -350,12 +305,8 @@ capability. Investing here pays off before any orchestration complexity. See
 - [[anthropic-seeing-like-an-agent]]
 - [[anthropic-prompt-caching-is-everything]]
 - [[anthropic-eng-how-we-contain-claude]]
-- [[anthropic-eng-scaling-managed-agents]]
 - [[anthropic-prompting-claude-sonnet-5-5]]
 - [[openai-one-year-of-responses]]
-- [[openai-private-mcp-servers]]
-- [[openai-automating-repetitive-work-codex]]
-- [[openai-codex-as-a-platform]]
 - [[openai-agents-api-guide]]
 - [[openai-skills-for-oss-maintenance]]
 - [[anthropic-eng-think-tool]]
@@ -377,13 +328,6 @@ capability. Investing here pays off before any orchestration complexity. See
 - [[claude-customer-vapi]]
 - [[anthropic-agents-production-systems-mcp]]
 - [[anthropic-anatomy-of-commerce-agents]]
-- [[openai-why-we-built-responses-api]]
-- [[openai-responses-api-computer-environment]]
-- [[openai-practical-guide-building-with-gpt-6]]
-- [[openai-codex-maxxing-long-running-work]]
-- [[openai-skyscanner-codex-jetbrains-mcp]]
-- [[openai-harness-engineering]]
-- [[anthropic-claude-code-session-cost]]
 - [[anthropic-zero-trust-for-ai-agents]]
 - [[anthropic-claude-tag-analytics-in-slack]]
 

@@ -2,7 +2,7 @@
 title: "OpenAI: Codex as a platform — build on the open agent harness"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Nicolas Bonamy, Derrick Choi (OpenAI)
 date: 2026-08-19
 source_url: https://developers.openai.com/blog/codex-as-a-platform
@@ -68,7 +68,7 @@ is the slug of a linked GitHub changelog post, not the publication date.
 
 ## Concepts
 
-[[agent-harness]], [[agent-core-components]], [[guardrails]], [[tool-design]],
+[[agent-harness]], [[agent-core-components]], [[guardrails]], [[tool-design]], [[tool-placement]],
 [[context-engineering]]
 
 ## Connections

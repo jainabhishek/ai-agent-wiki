@@ -2,7 +2,7 @@
 title: "Anthropic: Self-service data analytics in Slack with Claude Tag"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Clement Peng, Lily Zhao (Anthropic Data Science and Data Engineering)
 date: 2026-08-13
 source_url: https://claude.com/resources/articles/self-service-data-analytics-in-slack-how-anthropic-deploys-claude-tag-for-ad-hoc-questions
@@ -23,7 +23,7 @@ Anthropic published this internal case study on claude.com on 2026-08-13. All fi
 - **Skills are served content.** Claude Tag's runtime mounts the data repo's `skills/` directory and re-reads it on every conversation. Data models change several times a day, and a stale skill produces confident wrong answers that a Slack user cannot sanity-check. (see [[agent-skills]], [[context-engineering]])
 - **Method skills, not only a knowledge skill.** A table-map skill alone gave correct numbers without insight. The team added runbook skills for forecasting (including when to refuse on short or noisy series), cohorts, funnels, charting, and analytical writing.
 - **Context outside the warehouse.** An internal knowledge index (incidents, flag flips, threads) explains why a metric moved. The authors call it the highest-leverage addition after the warehouse.
-- **A shared service account is a shared read replica.** Anyone who can mention the bot inherits the bot's access, and there is no per-user row-level security. Five controls apply: (1) scope the account to governed tables only; (2) classify PII per column, with Claude flagging candidates and a human applying the label through lineage, and give the account no PII clearance; (3) document the connection and authentication path in the skill, so the agent fails cleanly; (4) treat channel membership as an access grant that the data team owns; (5) label every query with the surface, the conversation, and the user, for audit and cost tracking. (see [[guardrails]], [[tool-design]])
+- **A shared service account is a shared read replica.** Anyone who can mention the bot inherits the bot's access, and there is no per-user row-level security. Five controls apply: (1) scope the account to governed tables only; (2) classify PII per column, with Claude flagging candidates and a human applying the label through lineage, and give the account no PII clearance; (3) document the connection and authentication path in the skill, so the agent fails cleanly; (4) treat channel membership as an access grant that the data team owns; (5) label every query with the surface, the conversation, and the user, for audit and cost tracking. (see [[agent-identity-and-access]], [[tool-design]])
 - **Instrument every answer.** Log the loaded skill versions, 👍/👎 reactions and corrections, and data-quality warnings (also shown in the answer footer). The routed-through-governed-layer adoption rate was the most actionable metric, because a dip signalled skill drift or a new question class. (see [[agent-evals]])
 - **Order of setup:** permissions, then distribution and a freshness check, then telemetry from day one, then the knowledge index, then analytics skills driven by real questions.
 
@@ -37,7 +37,7 @@ Self-reported: ~95% accuracy (prior post); in one channel over a month, Claude T
 
 ## Concepts
 
-[[agent-skills]], [[context-engineering]], [[guardrails]], [[tool-design]], [[agent-evals]]
+[[agent-skills]], [[context-engineering]], [[guardrails]], [[agent-identity-and-access]], [[tool-design]], [[agent-evals]], [[human-agent-teams]].
 
 ## Connections
 

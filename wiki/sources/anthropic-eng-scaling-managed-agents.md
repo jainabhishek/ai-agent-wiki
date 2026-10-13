@@ -2,7 +2,7 @@
 title: "Anthropic (Eng): Scaling Managed Agents — Decoupling the Brain from the Hands"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Lance Martin, Gabe Cemaj, Michael Cohen (Anthropic Engineering)
 date: 2026-04-08
 source_url: https://www.anthropic.com/engineering/managed-agents
@@ -59,7 +59,7 @@ holding user data, and customer VPCs needed network peering. See
 ## Concepts
 
 [[agent-harness]], [[agent-orchestration]], [[context-engineering]],
-[[guardrails]], [[tool-design]], [[agent-core-components]]
+[[guardrails]], [[agent-identity-and-access]], [[tool-design]], [[tool-placement]], [[agent-core-components]]
 
 ## Notable claims & data
 

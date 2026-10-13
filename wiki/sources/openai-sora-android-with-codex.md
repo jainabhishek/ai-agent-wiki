@@ -2,7 +2,7 @@
 title: "OpenAI (Eng): How We Used Codex to Build Sora for Android in 28 Days"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Patrick Hum, RJ Marsan (OpenAI)
 date: 2025-12-12
 source_url: https://openai.com/index/shipping-sora-for-android-with-codex/
@@ -48,6 +48,10 @@ could not see the app run. The findings depend on the late-2025 model.
 - **Cross-platform by translation.** With the iOS, backend, and Android repos
   in one environment, Codex translated Swift logic to Kotlin inside the Android
   architecture. The lesson: concrete examples beat descriptions.
+
+## Concepts
+
+[[human-agent-teams]]
 
 ## Connections
 

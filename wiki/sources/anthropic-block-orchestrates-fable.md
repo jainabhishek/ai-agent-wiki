@@ -2,7 +2,7 @@
 title: "Anthropic: How Block orchestrates Claude Fable across thousands of pull requests"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Anthropic (claude.com articles); interview with Bradley Axen (Block)
 date: 2026-10-08
 source_url: https://claude.com/resources/articles/how-block-orchestrates-claude-fable-across-thousands-of-pull-requests
@@ -52,6 +52,10 @@ Fable 5 / Opus 5 generation as of October 2026.
 - A single migration may merge about a thousand Fable-orchestrated PRs.
 - Engineers may work with ~45 concurrent agents; single-conversation tools do
   not scale to that.
+
+## Concepts
+
+[[human-agent-teams]]
 
 ## Connections
 

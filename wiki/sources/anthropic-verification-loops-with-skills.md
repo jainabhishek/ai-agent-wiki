@@ -2,7 +2,7 @@
 title: "Anthropic: Building verification loops in Claude Code with skills"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Delba de Oliveira (Anthropic, Claude Code team)
 date: 2026-07-22
 source_url: https://claude.com/resources/articles/building-verification-loops-in-claude-code-with-skills
@@ -69,7 +69,7 @@ scope.
 
 ## Concepts
 
-[[agent-skills]], [[agent-evals]], [[agent-harness]], [[agent-steering]],
+[[agent-skills]], [[agent-evals]], [[agent-verification]], [[agent-harness]], [[agent-steering]],
 [[guardrails]]
 
 ## Notable claims & data
@@ -79,7 +79,7 @@ scope.
 - Chained verification can increase token spend; the article advises testing a
   chain before broad deployment. No figures are given.
 - The verifier for rubric-based outcomes is a separate grader agent, which
-  matches the separate-verifier pattern in [[agent-evals]] and
+  matches the separate-verifier pattern in [[agent-verification]] and
   [[anthropic-harness-for-every-task]].
 
 ## Connections

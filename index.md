@@ -207,6 +207,7 @@ self-reported by the company that wrote them.
 - [[openai-designing-agents-resist-prompt-injection]] — injections look like social engineering; filters miss; cap damage via source-sink analysis, Safe Url (2026-03)
 - [[openai-agent-link-safety]] — URL exfiltration: auto-fetch only exact URLs an independent public crawler has seen (2026-01)
 - [[openai-hardening-atlas-prompt-injection]] — RL attacker w/ simulated victim rollouts drives adversarial training + stack fixes (2025-12)
+- [[openai-agent-security-enterprise]] — CISO white paper: task-scoped authority, reach and blast radius, task tokens, capability governance, incident response (2026-08)
 - [[openai-understanding-prompt-injections]] — seven defense layers, four user steps (logged-out mode, Watch Mode, narrow instructions) (2025-11)
 
 #### OpenAI: developer blog and guides
@@ -239,17 +240,21 @@ self-reported by the company that wrote them.
 - [[agent-core-components]] — Model, Tools, Instructions
 - [[prompt-injection]] — why injection is unsolved; source-sink defense, exfiltration, layered vendor defenses
 - [[agent-memory]] — memory across runs and sessions: files, stores, write controls, integrity
-- [[tool-design]] — ACI craft + tool types; clarity beats count; use general-purpose tools
+- [[tool-design]] — ACI craft + tool types; clarity beats count; scaling large tool libraries
+- [[tool-placement]] — where a tool runs: hosted vs client, API vs computer use, IDE/browser tools, app legibility
 - [[model-context-protocol]] — MCP at scale: deferred loading, tools as code, credentials and private servers
 - [[workflow-patterns]] — Anthropic's five: chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer
-- [[agent-orchestration]] — run loop; single-agent first; manager vs. decentralized; subagents
+- [[agent-orchestration]] — run loop; single-agent first; coordination patterns; subagents; routing
+- [[human-agent-teams]] — how people and agents work together: review limits, delegation units, agent teammates
 - [[agent-instructions]] — unambiguous, action-oriented instructions from real SOPs
-- [[guardrails]] — layered safety: classifiers, PII, moderation, tool safeguards, hooks, human-in-the-loop
+- [[guardrails]] — layered safety: risk assessment, containment, harness controls, human-in-the-loop, incidents
+- [[agent-identity-and-access]] — who the agent acts as, task-scoped authority, least agency, credentials
 - [[agent-skills]] — on-demand procedural know-how; gotchas, progressive disclosure
 - [[agent-steering]] — choosing the right instruction mechanism (CLAUDE.md/rules/skills/hooks/...)
 - [[context-engineering]] — load on demand, let the agent manage/persist context, design for cache hits
 - [[agent-harness]] — brain–hands separation, sessions, harness–model co-evolution; two-agent long-running pattern
-- [[agent-evals]] — measure beyond accuracy; realistic multi-call tasks; human-like verification; eval-with-agents
+- [[agent-evals]] — measuring agents: eval sets, graders, model-swap gates, production signals, eval integrity
+- [[agent-verification]] — checking a single run: verifiers, certificates, validation ladders, separate verifiers
 - [[multi-agent-economics]] — optimize cost per accepted outcome across planner, workers, review, and coordination
 - [[boundary-contracts]] — the bug class tests can't catch: wrong models of external systems; ground-truth-before-code, fail-loud, ratchet
 - [[prompt-tuning-axes]] — the knobs you re-tune on a model migration; axes only, no values (those expire)
@@ -258,5 +263,5 @@ self-reported by the company that wrote them.
 
 - [[agent-building-best-practices-anthropic-vs-openai]] — where the two guides
   agree/differ + a distilled best-practices checklist
-- [[obsidian-graph-analysis]] — wiki graph topology (refreshed Oct 2026: 179 pages, 3,184 links), hubs, caveats, and
+- [[obsidian-graph-analysis]] — wiki graph topology (refreshed 2026-10-13: 184 pages, 3,367 links), hubs, caveats, and
   recommended Obsidian filters

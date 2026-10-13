@@ -2,7 +2,7 @@
 title: "Anthropic: Zero Trust for AI Agents (eBook)"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Anthropic (claude.com articles)
 date: 2026-05-27
 source_url: https://claude.com/resources/articles/zero-trust-for-ai-agents
@@ -21,10 +21,10 @@ Anthropic published this eBook through a claude.com landing page bylined 2026-05
 ## Key points
 
 - **"Impossible, not tedious" test.** Friction-based controls fail against agentic attackers, who have unlimited patience and near-zero cost per attempt. Examples of friction: rate limits, extra pivot hops, non-standard ports, SMS MFA. Prefer controls that remove a capability: hardware-bound credentials, expiring tokens, cryptographic identity, and network paths that do not exist. (see [[guardrails]])
-- **Least agency.** Least privilege extends to what each agent tool can do, how often, and where. Examples: a read-only database tool, and an email summarizer with no send or delete rights. (see [[tool-design]])
+- **Least agency.** Least privilege extends to what each agent tool can do, how often, and where. Examples: a read-only database tool, and an email summarizer with no send or delete rights. (see [[tool-design]], [[agent-identity-and-access]])
 - **Threat taxonomy.** Direct and indirect prompt injection. Tool poisoning and rug pulls through MCP metadata. Tool chaining, which uses only legitimate tools and is therefore invisible to host monitoring. Loop amplification. Unscoped privilege inheritance and the confused deputy between agents. Memory-based privilege retention. Model, tool, and dependency supply-chain attacks. RAG and shared-context poisoning, plus slow memory drift. (see [[model-context-protocol]], [[context-engineering]])
 - **Tiers.** Foundation, Enterprise (the target for most organizations), and Advanced (regulated or national-security work). The tiers apply across identity, service authentication, permissions, privilege scoping, resource boundaries, logging, traceability, baselines, anomaly detection, response, input and output controls, configuration integrity, recovery, and governance. The eBook says AI offense has "raised" the Foundation floor. Foundation now requires short-lived IdP tokens, cryptographically rooted identity, identity-based isolation, and automated first-pass triage. Static API keys are not acceptable even at Foundation.
-- **Identity over network.** Isolation should be enforced by the receiving service. Each service accepts only named, cryptographically identified callers, and network segmentation is only a backstop. When work is split across agents, each agent needs its own ID and its own credentials; shared credentials defeat the split. (see [[agent-orchestration]])
+- **Identity over network.** Isolation should be enforced by the receiving service. Each service accepts only named, cryptographically identified callers, and network segmentation is only a backstop. When work is split across agents, each agent needs its own ID and its own credentials; shared credentials defeat the split. (see [[agent-orchestration]], [[agent-identity-and-access]])
 - **Inter-agent trust.** Before an agent accepts a delegated task, it verifies the delegating agent's identity and authorization. Each step is authorized again, and all inter-agent messages are logged.
 - **Memory safeguards.** Isolate memory per session and per user. Validate memory integrity at every retrieval, not only at storage: hash each element, tag its source, and store the hashes apart from the content. Give unverified memory a TTL, and keep versioned stores for rollback. (see [[context-engineering]])
 - **Operations.** Automate the bookkeeping, not the decisions: humans keep the containment, disclosure, and customer-communication calls. Put a model at the front of the alert queue. Start with one noisy rule and read-only access, and measure agreement with a human reviewer for two weeks before you expand. Measure dwell time and coverage first. (see [[agent-evals]])
@@ -46,4 +46,4 @@ Anthropic published this eBook through a claude.com landing page bylined 2026-05
 
 ## Connections
 
-Operational companions: [[anthropic-ciso-guide-agentic-ai]] (four-question assessment), [[anthropic-securing-ai-native-sdlc]] (applied to the SDLC). Related identity and injection work: [[anthropic-agent-identity-access-model]], [[anthropic-prompt-injection-defenses-browser]], [[anthropic-eng-how-we-contain-claude]], [[anthropic-eng-claude-code-sandboxing]]. OpenAI counterparts: OpenAI's "Agent security in the enterprise" white paper (Sep 2026; not ingested because it is behind a lead form), [[openai-understanding-prompt-injections]], [[openai-designing-agents-resist-prompt-injection]].
+Operational companions: [[anthropic-ciso-guide-agentic-ai]] (four-question assessment), [[anthropic-securing-ai-native-sdlc]] (applied to the SDLC). Related identity and injection work: [[anthropic-agent-identity-access-model]], [[anthropic-prompt-injection-defenses-browser]], [[anthropic-eng-how-we-contain-claude]], [[anthropic-eng-claude-code-sandboxing]]. OpenAI counterparts: [[openai-agent-security-enterprise]], [[openai-understanding-prompt-injections]], [[openai-designing-agents-resist-prompt-injection]].

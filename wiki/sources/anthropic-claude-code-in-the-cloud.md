@@ -2,7 +2,7 @@
 title: "Anthropic: Claude Code in the Cloud (Field Guide to Cloud Sessions)"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Addy Osmani (Anthropic, claude.dev blog)
 date: 2026-10-06
 source_url: https://claude.dev/blog/claude-code-in-the-cloud/
@@ -85,7 +85,7 @@ agent-design content. See [[agent-harness]], [[guardrails]].
 ### Verification and task framing
 - **Give sessions a way to check their own work.** "Without that, you review
   changes nobody has run." Most of the demo's value came from Claude running
-  things. See [[agent-evals]], [[agent-design-principles]].
+  things. See [[agent-verification]], [[agent-design-principles]].
 - **Write each task as a self-contained ticket**: what is wrong, what done looks
   like, and the command that proves it. The flaky-test prompt asked for at least 30
   runs; the agent ran 40.
@@ -121,7 +121,7 @@ agent-design content. See [[agent-harness]], [[guardrails]].
 ## Concepts
 
 [[agent-harness]], [[guardrails]], [[agent-orchestration]], [[agent-steering]],
-[[agent-skills]], [[agent-evals]], [[agent-design-principles]], [[context-engineering]]
+[[agent-skills]], [[agent-evals]], [[agent-verification]], [[agent-design-principles]], [[context-engineering]]
 
 ## Connections
 

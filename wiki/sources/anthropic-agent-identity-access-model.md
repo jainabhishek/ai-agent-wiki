@@ -2,7 +2,7 @@
 title: "Anthropic: Agent Identity in Claude Tag"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Noah Zweben (Anthropic, Claude Code team)
 date: 2026-06-24
 source_url: https://claude.com/resources/articles/agent-identity-access-model
@@ -27,7 +27,7 @@ GitHub App, a service account for the warehouse). Admins set a workspace-wide
 baseline of connections and skills; channels inherit it and can override it.
 The access question becomes "what can this agent do in this compartment?". DMs
 are the exception: they run under the individual user's own claude.ai account.
-See [[guardrails]].
+See [[agent-identity-and-access]].
 
 ## Key points
 
@@ -61,7 +61,7 @@ See [[guardrails]].
 
 ## Concepts
 
-[[guardrails]], [[agent-harness]], [[context-engineering]], [[tool-design]]
+[[guardrails]], [[agent-identity-and-access]], [[agent-harness]], [[context-engineering]], [[tool-design]], [[human-agent-teams]].
 
 ## Notable claims & data
 

@@ -2,7 +2,7 @@
 title: "OpenAI (Eng): Harness engineering — leveraging Codex in an agent-first world"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Ryan Lopopolo (OpenAI)
 date: 2026-02-11
 source_url: https://openai.com/index/harness-engineering/
@@ -52,7 +52,7 @@ should not be assumed to generalize. See [[agent-harness]] and
 - **Application legibility.** The app boots per git worktree; Chrome DevTools
   Protocol plus skills give DOM snapshots, screenshots, and navigation; an
   ephemeral per-worktree observability stack exposes logs (LogQL) and metrics
-  (PromQL). Human QA capacity had become the bottleneck. See [[tool-design]].
+  (PromQL). Human QA capacity had become the bottleneck. See [[tool-placement]].
 - **Enforce invariants, not implementations.** Each business domain has fixed
   layers (Types → Config → Repo → Service → Runtime → UI) with cross-cutting
   concerns entering only through Providers. Codex-written custom linters and
@@ -75,8 +75,8 @@ should not be assumed to generalize. See [[agent-harness]] and
 ## Concepts
 
 [[agent-harness]], [[context-engineering]], [[agent-instructions]],
-[[agent-steering]], [[guardrails]], [[tool-design]], [[agent-skills]],
-[[agent-evals]], [[agent-design-principles]]
+[[agent-steering]], [[guardrails]], [[tool-design]], [[tool-placement]], [[agent-skills]],
+[[agent-evals]], [[agent-design-principles]], [[human-agent-teams]].
 
 ## Notable claims & data
 

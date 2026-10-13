@@ -2,7 +2,7 @@
 title: "OpenAI (Eng): Building Self-Improving Tax Agents with Codex"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Aravind Srinivasan, Samay Shamdasani (Thrive Holdings); Arthur Fernandes Araujo, John de Wasseige (OpenAI)
 date: 2026-05-27
 source_url: https://openai.com/index/building-self-improving-tax-agents-with-codex/
@@ -52,6 +52,10 @@ proposes a PR for engineer review.
 - **The first domain is the expensive one.** Rental properties (Schedule E)
   took about six weeks of heavy engineering oversight to reach 90% precision
   and recall. The resulting conventions made Schedules C and A easier.
+
+## Concepts
+
+[[human-agent-teams]]
 
 ## Connections
 

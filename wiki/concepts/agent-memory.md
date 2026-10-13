@@ -2,7 +2,7 @@
 title: Agent Memory
 type: concept
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [memory, agents, context, persistence, security, governance]
 ---
 
@@ -157,6 +157,11 @@ memory runs again in every later session.
   (see [[anthropic-asana-coachable-agents]]) limit what one context can leak into
   another.
 
+- OpenAI's white paper lists context and memory poisoning as a threat class:
+  harmful influence that persists across tasks or users. Its control is to
+  isolate and review persistent context so it cannot silently redirect
+  sensitive actions. (see [[openai-agent-security-enterprise]])
+
 ## Why it matters
 
 Long-running and scheduled agents fail silently when memory goes stale or wrong
@@ -207,6 +212,8 @@ its write path a governance and security surface, not only a storage choice.
 - [[openai-codex-maxxing-long-running-work]]
 - [[openai-run-long-horizon-tasks-codex]]
 - [[openai-in-house-data-agent]]
+- [[openai-agent-security-enterprise]]
+- [[anthropic-prompting-claude-fable-5-1]]
 
 ## Contradictions / open questions
 

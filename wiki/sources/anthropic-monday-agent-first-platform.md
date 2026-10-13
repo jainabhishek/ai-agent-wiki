@@ -2,7 +2,7 @@
 title: "Anthropic: How monday.com rebuilt its platform as an agent-first product"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Aleksandra Todorova (Anthropic)
 date: 2026-08-20
 source_url: https://claude.com/resources/articles/how-monday-com-transformed-its-platform-into-an-agent-first-product-where-humans-and-agents-collaborate
@@ -35,7 +35,7 @@ Self-reported: 250,000+ customer companies; 5M+ agent interactions since the May
 
 ## Concepts
 
-[[agent-orchestration]], [[workflow-patterns]], [[guardrails]], [[agent-design-principles]]
+[[agent-orchestration]], [[workflow-patterns]], [[guardrails]], [[agent-design-principles]], [[human-agent-teams]].
 
 ## Connections
 

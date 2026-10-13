@@ -2,7 +2,7 @@
 title: "OpenAI: Shell + Skills + Compaction — Tips for Long-Running Agents"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Charlie Guo (OpenAI)
 date: 2026-02-11
 source_url: https://developers.openai.com/blog/skills-shell-tips
@@ -46,7 +46,7 @@ skill, treating skills plus open networking as an exfiltration risk, using
   skills allowed, shell allowed, network only with a minimal per-request
   allowlist. Org allowlist caps request `network_policy` (out-of-org domains
   error). `domain_secrets` injects credentials via a sidecar; the model sees
-  placeholders like `$API_KEY`. See [[guardrails]].
+  placeholders like `$API_KEY`. See [[guardrails]], [[agent-identity-and-access]].
 - **Same API local and hosted:** local mode returns `shell_call_output` for
   each `shell_call`; the Agents SDK accepts a custom shell executor. Start
   local, move hosted, keep skills identical. See [[openai-agents-sdk]].

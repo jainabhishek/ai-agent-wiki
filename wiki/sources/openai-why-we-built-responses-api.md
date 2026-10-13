@@ -2,7 +2,7 @@
 title: "OpenAI: Why We Built the Responses API"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Steve Coffey, Prashant Mital (OpenAI Developers blog)
 date: 2025-09-22
 source_url: https://developers.openai.com/blog/responses-api
@@ -58,7 +58,7 @@ benchmarks. The wiki later records the Assistants API shutdown on 2026-08-26
 
 ## Concepts
 
-[[agent-core-components]], [[agent-orchestration]], [[tool-design]],
+[[agent-core-components]], [[agent-orchestration]], [[tool-design]], [[tool-placement]],
 [[context-engineering]], [[model-context-protocol]]
 
 ## Notable claims & data

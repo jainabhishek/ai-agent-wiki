@@ -2,7 +2,7 @@
 title: "OpenAI: Codex-maxxing for long-running work"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: OpenAI (white paper featuring creator Jason Liu)
 date: 2026-06-22
 source_url: https://openai.com/index/codex-maxxing-long-running-work/
@@ -52,7 +52,7 @@ loops, verifiable goals, and the side panel.
   signed-in or multi-tab work, `@computer` for GUI-only apps (with clear
   permissions and review), connectors for Slack, Gmail, Calendar, and GitHub,
   and skills for repeatable workflows. Package a workflow as a skill once it
-  succeeds. See [[tool-design]] and [[agent-skills]].
+  succeeds. See [[tool-placement]] and [[agent-skills]].
 - **Thread automations** are heartbeat-style wake-ups attached to a thread.
   Codex returns to the same conversation on a cadence instead of starting fresh.
   A thread can hold several schedules, run until a condition holds, and change
@@ -65,7 +65,7 @@ loops, verifiable goals, and the side panel.
 - **Verifiable goals.** "Implement the plan in this file" is a weak goal. A strong
   goal gives a test standard. Example: port Rich to Rust, keep the public API,
   and treat the original unit tests as the success check. See
-  [[agent-instructions]] and [[agent-evals]].
+  [[agent-instructions]] and [[agent-verification]].
 - **Remote control** lets a run continue on the local machine while the user
   reviews decision points from a phone. The paper says this is not a reason to
   skip reviews.
@@ -79,8 +79,8 @@ loops, verifiable goals, and the side panel.
 
 ## Concepts
 
-[[context-engineering]], [[agent-steering]], [[agent-skills]], [[tool-design]],
-[[guardrails]], [[agent-instructions]], [[agent-harness]]
+[[context-engineering]], [[agent-steering]], [[agent-skills]], [[tool-design]], [[tool-placement]],
+[[guardrails]], [[agent-instructions]], [[agent-harness]], [[agent-verification]]
 
 ## Notable claims & data
 

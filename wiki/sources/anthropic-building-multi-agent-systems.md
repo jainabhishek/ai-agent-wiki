@@ -2,7 +2,7 @@
 title: "Anthropic: Building multi-agent systems — when and how to use them"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Cara Phillips (Anthropic, claude.com articles)
 date: 2026-01-23
 source_url: https://claude.com/resources/articles/building-multi-agent-systems-when-and-how-to-use-them
@@ -67,7 +67,7 @@ guidelines that will move as models improve.
 ## Concepts
 
 [[agent-orchestration]], [[multi-agent-economics]], [[context-engineering]],
-[[agents-vs-workflows]], [[tool-design]], [[agent-evals]],
+[[agents-vs-workflows]], [[tool-design]], [[agent-evals]], [[agent-verification]],
 [[agent-design-principles]]
 
 ## Notable claims & data

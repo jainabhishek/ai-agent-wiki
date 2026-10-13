@@ -3,7 +3,7 @@ title: OpenAI
 type: entity
 subtype: org
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [openai, agents]
 ---
 
@@ -76,9 +76,11 @@ and a layered guardrails model.
   successful task before deployment. (see
   [[openai-practical-guide-building-with-gpt-6]],
   [[openai-prompting-gpt-6-astra]])
-- **Not ingested.** OpenAI's "Agent security in the enterprise" white paper
-  (Sep 2026) sits behind a lead form, so the wiki has no source page for it.
-  (see [[openai-running-codex-safely]])
+- **Agent security white paper.** "Agent security in the enterprise" (Aug 2026,
+  listed Sep 2026) is OpenAI's CISO guide: task-scoped authority, reach and
+  blast radius, agent identity with task tokens, capability governance, and
+  incident response. It sits behind a lead form; the human supplied the PDF.
+  (see [[openai-agent-security-enterprise]])
 
 ### Prompt-injection posture
 
@@ -107,6 +109,7 @@ and a layered guardrails model.
 
 ## Appears in
 
+- [[openai-agent-security-enterprise]]
 - [[openai-practical-guide-to-building-agents]]
 - [[openai-prompt-guidance-gpt-5-6]] (legacy)
 - [[openai-prompting-gpt-6-astra]]

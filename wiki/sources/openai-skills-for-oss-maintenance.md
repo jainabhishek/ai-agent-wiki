@@ -2,7 +2,7 @@
 title: "OpenAI: Using Skills to Accelerate OSS Maintenance"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Kazuhiro Sera (OpenAI)
 date: 2026-03-09
 source_url: https://developers.openai.com/blog/skills-agents-sdk
@@ -67,7 +67,7 @@ design options. Date from page byline: 2026-03-09.
 ## Concepts
 
 [[agent-skills]], [[agent-instructions]], [[agent-steering]], [[tool-design]],
-[[guardrails]], [[agent-evals]]
+[[guardrails]], [[agent-evals]], [[agent-verification]]
 
 ## Notable claims & data
 

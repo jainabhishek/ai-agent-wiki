@@ -2,7 +2,7 @@
 title: Agent Skills
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [skills, agents, context-engineering, best-practices]
 ---
 
@@ -395,6 +395,8 @@ compound — a direct application of start-simple ([[agent-design-principles]]).
 - [[openai-responses-api-computer-environment]]
 - [[openai-unrolling-codex-agent-loop]]
 - [[openai-codex-maxxing-long-running-work]]
+- [[harnessing-claudes-intelligence]]
+- [[openai-prompting-gpt-6-astra]]
 
 ## Contradictions / open questions
 

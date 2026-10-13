@@ -2,7 +2,7 @@
 title: "Anthropic: How to Prepare for AI-Driven Code Modernization Projects"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Jonah Ezekiel, Lexie Tonelli (Anthropic forward deployed engineers)
 date: 2026-09-23
 source_url: https://claude.com/resources/articles/how-to-prepare-for-ai-driven-code-modernization-projects
@@ -67,7 +67,7 @@ to parallel subagent workstreams, starting from the code modernization plugin;
 
 ## Concepts
 
-[[agent-evals]], [[guardrails]], [[workflow-patterns]], [[agent-orchestration]],
+[[agent-evals]], [[agent-verification]], [[guardrails]], [[workflow-patterns]], [[agent-orchestration]],
 [[multi-agent-economics]], [[boundary-contracts]]
 
 ## Notable claims & data

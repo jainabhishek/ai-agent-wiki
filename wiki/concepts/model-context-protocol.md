@@ -2,7 +2,7 @@
 title: Model Context Protocol (MCP)
 type: concept
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [mcp, tools, context-engineering, security, connectivity]
 ---
 
@@ -173,6 +173,13 @@ running a secure sandbox for agent-written code. (see
   confine arbitrary processes, agents, and MCP servers with OS-level isolation,
   without a container. (see [[anthropic-eng-claude-code-sandboxing]])
 
+- **Govern tools as a supply chain.** Approving a familiar service is not
+  approving every action it exposes. Keep an inventory or registry of approved
+  capabilities with owner, provenance, and expected effect; treat a connector
+  update that adds a write action or destination as security-relevant and gate
+  it until reviewed; test capabilities in combination (a sensitive read plus an
+  external send is a disclosure path). (see [[openai-agent-security-enterprise]])
+
 ## Alternatives to an MCP server
 
 A static client-side app can register browser-side tools through WebMCP instead
@@ -232,6 +239,7 @@ reach. (see [[tool-design]], [[context-engineering]], [[guardrails]])
 - [[anthropic-auto-mode-production]]
 - [[openai-running-codex-safely]]
 - [[openai-why-we-built-responses-api]]
+- [[openai-agent-security-enterprise]]
 
 ## Contradictions / open questions
 

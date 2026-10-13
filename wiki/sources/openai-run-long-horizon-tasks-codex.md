@@ -2,7 +2,7 @@
 title: "OpenAI: Run Long Horizon Tasks with Codex"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Derrick Choi (OpenAI Developers blog)
 date: 2026-02-23
 source_url: https://developers.openai.com/blog/run-long-horizon-tasks-with-codex
@@ -48,7 +48,7 @@ token counts are dated. The file-based method does not depend on the model.
   and a "done when" routine. See [[agent-harness]].
 - **Verification at each milestone.** Lint, typecheck, tests, build, and export
   commands ran after milestones, with failures repaired before moving on. See
-  [[agent-evals]] and [[agent-steering]].
+  [[agent-verification]] and [[agent-steering]].
 - **Mid-run steering.** GPT-5.3-Codex is claimed to accept course corrections
   without losing progress. Native plan mode is toggled with `/plan`.
 - **Codex app features:** parallel project threads, Skills, Automations, Git
@@ -61,7 +61,7 @@ token counts are dated. The file-based method does not depend on the model.
 ## Concepts
 
 [[context-engineering]], [[agent-harness]], [[agent-steering]],
-[[agent-evals]], [[agent-skills]], [[agent-instructions]]
+[[agent-evals]], [[agent-verification]], [[agent-skills]], [[agent-instructions]]
 
 ## Notable claims & data
 

@@ -2,7 +2,7 @@
 title: "OpenAI: A practical guide to building with GPT-6 (A model guide for the GPT-6 family)"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: OpenAI
 date: 2026-10-02
 source_url: https://openai.com/index/practical-guide-building-gpt-6/
@@ -96,7 +96,7 @@ close the page; their results are self-reported.
 - Computer use: prefer an API or connector when one can do the step; use
   computer use for screens, clicks, and forms. For your own app, give the model
   a code-running tool (Playwright for browsers, PyAutoGUI for desktop apps). See
-  [[tool-design]].
+  [[tool-placement]].
 
 ### Testimonials (self-reported)
 - Harvey: more context gives better-structured legal drafts. Cognition: Devin
@@ -139,7 +139,7 @@ advice, through its summary of the skills post.
 
 [[prompt-tuning-axes]], [[agent-instructions]], [[agent-skills]],
 [[agent-steering]], [[agent-orchestration]], [[context-engineering]],
-[[agent-evals]], [[tool-design]], [[guardrails]]
+[[agent-evals]], [[tool-design]], [[tool-placement]], [[guardrails]]
 
 ## Notable claims & data
 

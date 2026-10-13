@@ -2,7 +2,7 @@
 title: "Anthropic: The Evolution of Agentic Surfaces (Claude Managed Agents)"
 type: source
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-10-13
 author: Anthropic (Claude blog)
 date: 2026-06-10
 source_url: https://claude.com/blog/building-with-claude-managed-agents
@@ -42,7 +42,7 @@ and result. See [[agent-harness]] and [[agent-orchestration]].
 ## Concepts
 
 [[agent-harness]], [[agent-orchestration]], [[context-engineering]],
-[[guardrails]], [[agent-core-components]]
+[[guardrails]], [[agent-identity-and-access]], [[agent-core-components]]
 
 ## Entities
 
@@ -54,7 +54,7 @@ and result. See [[agent-harness]] and [[agent-orchestration]].
   pause/resume and full audit — a concrete realization of the [[agent-orchestration]]
   "run loop / exit conditions" idea.
 - Credentials via **Vaults** (envelope encryption, signed request tokens) — a
-  production extension of [[guardrails]] tool-safeguard thinking.
+  production extension of [[agent-identity-and-access]] tool-safeguard thinking.
 
 ## Connections
 

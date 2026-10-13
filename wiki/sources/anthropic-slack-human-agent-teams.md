@@ -2,7 +2,7 @@
 title: "Anthropic: How Slack builds human-agent teams (Jaime DeLanghe interview)"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Anthropic (claude.com articles); interview with Jaime DeLanghe, CPO of Slack
 date: 2026-08-19
 source_url: https://claude.com/resources/articles/turning-conversation-into-knowledge-how-slack-builds-human-agent-teams
@@ -22,7 +22,7 @@ Anthropic published this on claude.com on 2026-08-19 as the second post in its s
 
 - **Agents see only what is visible.** Default channels to public; decisions in DMs or private threads are invisible to agents. A private channel is a blind spot for every agent that reports on it. (see [[context-engineering]])
 - **Ask for the reasoning, not the record.** Use agents to reconstruct why a decision was made and how context changed since.
-- **Handoff loop.** Agents draft, summarize, monitor, and prepare; a human reviews, decides, and redirects at the end of each loop. Example: an agent-built Monday briefing, workshop recap with escalations, meeting briefings. (see [[agent-orchestration]])
+- **Handoff loop.** Agents draft, summarize, monitor, and prepare; a human reviews, decides, and redirects at the end of each loop. Example: an agent-built Monday briefing, workshop recap with escalations, meeting briefings. (see [[human-agent-teams]])
 - **Shared channel as work queue.** Humans and agents triage in one channel; humans set priority. An emoji reaction adds an item that an agent picks up.
 - **Clear agent roles.** Treat agents as coworkers with focus areas. Route routine transactional tasks (help-desk tickets, weekly metrics) to a general agent. Retire an agent whose purpose people cannot state.
 - **Adoption spreads by example.** Salesforce's public "How I Slackbot" channel (thousands of members, her count); a Slack PM's "what I did and how" canvas was copied by other PMs.
@@ -34,7 +34,7 @@ Anthropic published this on claude.com on 2026-08-19 as the second post in its s
 
 ## Concepts
 
-[[context-engineering]], [[agent-orchestration]], [[agent-design-principles]]
+[[context-engineering]], [[agent-orchestration]], [[human-agent-teams]], [[agent-design-principles]]
 
 ## Connections
 

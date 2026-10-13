@@ -2,7 +2,7 @@
 title: "Anthropic: Multi-Agent Coordination Patterns"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Cara Phillips (Anthropic, claude.com articles)
 date: 2026-04-10
 source_url: https://claude.com/resources/articles/multi-agent-coordination-patterns
@@ -65,7 +65,7 @@ appears. Production systems often combine patterns. Not model-specific. See
 ## Concepts
 
 [[agent-orchestration]], [[workflow-patterns]], [[multi-agent-economics]],
-[[agent-evals]], [[agent-design-principles]]
+[[agent-evals]], [[agent-verification]], [[agent-design-principles]]
 
 ## Notable claims & data
 

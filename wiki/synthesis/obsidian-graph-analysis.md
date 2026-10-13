@@ -2,7 +2,7 @@
 title: Obsidian Graph Analysis
 type: synthesis
 created: 2026-06-22
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [graph, obsidian, wiki-health, synthesis]
 ---
 
@@ -10,23 +10,24 @@ tags: [graph, obsidian, wiki-health, synthesis]
 
 > Query answer for: "check the Obsidian graph and explain." First filed
 > 2026-06-22; figures refreshed 2026-10-12 after the 30-source ingest, the six-post
-> backlog ingest, and the full claude.com / openai.com sweep (94 sources).
+> backlog ingest, and the full claude.com / openai.com sweep (94 sources); a
+> 2026-10-13 column covers the split of four concept pages into eight.
 
 ## Answer (refreshed 2026-10-12)
 
 The meaningful graph is still the `wiki/` subgraph, not the whole repository.
 Within `wiki/`, the graph is healthy and has more than doubled since June:
 
-| Measure | 2026-06-22 | 2026-08-06 (`main`) | 2026-10-12 (first ingests) | 2026-10-12 (full sweep) |
-|---------|-----------:|--------------------:|-----------:|-----------:|
-| Pages | 35 | 44 | 83 | 179 |
-| Source pages | 12 | 17 | 53 | 147 |
-| Concept / entity pages | — | 16 / 8 | 17 / 10 | 19 / 10 |
-| Unique directed wikilinks | 408 | 516 | 1,364 | 3,184 |
-| Reciprocal link pairs | 130 | 154 | 445 | 1,042 |
-| Connected components | 1 | 1 | 1 | 1 |
-| Unresolved internal wikilinks | 0 | 0 | 0 | 0 |
-| Pages with no inbound link from `wiki/` | 0 | 1 | 0 | 0 |
+| Measure | 2026-06-22 | 2026-08-06 (`main`) | 2026-10-12 (first ingests) | 2026-10-12 (full sweep) | 2026-10-13 (after splits) |
+|---------|-----------:|--------------------:|-----------:|-----------:|-----------:|
+| Pages | 35 | 44 | 83 | 179 | 184 |
+| Source pages | 12 | 17 | 53 | 147 | 148 |
+| Concept / entity pages | — | 16 / 8 | 17 / 10 | 19 / 10 | 23 / 10 |
+| Unique directed wikilinks | 408 | 516 | 1,364 | 3,184 | 3,367 |
+| Reciprocal link pairs | 130 | 154 | 445 | 1,042 | 1,080 |
+| Connected components | 1 | 1 | 1 | 1 | 1 |
+| Unresolved internal wikilinks | 0 | 0 | 0 | 0 | 0 |
+| Pages with no inbound link from `wiki/` | 0 | 1 | 0 | 0 | 0 |
 
 How the 2026-10-12 figures were computed: a script reads every `.md` file under
 `wiki/`, collects double-bracket wikilinks (ignoring aliases and heading anchors), drops
@@ -141,10 +142,10 @@ cleaner concept map, temporarily hide `wiki/sources/` and focus on
 - Add non-Anthropic sources if the goal is a more balanced graph. OpenAI coverage
   roughly doubled on 2026-10-12, but Anthropic sources still outnumber OpenAI
   ones more than 3 to 1, and no other lab is represented except [[cursor]].
-- The five largest concept pages now hold 47–55 inbound links each. If one of
-  them starts to cover two topics, split it, as the schema's atomic-pages rule
-  requires. [[guardrails]] (environment vs. model layer) is the likeliest
-  candidate.
+- ~~Split concept pages that hold two topics.~~ Done 2026-10-13:
+  [[agent-orchestration]] → [[human-agent-teams]]; [[tool-design]] →
+  [[tool-placement]]; [[guardrails]] → [[agent-identity-and-access]];
+  [[agent-evals]] → [[agent-verification]].
 
 ## Sources & pages drawn on
 

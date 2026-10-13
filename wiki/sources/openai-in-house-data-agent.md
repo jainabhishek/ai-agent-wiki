@@ -2,7 +2,7 @@
 title: "OpenAI (Eng): Inside OpenAI's in-house data agent"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Bonnie Xu, Aravind Suresh, Emma Tang (OpenAI)
 date: 2026-01-29
 source_url: https://openai.com/index/inside-our-in-house-data-agent/
@@ -46,7 +46,7 @@ a bad join) and retries. See [[context-engineering]].
   [[agent-evals]].
 - **Pass-through permissions.** Users can query only tables they already have
   access to; answers show assumptions, steps, and links to raw results. See
-  [[guardrails]].
+  [[agent-identity-and-access]].
 - **Lessons:** fewer, non-overlapping tools improved reliability
   ([[tool-design]]); goal-level guidance beat prescriptive prompting
   ([[agent-instructions]]); a table's meaning lives in the code that produces

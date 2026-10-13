@@ -2,7 +2,7 @@
 title: "Anthropic: How Datadog Built a Universal Machine Tool for Claude Code"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Michael Segner (Anthropic)
 date: 2026-07-21
 source_url: https://claude.com/resources/articles/how-datadog-built-a-universal-machine-tool-for-claude-code
@@ -59,7 +59,7 @@ artifacts cannot drift.
 
 ## Concepts
 
-[[boundary-contracts]], [[guardrails]], [[agent-evals]], [[tool-design]],
+[[boundary-contracts]], [[guardrails]], [[agent-evals]], [[agent-verification]], [[tool-design]],
 [[agent-harness]]
 
 ## Notable claims & data

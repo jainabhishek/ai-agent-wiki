@@ -2,7 +2,7 @@
 title: "Anthropic: Agentic Coding Is Straining CI — Scaling Test Impact Analysis"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Sachin Malhotra (Anthropic)
 date: 2026-09-14
 source_url: https://claude.com/resources/articles/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic
@@ -58,7 +58,7 @@ redesigns are now cheap because code writing is not the bottleneck. See
 
 ## Concepts
 
-[[agent-harness]], [[agent-evals]], [[agent-design-principles]]
+[[agent-harness]], [[agent-evals]], [[agent-verification]], [[agent-design-principles]]
 
 ## Notable claims & data
 

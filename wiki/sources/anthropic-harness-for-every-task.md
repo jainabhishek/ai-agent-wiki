@@ -2,7 +2,7 @@
 title: "Anthropic: A harness for every task: dynamic workflows in Claude Code"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Thariq Shihipar and Sid Bidasaria (Anthropic, claude.dev blog)
 date: 2026-06-02
 source_url: https://claude.dev/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code/
@@ -62,7 +62,7 @@ high-value tasks. See [[agent-orchestration]] and [[workflow-patterns]].
 ## Concepts
 
 [[agent-orchestration]], [[workflow-patterns]], [[agents-vs-workflows]],
-[[agent-harness]], [[multi-agent-economics]], [[guardrails]], [[agent-evals]],
+[[agent-harness]], [[multi-agent-economics]], [[guardrails]], [[agent-evals]], [[agent-verification]],
 [[agent-skills]]
 
 ## Notable claims & data

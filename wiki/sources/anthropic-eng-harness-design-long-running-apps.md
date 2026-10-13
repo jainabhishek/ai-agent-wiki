@@ -2,7 +2,7 @@
 title: "Anthropic (Eng): Harness Design for Long-Running Application Development"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Prithvi Rajasekaran (Anthropic Labs)
 date: 2026-03-24
 source_url: https://www.anthropic.com/engineering/harness-design-long-running-apps
@@ -52,7 +52,7 @@ generator, and evaluator. See [[agent-harness]] and [[agent-orchestration]].
 
 ## Concepts
 
-[[agent-harness]], [[agent-orchestration]], [[agent-evals]],
+[[agent-harness]], [[agent-orchestration]], [[agent-evals]], [[agent-verification]],
 [[context-engineering]], [[workflow-patterns]], [[agent-design-principles]],
 [[multi-agent-economics]]
 

@@ -2,7 +2,7 @@
 title: "Anthropic customer story: Dust (tool-call depth and prompt caching)"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Anthropic (claude.com customer stories)
 date: "accessed 2026-10-12"
 source_url: https://claude.com/customers/dust
@@ -24,7 +24,7 @@ Anthropic publishes this story on claude.com; the page has no date (accessed 202
 - **Revisit harness limits as models improve.** Tool-call caps sized for weaker models truncated results; the loop now allows 24 calls. (see [[agent-harness]])
 - **Per-model prompting behind a model picker.** Each model gets its own prompt and context strategy. (see [[prompt-tuning-axes]])
 - **MCP both ways.** Dust is an MCP client (one interface to any tool) and an MCP server (exposes its agents and context). (see [[model-context-protocol]])
-- **Governance in the platform.** Permission-aware retrieval, role-based access, and audit logs keep each agent within its user's clearance. (see [[guardrails]])
+- **Governance in the platform.** Permission-aware retrieval, role-based access, and audit logs keep each agent within its user's clearance. (see [[agent-identity-and-access]])
 - **Sub-agent research.** Deep Research agents orchestrate sub-agents for 10+ minutes per report. (see [[agent-orchestration]])
 
 ## Notable claims & data
@@ -37,7 +37,7 @@ Self-reported: input spend −22%; overall model spend −18–19% (~$10K/day); 
 
 ## Concepts
 
-[[context-engineering]], [[agent-harness]], [[model-context-protocol]], [[prompt-tuning-axes]], [[guardrails]], [[agent-orchestration]]
+[[context-engineering]], [[agent-harness]], [[model-context-protocol]], [[prompt-tuning-axes]], [[guardrails]], [[agent-identity-and-access]], [[agent-orchestration]]
 
 ## Connections
 

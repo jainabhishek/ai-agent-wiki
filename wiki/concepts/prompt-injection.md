@@ -2,7 +2,7 @@
 title: Prompt Injection
 type: concept
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [prompt-injection, security, exfiltration, red-teaming, guardrails, browser-agents, memory-poisoning]
 ---
 
@@ -85,6 +85,15 @@ sensitive data never happen silently. (see
   profile can be scoped to its least-privileged member. (see
   [[anthropic-agent-identity-access-model]])
 - **Website content cannot grant permission.** (see [[openai-agents-api-guide]])
+
+- **Threat-model the path from low-trust context to effect.** OpenAI's white
+  paper asks teams to trace each path from untrusted content to a consequential
+  action and name the independent boundary that limits it, testing with harmful
+  instructions embedded in useful context. Its coding-agent example: repository
+  text tells the agent to add an unapproved dependency and disable a security
+  test; dependency policy blocks it, task-scoped authority lets the agent
+  propose but not merge, and egress controls plus telemetry contain it.
+  Instructions alone are a weak defense. (see [[openai-agent-security-enterprise]])
 
 ## Exfiltration through network requests
 
@@ -312,6 +321,7 @@ reach the SIEM. (see [[anthropic-ciso-guide-agentic-ai]])
 - [[anthropic-complete-guide-building-skills]]
 - [[anthropic-asana-coachable-agents]]
 - [[anthropic-prompting-claude-opus-5-5]]
+- [[openai-agent-security-enterprise]]
 
 ## Contradictions / open questions
 

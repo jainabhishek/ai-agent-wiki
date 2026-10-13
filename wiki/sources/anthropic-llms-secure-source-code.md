@@ -2,7 +2,7 @@
 title: "Anthropic: Using LLMs to secure source code"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Eugene Yan and Henna Dattani (Anthropic), with contributors
 date: 2026-05-27
 source_url: https://claude.com/resources/articles/using-llms-to-secure-source-code
@@ -27,7 +27,7 @@ Anthropic published this best-practice guide on claude.com on 2026-05-27. The au
 - **Partition, then fan out.** A first pass partitions the search space, parallel agents search each partition, and a final system-level pass uses their findings. Adding more agents without partitions gave mostly duplicates. (see [[agent-orchestration]])
 - **An independent, adversarial verifier.** When discovery agents also verified, they self-censored true positives. Run the verifier in a fresh container with no shared filesystem or conversation history. Give it only the finding (or PoC) and the codebase, and prompt it to assume the finding is a false positive. Optional: several verifiers voting, plus a judge. (see [[workflow-patterns]])
 - **Triage rubric.** Deduplicate by root cause: first a deterministic pass (same file, same category, within 10 lines), then model rules. To score severity, the model first answers six questions: reachability, attacker control, preconditions, authentication, read vs write, and blast radius. This stops it from anchoring on the bug class.
-- **A validation ladder for patches.** Write a failing test first. Then check, in order: build, the original PoC stops working, no regressions, and a fresh agent re-attacks the patch. Ask for the minimal root-cause change. A human owns each patch. (see [[agent-evals]])
+- **A validation ladder for patches.** Write a failing test first. Then check, in order: build, the original PoC stops working, no regressions, and a fresh agent re-attacks the patch. Ask for the minimal root-cause change. A human owns each patch. (see [[agent-verification]])
 
 ## Notable claims & data
 
@@ -39,7 +39,7 @@ Partner-reported: findings were exploitable about 90% of the time on systems wit
 
 ## Concepts
 
-[[agent-orchestration]], [[workflow-patterns]], [[guardrails]], [[agent-instructions]], [[tool-design]], [[agent-evals]], [[context-engineering]]
+[[agent-orchestration]], [[workflow-patterns]], [[guardrails]], [[agent-instructions]], [[tool-design]], [[agent-evals]], [[agent-verification]], [[context-engineering]]
 
 ## Connections
 

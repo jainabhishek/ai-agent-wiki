@@ -2,7 +2,7 @@
 title: "OpenAI (Eng): Symphony — An Open-Source Spec for Codex Orchestration"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 author: Alex Kotliarskyi, Victor Zhu, Zach Brock (OpenAI)
 date: 2026-04-27
 source_url: https://openai.com/index/open-source-codex-orchestration-symphony/
@@ -76,7 +76,7 @@ post.
 
 ## Concepts
 
-[[agent-orchestration]], [[agent-harness]], [[guardrails]],
+[[agent-orchestration]], [[human-agent-teams]], [[agent-harness]], [[guardrails]], [[agent-identity-and-access]],
 [[agents-vs-workflows]], [[agent-steering]], [[workflow-patterns]]
 
 ## Notable claims & data
@@ -102,7 +102,7 @@ post.
   [[openai-sora-android-with-codex]], where parallel sessions moved the
   bottleneck to review and decisions.
 - **Credentials kept out of the agent** matches the "credentials never enter the
-  sandbox" pattern in [[guardrails]], for example the git proxy in
+  sandbox" pattern in [[agent-identity-and-access]], for example the git proxy in
   [[anthropic-eng-claude-code-sandboxing]].
 - **Objectives over strict transitions** echoes the agent-versus-workflow
   distinction in [[agents-vs-workflows]]. The orchestration layer stays a

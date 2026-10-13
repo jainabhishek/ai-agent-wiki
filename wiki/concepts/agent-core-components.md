@@ -2,7 +2,7 @@
 title: Agent Core Components
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-10-13
 tags: [agents, architecture, model, tools, instructions]
 ---
 
@@ -118,6 +118,7 @@ Responses API show the same three components in production (see
 - [[openai-responses-api-computer-environment]]
 - [[openai-why-we-built-responses-api]]
 - [[openai-unrolling-codex-agent-loop]]
+- [[anthropic-building-effective-agents]]
 
 ## Contradictions / open questions
 
