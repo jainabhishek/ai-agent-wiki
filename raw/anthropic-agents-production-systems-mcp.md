@@ -31,10 +31,10 @@ and how far that layer reaches.
   disk. Best for quick, permissive local integrations.
 
 ### Model Context Protocol (MCP)
-- Common layer as a protocol: the agent connects to a server exposing a system's
-  capabilities, with auth, discovery, and rich semantics standardized. One remote
-  server reaches any compatible client (Claude, ChatGPT, Cursor, VS Code, more)
-  in any deployment environment.
+- Common layer as a protocol: a server publishes what a system can do, and the
+  protocol standardizes authentication, discovery, and semantics. A single remote
+  server then works with every compatible client (Claude, ChatGPT, Cursor, VS
+  Code, and others), wherever the agent is deployed.
 - More upfront investment; the return is a portable integration with the
   semantics for a feature-rich agent integration.
 

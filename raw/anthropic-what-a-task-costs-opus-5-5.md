@@ -12,8 +12,8 @@ Subtitle: Opus 5.5 costs less per token than Opus 5.
 ## The cost of a task, and the cost of a retry
 
 - Users buy finished tasks, not tokens. Two models at the same per-token price can cost very
-  different amounts on one task: each extra turn resends the conversation so far, so the model that
-  needs more turns costs more.
+  different amounts on one task, because every additional turn sends the whole conversation again;
+  a model that takes more turns therefore costs more.
 - The post sets three reader questions: what do typical tasks cost on Opus 5.5; which settings move
   that and by how much; how to check your own session usage.
 - Stated trade-off: every token-saving lever (lower effort, smaller model, less context) can cost a
