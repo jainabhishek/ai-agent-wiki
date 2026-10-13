@@ -75,6 +75,13 @@ the model has outgrown (see [[harnessing-claudes-intelligence]],
 - [[anthropic-prompting-claude-opus-5]]
 - [[anthropic-prompting-claude-sonnet-5]]
 - [[anthropic-building-with-sonnet-5-5]]
+- Model-scoped (Opus 5.5, Fable 5.1): [[anthropic-opus-5-5-long-coding-sessions]],
+  [[anthropic-what-a-task-costs-opus-5-5]], [[anthropic-spending-your-effort]]
+- Model choice and evaluation: [[anthropic-choosing-claude-model]],
+  [[anthropic-advisor-strategy]], [[anthropic-fable-field-guide-unknowns]],
+  [[anthropic-balyasny-evaluates-fable-5]],
+  [[anthropic-jetbrains-evaluates-fable-5]],
+  [[anthropic-cursor-evaluates-models]], [[anthropic-block-orchestrates-fable]]
 
 ## Contradictions / open questions
 

@@ -119,6 +119,29 @@ Both vendors also tell builders to delete instructions written for weaker models
 That advice is prompting, so the wiki records it per model and does not merge
 it here. See [[prompt-tuning-axes]].
 
+## Update: independent convergence in engineering practice (2026-10-12, second batch)
+
+OpenAI's engineering posts on openai.com, ingested on 2026-10-12, describe how
+OpenAI builds Codex and its hosted runtime. On several points they reach the
+same rules as Anthropic's Claude Code posts, with no sign that either team
+copied the other. Independent convergence on architecture is the strongest
+evidence this wiki records, so these points are listed here.
+
+| Point | Anthropic | OpenAI |
+|-------|-----------|--------|
+| **Keep the prompt an exact growing prefix** | Append-only history; never edit or delete earlier messages; send config changes as messages ([[anthropic-prompt-caching-is-everything]]) | Each request appends items so the old prompt is an exact prefix; changing tools, model, sandbox, approval mode, or cwd breaks the cache ([[openai-unrolling-codex-agent-loop]]) |
+| **Brain and hands run apart; secrets stay out** | Session, harness, and sandbox behind small interfaces; credentials injected outside the sandbox ([[anthropic-eng-scaling-managed-agents]]) | API service runs the loop, a container runs commands, and an egress proxy injects secrets per domain as placeholders ([[openai-responses-api-computer-environment]]) |
+| **Short instruction file that points elsewhere** | Keep `CLAUDE.md` to purpose and gotchas; move the rest to skills ([[anthropic-new-rules-context-engineering-claude-5]]) | A ~100-line `AGENTS.md` works as a table of contents into `docs/` ([[openai-harness-engineering]]) |
+| **Objectives over fixed graphs** | Agent loops replace fixed workflows in several Claude case studies ([[agents-vs-workflows]]) | Agents as rigid state-machine nodes failed; objectives plus tools worked ([[openai-symphony-codex-orchestration]]) |
+| **Contain injection by limiting damage** | Environment first, model second; an allowlist is a capability grant ([[anthropic-eng-how-we-contain-claude]]) | Defend the sinks: an attack needs untrusted input plus a dangerous capability ([[openai-designing-agents-resist-prompt-injection]]) |
+
+One difference stands out. Codex keeps requests stateless and does not use
+`previous_response_id`, to support Zero Data Retention, while OpenAI's own
+skills post recommends it for long runs. See [[openai-unrolling-codex-agent-loop]]
+and [[openai-shell-skills-compaction]]. Prompting advice from both vendors
+stays on the model-scoped source pages, as the scope note requires. The
+security comparison in full is on [[prompt-injection]].
+
 ## Caveats & open questions
 
 - Anthropic's *Building Effective Agents* piece is condensed in our raw capture;
@@ -129,7 +152,8 @@ it here. See [[prompt-tuning-axes]].
 - ~~OpenAI-side depth on harness/context engineering is thin.~~ Partly resolved
   on 2026-10-12 by the Codex, Agents API, and skills sources. OpenAI still has no
   counterpart in the wiki to Anthropic's long-running-harness and eval-noise
-  posts.
+  posts. Further resolved on 2026-10-12 by OpenAI's Engineering posts
+  ([[openai-harness-engineering]], [[openai-unrolling-codex-agent-loop]]).
 
 ## Sources & pages drawn on
 

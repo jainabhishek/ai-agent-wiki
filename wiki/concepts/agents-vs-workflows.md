@@ -38,6 +38,60 @@ Both guides converge: reach for an agent only when simpler approaches fall short
   rules** (unwieldy rulesets), and **heavy reliance on unstructured data**. If a
   deterministic solution suffices, use it.
 
+## Migrations from fixed workflows to agent loops
+
+Several builders report replacing fixed workflows or graphs with one agent loop.
+All of these are self-reported case studies, not controlled comparisons.
+
+- **Genspark** reports that its directed graph of workflow nodes broke on edge
+  cases, over-processed simple queries, and could not route around problems.
+  It moved to a model-driven loop over 150+ tools once a model could stop
+  correctly and recover from tool errors. (see [[claude-customer-genspark]])
+- **Greptile** reports that its orchestration forced specialized review tools
+  into a fixed sequence, so one step's findings could not steer the next. The
+  agent now picks its next investigation step (multi-hop). (see
+  [[claude-customer-greptile]])
+- **OffDeal** reports that a separate workflow per task broke whenever a
+  problem fell outside its predefined path or a procedure changed. One general
+  agent with skills replaced 12+ workflows; its internal eval rose from 25% to
+  85%. (see [[claude-customer-offdeal]])
+- **Symphony** (OpenAI) reports that treating agents as "rigid nodes in a state
+  machine" failed; agents now get objectives plus tools. The scheduler around
+  them stays ordinary deterministic code. (see
+  [[openai-symphony-codex-orchestration]])
+- **CLUE** (Anthropic's alert triage) rejected the SOAR-playbook habit of
+  defining every step. The team constrains which tools and data the agent can
+  use and leaves the investigation strategy open. (see
+  [[anthropic-cybersecurity-triage-agents]])
+
+The shared reasons: fixed paths break on exceptions and changed procedures, and
+a fixed order prevents one step's result from steering the next. Genspark's
+account adds the precondition: the loop must stop correctly and recover from
+errors (see [[agent-design-principles]]).
+
+## Keep critical paths deterministic
+
+The migrations do not remove deterministic code; they move it.
+- Cresta reports hardening only the enterprise-critical workflows, because
+  making everything deterministic yields a giant decision tree. Tests for the
+  deterministic parts must change when business rules change. (see
+  [[anthropic-cresta-agent-builder]])
+- Caylent reports that scripts handle exact precision work and the model
+  handles judgment and language. (see [[claude-customer-caylent]])
+- Rocket Money reports running repeated actions as ordinary code, with an agent
+  that steps in only when the code breaks, repairs it, and turns the fix back
+  into code. A cheap classifier routes requests to single-purpose subagents.
+  (see [[claude-customer-rocket-money]], [[workflow-patterns]])
+- Symphony keeps the orchestration layer a deterministic workflow and makes the
+  agent inside each ticket autonomous. (see [[openai-symphony-codex-orchestration]])
+
+## Single agent before multi-agent
+
+Anthropic's multi-agent guide states its thresholds for splitting into several
+agents as guidelines that move as models improve; compaction now extends how
+far a single agent can go before context limits force a split. (see
+[[anthropic-building-multi-agent-systems]], [[agent-orchestration]])
+
 ## Model-written workflows blur the line
 
 [[claude-code]] dynamic workflows have the model write a task-specific
@@ -83,6 +137,15 @@ common anti-pattern both guides warn against. See [[agent-design-principles]].
 - [[openai-practical-guide-to-building-agents]]
 - [[anthropic-harness-for-every-task]]
 - [[openai-agents-api-guide]]
+- [[claude-customer-genspark]]
+- [[claude-customer-greptile]]
+- [[claude-customer-offdeal]]
+- [[openai-symphony-codex-orchestration]]
+- [[anthropic-cybersecurity-triage-agents]]
+- [[anthropic-cresta-agent-builder]]
+- [[claude-customer-caylent]]
+- [[claude-customer-rocket-money]]
+- [[anthropic-building-multi-agent-systems]]
 
 ## Contradictions / open questions
 
@@ -92,3 +155,6 @@ common anti-pattern both guides warn against. See [[agent-design-principles]].
 - Open question (2026-10-12): model-written workflow code
   ([[anthropic-harness-for-every-task]]) fits neither definition cleanly. It is
   a workflow per run and an agent across runs; neither guide classifies it.
+- Evidence quality (2026-10-12): every workflow-to-loop migration above is a
+  self-reported case study. No source gives a controlled comparison of the same
+  task under both designs.
