@@ -67,9 +67,52 @@ session, harness, and sandbox can each fail or be replaced without the others.
   preferences store and an agent-owned `read_write` state store). A spend cap
   *pauses* a run (`budget_reached`) rather than failing it. MCP tools ask for
   approval by default, which an unattended deployment must configure around.
-  (see [[anthropic-building-effective-agent-automations]])
+  (see [[anthropic-building-effective-agent-automations]], [[agent-memory]])
 - Deployment options: Anthropic-managed containers, self-hosted sandboxes (VPC),
-  MCP tunnels.
+  MCP tunnels. MCP tunnels use an outbound-only connection with no exposed
+  ports. **Vaults** hold and refresh user OAuth tokens, and a session references
+  a vault by ID at creation. (see [[anthropic-agents-production-systems-mcp]],
+  [[guardrails]])
+- **Rubrics** (beta) let a separate grader agent check an agent's output. (see
+  [[anthropic-verification-loops-with-skills]], [[agent-evals]])
+
+### Operating agents: versions, staging, and agents as code
+- **Console edits and versions.** In Anthropic's own sales deployment, sales
+  and content leads edited the system prompt in the Console. Each change went
+  to a staging agent first, every change is a new version, and sessions can be
+  pinned back to an earlier version. Anthropic reports seven versions within a
+  week of internal testing. (see [[anthropic-sales-inbound-managed-agents]])
+- **Agents as code.** ABC Legal reports that each agent is a folder in git: a
+  JSON config, a Markdown system prompt, deploy scripts, and ops docs. Prompt,
+  tool list, schedule, credentials, and memory live as config files, and a
+  merge to main deploys the agent. The pull request is the control surface for
+  review, rollback, and audit. (see [[anthropic-abc-legal-managed-agents]])
+- **Responsibility split.** ABC Legal describes the platform as owning the
+  loop, sessions, memory, Console, and models, while the customer owns the
+  prompt, tools, triggers, audit trail, and outcome feedback. (see
+  [[anthropic-abc-legal-managed-agents]], [[agent-harness]])
+
+### Case studies (self-reported)
+- **ABC Legal** (as of July 2026) reports 50+ agents in production, about 310
+  daily users, and up to ~50% lower cost on some covered tasks. Agents start in
+  recommendation mode and move to automation only after they match or beat
+  humans on the task. A harvester-tuner loop turns Slack feedback into prompt
+  and config PRs that a human merges. (see
+  [[anthropic-abc-legal-managed-agents]])
+- **Anthropic sales inbound** (2026-09-30): an opt-in buying agent that answers
+  pricing, security, and data questions and ends in a purchase or a hand-off
+  to a rep. Anthropic reports that a one-sentence goal outperformed a
+  qualification flowchart, and that fixing the most common escalation reasons
+  halved the share of conversations that needed a human. (see
+  [[anthropic-sales-inbound-managed-agents]])
+- **monday.com** offers "Bring Your Own Agent" for Managed Agents as assignable
+  teammates on its boards, and a coding integration where Managed Agents run in
+  the customer's environment and post results back to the ticket. (see
+  [[anthropic-monday-agent-first-platform]])
+- **Datadog** uses its Temper kernel as the managed-agent control plane in its
+  Helix "dark factory". A Twilio engineer built memory and "dreaming" locally
+  to evaluate Managed Agents on first-hand cost and latency data. (see
+  [[anthropic-datadog-universal-machine-tool]], [[claude-customer-twilio]])
 
 ## Relationships
 
@@ -77,6 +120,16 @@ session, harness, and sandbox can each fail or be replaced without the others.
   the agent runtime concepts in [[agent-orchestration]].
 - Architecturally parallel to [[openai-agents-api]] (a vendor-hosted harness
   with durable sessions and sandboxes). (see [[openai-agents-api-guide]])
+- Identity: Managed Agents keeps credentials in Vaults and out of the sandbox
+  (see [[anthropic-eng-scaling-managed-agents]]). Anthropic's Deputy CISO lists
+  the same rule, that the sandbox never holds a credential worth stealing, among
+  seven controls, using Claude Cowork as the example (see
+  [[anthropic-ciso-guide-agentic-ai]]). The agent-as-own-principal model, with
+  credentials injected at the network boundary per channel, is described for
+  Claude Tag (Claude in Slack), not for Managed Agents (see
+  [[anthropic-agent-identity-access-model]], [[guardrails]]).
+- The single-agent-first guidance for when to build multi-agent systems on the
+  platform is in [[anthropic-building-multi-agent-systems]].
 
 ## Appears in
 
@@ -85,6 +138,17 @@ session, harness, and sandbox can each fail or be replaced without the others.
 - [[anthropic-building-effective-agent-automations]]
 - [[openai-agents-api-guide]]
 - [[openai-codex-as-a-platform]]
+- [[anthropic-abc-legal-managed-agents]]
+- [[anthropic-sales-inbound-managed-agents]]
+- [[anthropic-monday-agent-first-platform]]
+- [[anthropic-agents-production-systems-mcp]]
+- [[anthropic-verification-loops-with-skills]]
+- [[anthropic-datadog-universal-machine-tool]]
+- [[anthropic-building-multi-agent-systems]]
+- [[anthropic-building-agents-claude-agent-sdk]]
+- [[anthropic-agent-identity-access-model]]
+- [[anthropic-ciso-guide-agentic-ai]]
+- [[claude-customer-twilio]]
 
 ## Contradictions / open questions
 
@@ -103,3 +167,11 @@ session, harness, and sandbox can each fail or be replaced without the others.
   sandboxes, MCP tunnels) were *not* ingested — candidates if deeper coverage of
   the platform is wanted. [[anthropic-building-effective-agent-automations]]
   partly covers scheduling and memory stores.
+- **Scheduled tasks or Managed Agents for recurring agents?** ABC Legal
+  (2026-08-17) built scheduled tasks and local routines first, because Managed
+  Agents was newly in beta, and now advises going straight to Managed Agents
+  ([[anthropic-abc-legal-managed-agents]]). Anthropic's loops guide
+  (2026-06-30) recommends `/loop` and `/schedule` in [[claude-code]] for
+  recurring work and polling ([[anthropic-getting-started-with-loops]]). The
+  advice may differ by scope: always-on, versioned production agents versus a
+  developer's recurring task. Neither source compares the two.
