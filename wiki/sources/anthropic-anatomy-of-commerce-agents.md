@@ -69,7 +69,7 @@ Opus 5 vs Sonnet on cart tasks) are from September 2026.
   quality floors and p50/p99 budgets. Each candidate's prompt gets tuned
   before that candidate is ruled out. The measure is cost per completed task.
   When results are close, choose intelligence.
-- **Memory** (no wiki concept page yet). Facts are typed records in the
+- **Memory** (see [[agent-memory]]). Facts are typed records in the
   company's own database. An asynchronous extractor reads only user and
   assistant text and gave 13% higher recall than a save-memory tool. Reads
   happen in three layers: always in context, prefetched per turn, and behind
