@@ -9,24 +9,24 @@ tags: [graph, obsidian, wiki-health, synthesis]
 # Obsidian Graph Analysis
 
 > Query answer for: "check the Obsidian graph and explain." First filed
-> 2026-06-22; figures refreshed 2026-10-12 after the 30-source ingest and the six-post
-> backlog ingest.
+> 2026-06-22; figures refreshed 2026-10-12 after the 30-source ingest, the six-post
+> backlog ingest, and the full claude.com / openai.com sweep (94 sources).
 
 ## Answer (refreshed 2026-10-12)
 
 The meaningful graph is still the `wiki/` subgraph, not the whole repository.
 Within `wiki/`, the graph is healthy and has more than doubled since June:
 
-| Measure | 2026-06-22 | 2026-08-06 (`main`) | 2026-10-12 |
-|---------|-----------:|--------------------:|-----------:|
-| Pages | 35 | 44 | 83 |
-| Source pages | 12 | 17 | 53 |
-| Concept / entity pages | — | 16 / 8 | 17 / 10 |
-| Unique directed wikilinks | 408 | 516 | 1,364 |
-| Reciprocal link pairs | 130 | 154 | 445 |
-| Connected components | 1 | 1 | 1 |
-| Unresolved internal wikilinks | 0 | 0 | 0 |
-| Pages with no inbound link from `wiki/` | 0 | 1 | 0 |
+| Measure | 2026-06-22 | 2026-08-06 (`main`) | 2026-10-12 (first ingests) | 2026-10-12 (full sweep) |
+|---------|-----------:|--------------------:|-----------:|-----------:|
+| Pages | 35 | 44 | 83 | 179 |
+| Source pages | 12 | 17 | 53 | 147 |
+| Concept / entity pages | — | 16 / 8 | 17 / 10 | 19 / 10 |
+| Unique directed wikilinks | 408 | 516 | 1,364 | 3,184 |
+| Reciprocal link pairs | 130 | 154 | 445 | 1,042 |
+| Connected components | 1 | 1 | 1 | 1 |
+| Unresolved internal wikilinks | 0 | 0 | 0 | 0 |
+| Pages with no inbound link from `wiki/` | 0 | 1 | 0 | 0 |
 
 How the 2026-10-12 figures were computed: a script reads every `.md` file under
 `wiki/`, collects double-bracket wikilinks (ignoring aliases and heading anchors), drops
@@ -49,8 +49,9 @@ The graph is still centered on **agent-building doctrine**. The concept backbone
   from 14 to 49. The 2026-10-12 ingest put most of its new claims on these pages.
 - **The OpenAI side is no longer a thin satellite.** [[openai]] grew from 14 to
   32 inbound links, and two new entities joined it: [[openai-codex]] (25) and
-  [[openai-agents-api]] (13). The source base is still Anthropic-heavy: 40
-  Anthropic source pages against 12 OpenAI and 1 Cursor.
+  [[openai-agents-api]] (13). After the full sweep the source base is 97
+  Anthropic source pages and 15 Anthropic-published customer stories,
+  against 34 OpenAI and 1 Cursor: still about 3 to 1.
 - **Legacy pages stay well linked.** The four legacy prompting pages keep 5–12
   inbound links each, because concept pages cite them next to their
   replacements. This is intended: the schema keeps legacy claims rather than
@@ -60,7 +61,7 @@ The graph is still centered on **agent-building doctrine**. The concept backbone
 
 ## What the clusters mean
 
-- **Source cluster:** 53 source summaries feed claims into concepts and
+- **Source cluster:** 147 source summaries feed claims into concepts and
   entities. A model-scoped sub-cluster (12 prompting pages, 4 of them legacy)
   feeds mainly [[prompt-tuning-axes]], [[claude]], and [[openai]].
 - **Concept backbone:** [[context-engineering]], [[agent-harness]],
@@ -74,26 +75,24 @@ The graph is still centered on **agent-building doctrine**. The concept backbone
   bridges the two vendor sides; its 2026-10-12 update compares architecture
   only.
 
-## Top internal hubs (2026-10-12)
+## Top internal hubs (2026-10-12, after the full sweep)
 
 | Page | Inbound wiki links | June | Interpretation |
 |------|-------------------:|-----:|----------------|
-| [[anthropic]] | 64 | 32 | Dominant source/vendor anchor |
-| [[context-engineering]] | 53 | 18 | Cross-cutting context, caching, and state hub |
-| [[agent-harness]] | 55 | 19 | Runtime, session, and loop-mechanics hub |
-| [[tool-design]] | 52 | 22 | Implementation surface; now includes tool scaling and MCP |
-| [[guardrails]] | 49 | 14 | Safety layer; now split into environment vs. model layer |
-| [[agent-orchestration]] | 47 | 24 | Multi-agent architecture and subagent trust |
-| [[claude]] | 44 | 15 | Model-family anchor; current vs. legacy lineup |
-| [[agent-design-principles]] | 40 | 24 | Core doctrine page |
-| [[claude-code]] | 38 | — | Anthropic's main worked example |
-| [[openai]] | 32 | 14 | Secondary vendor anchor |
-| [[agent-skills]] | 30 | — | Skill architecture; cross-vendor convergence |
-| [[agent-evals]] | 34 | — | Eval design, noise, and skill evals |
-| [[openai-codex]] | 25 | — | New: OpenAI's harness and coding agent |
+| [[anthropic]] | 135 | 32 | Dominant source/vendor anchor |
+| [[guardrails]] | 111 | 14 | Safety layer; injection detail moved to [[prompt-injection]] |
+| [[context-engineering]] | 107 | 18 | Context, caching, cost, and session hub |
+| [[claude]] | 96 | 15 | Model-family anchor; current vs. legacy lineup |
+| [[agent-harness]] | 96 | 19 | Runtime, loop mechanics, and cross-vendor convergence |
+| [[claude-code]] | 93 | — | Anthropic's main worked example |
+| [[agent-orchestration]] | 92 | 24 | Multi-agent patterns and the human review limit |
+| [[agent-evals]] | 90 | — | Evals, verification, and eval integrity |
+| [[tool-design]] | 85 | 22 | Tool interfaces, scaling, and placement |
+| [[agent-skills]] | 70 | — | Skill types, architecture, and maintenance |
+| [[openai]] | 55 | 14 | Secondary vendor anchor |
+| [[openai-codex]] | 46 | — | OpenAI's harness and coding agent |
 
-"—" means the page was not in June's top ten, so the original analysis gave no
-figure.
+"—" means the page was not in June's top ten.
 
 ## Full-vault graph caveats
 

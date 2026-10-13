@@ -2,7 +2,7 @@
 title: Boundary Contracts
 type: concept
 created: 2026-07-17
-updated: 2026-07-17
+updated: 2026-10-12
 tags: [implementation, testing, integration, boundaries, process, evals]
 ---
 
@@ -168,6 +168,44 @@ optimize"): the ambiguity that hurts most is ambiguity about the *external world
 and the measurement that matters most is measurement against *reality you
 recorded*, not fixtures you imagined.
 
+## Industry parallels
+
+Vendor sources describe the same rules from other directions. Each bullet names
+the rule above that it supports.
+
+- **A certificate that machines check (rule 2).** Anthropic's modernization
+  guidance makes a "certificate" the second of six steps: a set of conditions,
+  each checkable without a human, that every agent change must meet. Examples
+  are original and new tests, coverage thresholds, differential output checks,
+  round-trips of state and wire formats, and adversarial reviews in fresh
+  context windows. For cross-stack rewrites, traffic replay and differential
+  testing replace old tests that do not run on the new stack (see
+  [[anthropic-ai-code-modernization]]).
+- **The verified artifact is the executed artifact (rule 2 and the
+  meta-principle).** Datadog reports that its Temper agents emit specifications,
+  not application code. A deterministic kernel verifies each spec in four
+  layers and then runs exactly that spec, so the verified and running artifacts
+  cannot drift. Proof stays outside the LLM, the way a compiler checks Rust code
+  (see [[anthropic-datadog-universal-machine-tool]]).
+- **Machine-discoverable contracts (rule 1).** Each Temper capability also has a
+  machine-parseable data contract that an agent can read without docs (see
+  [[anthropic-datadog-universal-machine-tool]], [[tool-design]]).
+- **A deterministic layer at the number boundary.** Kepler reports that Claude
+  plans, while deterministic engines retrieve and compute every number, and each
+  figure traces to a filing line item (see [[anthropic-kepler-verifiable-ai]]).
+- **Silent tool failure (rules 2 and 3).** Twilio reports that its MCP server
+  failed from day one: Claude Code spawned the process, got EOF, and continued
+  without the tools, with no error or warning, for 35 days or sessions (the post uses both terms). The fix was 53
+  lines of TypeScript. A live smoke against the real server would have shown
+  the failure on the first day (see [[claude-customer-twilio]],
+  [[model-context-protocol]]).
+- **A rename that compiles but breaks consumers (rule 4).** OpenAI's worked
+  example renames the experimental notification `rawResponseItem/completed`.
+  The change compiles but breaks Codex Cloud listeners, so the bug lives
+  outside the diff. A breaking-change rule in the Codex repo's `AGENTS.md`,
+  added to protect Codex Cloud consumers, catches it in review (see
+  [[openai-codex-code-review-rules]]).
+
 ## Relation to other concepts
 
 - [[tool-design]] — tools are the agent's boundary to the world; this page is
@@ -185,7 +223,15 @@ recorded*, not fixtures you imagined.
 ## Related concepts
 
 - [[tool-design]], [[agent-evals]], [[guardrails]], [[agent-instructions]],
-  [[agent-design-principles]]
+  [[agent-design-principles]], [[model-context-protocol]]
+
+## Appears in
+
+- [[anthropic-ai-code-modernization]]
+- [[anthropic-datadog-universal-machine-tool]]
+- [[anthropic-kepler-verifiable-ai]]
+- [[claude-customer-twilio]]
+- [[openai-codex-code-review-rules]]
 
 ## Contradictions / open questions
 
@@ -195,3 +241,12 @@ recorded*, not fixtures you imagined.
   capture a faithful-enough contract cheaply — contract tests published by the
   provider, recorded production traffic, and consumer-driven contracts are
   partial answers not yet evaluated here.
+- **Prose rule or mechanical check?** This page's meta-principle says to convert
+  instructions into mechanical checks. OpenAI catches the wire-name rename with
+  a prose rule that an LLM reviewer reads: rule-guided review recovered 98% of
+  required custom findings against 58.3% for the baseline, on a suite of
+  undisclosed size ([[openai-codex-code-review-rules]], 2026-07-20). OpenAI
+  itself keeps tests, branch protection, and required approvals as the hard
+  gate, and uses rules for judgement and CI for mechanics. A recorded schema of
+  the notification names would turn this case into a mechanical check. Open:
+  which wire-surface changes need judgement rather than a conformance test.

@@ -46,7 +46,7 @@ development, review, documentation) whose output is a Claude Code plugin with
   times = stall; alternating calls = oscillation; no file changes = idle. Then
   safety floors on budgets, sandbox mode, and phase retry that keeps partial
   progress. See [[agent-harness]].
-- **Silent tool failure.** The MCP server failed for 35 days (spawn, EOF, no
+- **Silent tool failure.** The MCP server failed for 35 days (the post also calls them "35 sessions") (spawn, EOF, no
   error); work continued without tools. Fix was 53 lines of TypeScript. A
   boundary-failure example for [[boundary-contracts]] and [[model-context-protocol]].
 - **Build-then-evaluate managed infrastructure.** He built memory and

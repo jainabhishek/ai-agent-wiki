@@ -340,3 +340,53 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   reciprocal pairs; one connected component; no unresolved links; no pages
   without a `wiki/` inbound link. Same script as the earlier refresh today.
 - touched: [[obsidian-graph-analysis]], index
+
+## [2026-10-12] ingest | full sweep of remaining Anthropic and OpenAI guidance (94 sources)
+- trigger: the human asked whether the wiki covered everything from both
+  vendors. A coverage check found gaps; the human said to add them and deploy.
+- swept: all 257 claude.com articles and 284 customer stories (sorted by two
+  helpers; 53 articles and 15 stories kept); OpenAI's openai.com Engineering
+  and Security categories and learning-hub guides; 5 developer-blog posts that
+  the first ingest had classified but skipped; 2 claude.dev posts cited by a
+  new page; Anthropic's browser prompt-injection research.
+- not ingested, with reasons: OpenAI "Agent security in the enterprise" (lead
+  form asks for a work email); the GPT-5.6 and GPT-5 builder's guides (legacy
+  models); 4 duplicates of pages already in the wiki; 47 announcements; 11
+  beginner explainers; 269 testimonial customer stories; the OpenAI cookbook
+  and both vendors' research papers (out of scope).
+- corrected: OpenAI's practical guide to building agents is not revised; its
+  page was re-dated 2026-01-15 with the 2025 content. The source page's date
+  field now says so.
+- new concept pages: [[prompt-injection]] (moved out of [[guardrails]]) and
+  [[agent-memory]].
+- model-scoped: [[anthropic-opus-5-5-long-coding-sessions]],
+  [[anthropic-what-a-task-costs-opus-5-5]], [[anthropic-spending-your-effort]],
+  [[openai-practical-guide-building-with-gpt-6]].
+- case studies: claude.com customer stories carry no date, so their date is the
+  access date. Every case-study claim on a concept page is phrased as a report.
+- contradictions recorded (both claims kept, with dates):
+  [[prompt-injection]] — classifiers detect injections (2025) vs. usually miss
+  social engineering (Mar 2026), plus five tensions between vendors;
+  [[guardrails]] — auto-mode approval rate 97% vs. 93%; agent as its own
+  principal vs. bounded by the triggering user; [[agent-evals]] — trust in
+  LLM judges; skill-creator tests (superseded); [[prompt-tuning-axes]] —
+  whether effort shapes only thinking or all output; [[context-engineering]] —
+  effort changes and the prompt cache (superseded, with a cloud-provider
+  exception); stateless requests vs. server-side state; [[agent-orchestration]]
+  — parallelism speed figures with different baselines (compatible);
+  [[openai-codex]] — six tensions with Anthropic's containment findings;
+  [[openai]] — Chat Completions future; [[claude-managed-agents]] — scheduled
+  tasks vs. Managed Agents; [[multi-agent-economics]] — code edits on smaller
+  models; [[model-context-protocol]] — whether MCP fits interactive agent UIs.
+- pages now long enough to consider splitting: [[agent-evals]] (~600 lines),
+  [[guardrails]] (identity and access could stand alone), [[agent-orchestration]]
+  (multi-agent architecture vs. human-agent team operations), [[tool-design]]
+  (interface craft vs. tool placement), [[agent-harness]].
+- method: 17 ingest batches, then 9 merge helpers, each owning distinct shared
+  pages and checking every claim against its source page before adding it.
+- checks: `tools/search.py --orphans` reports no orphans; a link script finds no
+  unresolved wikilinks across 179 pages and 3,184 links; every model-scoped
+  page has `as_of:`; no model settings were added to concept pages.
+- touched: index, overview, [[obsidian-graph-analysis]],
+  [[agent-building-best-practices-anthropic-vs-openai]], 17 concept pages, 10
+  entity pages.
