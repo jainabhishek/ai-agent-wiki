@@ -97,5 +97,5 @@ a benchmark; it reports no error rates. See [[guardrails]].
   [[anthropic-steering-claude-code]] and [[anthropic-configure-hooks]]; narrow
   prefix allows fit Anthropic's advice to drop broad interpreter allow rules.
 - Same vendor's broader Codex platform view: [[openai-codex-as-a-platform]],
-  [[openai-codex-windows-sandbox]], [[openai-agent-security-enterprise]].
+  [[openai-codex-windows-sandbox]], OpenAI's "Agent security in the enterprise" white paper (Sep 2026; not ingested because it is behind a lead form).
 - Security triage agent on logs: compare [[anthropic-cybersecurity-triage-agents]].

@@ -45,4 +45,4 @@ Jason Clinton (Deputy CISO, Anthropic) published this on claude.com on 2026-07-1
 
 ## Connections
 
-Companion pieces by the same author and team: [[anthropic-securing-ai-native-sdlc]] (applies these controls to the SDLC) and [[anthropic-zero-trust-for-ai-agents]] (the white paper behind least agency). Related: [[anthropic-agent-identity-access-model]], [[anthropic-eng-how-we-contain-claude]], [[anthropic-prompt-injection-defenses-browser]], [[openai-agent-security-enterprise]].
+Companion pieces by the same author and team: [[anthropic-securing-ai-native-sdlc]] (applies these controls to the SDLC) and [[anthropic-zero-trust-for-ai-agents]] (the white paper behind least agency). Related: [[anthropic-agent-identity-access-model]], [[anthropic-eng-how-we-contain-claude]], [[anthropic-prompt-injection-defenses-browser]], OpenAI's "Agent security in the enterprise" white paper (Sep 2026; not ingested because it is behind a lead form).
