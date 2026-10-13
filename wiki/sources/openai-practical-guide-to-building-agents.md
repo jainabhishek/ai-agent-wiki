@@ -2,9 +2,9 @@
 title: "OpenAI: A Practical Guide to Building Agents"
 type: source
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-10-12
 author: OpenAI
-date: 2025
+date: 2025-04 (PDF created 2025-04-07; the web page was re-dated 2026-01-15 with unchanged content)
 source_url: https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
 source_path: raw/openai-practical-guide-to-building-agents.txt
 tags: [agents, best-practices, openai, guardrails, orchestration]
