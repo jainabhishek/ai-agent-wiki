@@ -517,3 +517,14 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - contradictions recorded: tool overload by count vs. overlap; review scope
   for always-on agents (every action vs. higher-risk actions); Claude Code auto
   mode default (August plan list vs. every plan in November).
+
+## [2026-11-24] query | refresh Obsidian graph analysis (after the Oct–Nov ingest)
+- updated synthesis: [[obsidian-graph-analysis]]
+- summary: 204 pages, 168 of them sources; 3,830 unique directed links; 1,192
+  reciprocal pairs; one connected component; no unresolved links; no pages
+  without a `wiki/` inbound link; 8 legacy source pages. Same script as the
+  2026-10-12 refreshes; the 2026-10-13 column was rerun from commit `33759f8`.
+- found: [[agent-building-best-practices-anthropic-vs-openai]] has not changed
+  since 2026-10-12 and has 8 inbound links; [[guardrails]] (131 inbound) is the
+  largest concept page.
+- touched: [[obsidian-graph-analysis]], index
