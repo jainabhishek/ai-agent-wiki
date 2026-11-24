@@ -97,6 +97,11 @@ other three questions in that assessment.
   emerging IETF drafts (WAG and XAA) for agent access and OAuth delegation. (see
   [[openai-securing-persistent-agents-openclaw]])
 
+- **Give coding agents in CI their own identity.** A coding agent that runs
+  under its developer's identity is invisible in most outside logs. In CI/CD,
+  give it its own revocable identity, such as a dedicated GitHub App. (see
+  [[anthropic-securing-coding-agents-enterprise]])
+
 ## Task-scoped authority
 
 OpenAI's agent security white paper frames identity around the task, not only
@@ -167,6 +172,13 @@ the agent. (see [[openai-agent-security-enterprise]])
   the agent can read. OpenAI uses a broker that keeps secrets out of the agent's
   view. (see [[openai-securing-persistent-agents-openclaw]])
 
+- **A credential proxy in every deployment mode.** Anthropic recommends a
+  credential proxy outside the agent's environment for always-on agents and in
+  every Managed Agents deployment mode; self-hosted customers can keep
+  credentials in their own secrets manager. (see
+  [[anthropic-building-always-on-agents]],
+  [[anthropic-self-hosted-managed-agents]])
+
 ## Why it matters
 
 Identity and credentials decide the blast radius when an agent is fooled or
@@ -217,6 +229,9 @@ survive model upgrades (see [[guardrails]], [[anthropic-ciso-guide-agentic-ai]])
 - [[anthropic-scaling-multi-agent-teams-fable-5-2]]
 - [[openai-inside-the-codex-sandbox]]
 - [[openai-securing-persistent-agents-openclaw]]
+- [[anthropic-building-always-on-agents]]
+- [[anthropic-self-hosted-managed-agents]]
+- [[anthropic-securing-coding-agents-enterprise]]
 
 ## Contradictions / open questions
 

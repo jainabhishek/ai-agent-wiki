@@ -106,6 +106,14 @@ see axis 5 of [[prompt-tuning-axes]]. For example, OpenAI supplies a prompt for 
 model that delegates less than desired, plus one that fixes errors in messages
 between agents. (see [[openai-prompting-gpt-6-astra]])
 
+- **Fold subagents back in.** Anthropic's Applied AI team reports that, across
+  several enterprise deployments, one agent with skills and on-demand tools
+  often beat both one all-purpose prompt and an orchestrator with subagents.
+  Keep a subagent only for measurable context bloat, parallel tasks that need
+  disposable context windows, or tool-selection failures. Fold the others in one
+  at a time, behind an end-to-end eval. (see
+  [[anthropic-fold-subagents-into-main-loop]])
+
 ## Multi-agent patterns (OpenAI)
 
 - **Manager (agents as tools)** — a central manager LLM delegates to specialized
@@ -436,6 +444,7 @@ abstraction in [[agent-design-principles]].
 - [[anthropic-prompting-claude-sonnet-5-5]]
 - [[anthropic-scaling-multi-agent-teams-fable-5-2]]
 - [[anthropic-which-claude-model-to-build-with]]
+- [[anthropic-fold-subagents-into-main-loop]]
 
 ## Contradictions / open questions
 
@@ -479,3 +488,8 @@ abstraction in [[agent-design-principles]].
   ([[anthropic-eng-multi-agent-research-system]]). The Mar 2026 eval-awareness
   post finds that multi-agent runs on the same benchmark had 3.7 times the rate
   of unintended solutions ([[anthropic-eng-eval-awareness-browsecomp]]). This qualifies, not reverses, the gain.
+- **Tool overload: count or overlap? (recorded 2026-11-24).** This page says
+  tool overload is driven by overlap, not count (from [[tool-design]]).
+  [[anthropic-fold-subagents-into-main-loop]] says tool choice tends to degrade
+  past 30–50 tool definitions in the system prompt. Both may hold: overlap
+  causes confusion, and a large count raises the chance of overlap.

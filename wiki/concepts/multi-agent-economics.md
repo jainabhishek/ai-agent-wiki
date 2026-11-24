@@ -123,6 +123,10 @@ error at each stage, not to the size of the task:
   worker routing. Its dollar figure is not comparable with the Cursor figures
   above, which come from different tasks, models, and accounting. (see [[anthropic-eng-building-c-compiler]])
 
+- One customer measured its single agent loop at about 2x faster than its
+  multi-agent harness; each subagent call nests another model loop and adds
+  latency. (see [[anthropic-fold-subagents-into-main-loop]])
+
 ## Evaluation rule
 
 Compare configurations on **cost per accepted outcome**. Include planner,
@@ -217,6 +221,7 @@ advisor, and advisor model alone. (see [[anthropic-advisor-strategy]])
 - [[claude-customer-wondr-health]]
 - [[anthropic-which-claude-model-to-build-with]]
 - [[openai-maintaining-software-gpt-6-family]]
+- [[anthropic-fold-subagents-into-main-loop]]
 
 ## Contradictions / open questions
 

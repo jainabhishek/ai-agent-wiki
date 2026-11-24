@@ -266,6 +266,13 @@ Observability stays here because it covers every agent action, not only access.
   security staff can read those logs, because turns can hold sensitive data.
   (see [[openai-securing-persistent-agents-openclaw]])
 
+- **Monitor agents like insiders.** Uber's CISO frames agent monitoring as an
+  insider-threat program for models: harness telemetry, vendor classifier
+  signals, and an LLM gateway feed one detection environment. Platform agents
+  can export standard OpenTelemetry GenAI traces, so agent steps sit beside
+  existing logs and metrics. (see [[anthropic-uber-ciso-insider-threat-ai]],
+  [[anthropic-agent-observability-claude-platform]])
+
 ### Harness-enforced controls (deterministic)
 
 - **The model stages; the harness applies.** In Anthropic's commerce reference,
@@ -309,6 +316,13 @@ Observability stays here because it covers every agent action, not only access.
   runs with read-only repository permission, actions pinned by commit hash, no
   persisted checkout credentials, and package installs that do not run scripts.
   (see [[openai-codex-security-review-sdlc]])
+
+- **Make security hooks fail closed.** A hook that errors or times out lets the
+  tool call through by default, so set security hooks to fail closed. A hook's
+  "allow" cannot override a deny rule. When managed policy comes from several
+  sources, a tool may apply only the highest-ranked one and drop the rest
+  silently; confirm which source is in effect. (see
+  [[anthropic-securing-coding-agents-enterprise]])
 
 ### Model layer (shapes tendency)
 
@@ -473,6 +487,11 @@ transfer control when it can't complete a task. Two primary triggers:
   approval when those rates rise, and its engineers want them before more code
   merges with no human. (see [[anthropic-solving-code-review]])
 
+- Widen an agent's access only after its traces show it is reliable. (see
+  [[anthropic-agent-observability-claude-platform]]) Require human approval when
+  an action is irreversible and one mistake costs more than reviewing every
+  instance. (see [[anthropic-securing-coding-agents-enterprise]])
+
 ### Guarding feedback loops
 
 Self-improving agents turn human feedback into changes, so the feedback path is
@@ -593,6 +612,10 @@ Deterministic and infrastructural guardrails from the Anthropic sources:
 - [[anthropic-solving-code-review]]
 - [[openai-securing-persistent-agents-openclaw]]
 - [[openai-codex-security-review-sdlc]]
+- [[anthropic-securing-coding-agents-enterprise]]
+- [[anthropic-agent-observability-claude-platform]]
+- [[anthropic-uber-ciso-insider-threat-ai]]
+- [[anthropic-building-always-on-agents]]
 
 ## Contradictions / open questions
 
@@ -656,3 +679,9 @@ Deterministic and infrastructural guardrails from the Anthropic sources:
   [[openai-securing-persistent-agents-openclaw]] sets it to `false` for
   persistent agents; [[openai-running-codex-safely]] shows `true` in its
   example. Different deployments; no general rule follows.
+- **Review scope for always-on agents (recorded 2026-11-24).** OpenAI reviews
+  every action of its persistent agents
+  ([[openai-securing-persistent-agents-openclaw]]). Anthropic's always-on design
+  has classifiers review higher-risk actions and asks the user only about the
+  most important decisions ([[anthropic-building-always-on-agents]]). Two vendor
+  policies for the same class of agent.

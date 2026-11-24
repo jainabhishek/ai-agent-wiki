@@ -109,6 +109,12 @@ are listed above under "Model-scoped prompting guidance".
 - [[openai-codex-security-review-sdlc]] — Codex Security in the SDLC: threat model, `SECURITY.md`, knowledge base; reviews in GitHub, Desktop, CLI, Actions (2026-11)
 - [[openai-time-awareness-async-input-agents]] — a personal agent with a deadline asks the user, keeps working, and delivers on time with or without an answer (2026-11)
 - [[openai-failover-across-model-providers]] — routing critical workloads between the OpenAI API and cloud providers: which requests may fail over, one retry controller, recovery ownership (2026-10)
+- [[anthropic-fold-subagents-into-main-loop]] — Applied AI: fold routers, planners, and domain subagents into one loop with skills and tool search; staged, eval-gated migration (2026-10)
+- [[anthropic-building-always-on-agents]] — reference design for stateful, proactive agents: event inbox, timers, memory, permissions, outbox (2026-11)
+- [[anthropic-self-hosted-managed-agents]] — fully self-hosted Claude Managed Agents (private beta) and four security principles for every deployment mode (2026-11)
+- [[anthropic-securing-coding-agents-enterprise]] — enterprise guide to Claude Code security: vendor questions, four agent risks, managed-settings baseline vs. locked, two-week pilot (2026-11)
+- [[anthropic-agent-observability-claude-platform]] — OpenTelemetry GenAI traces from Managed Agents, the Messages API, and SDKs to any OTLP tool (public beta) (2026-10)
+- [[anthropic-uber-ciso-insider-threat-ai]] — Uber's CISO: monitor agents with an insider-threat program (detection signals, classifiers, LLM gateway) (2026-10)
 
 ### Batch of 2026-10-12: remaining Anthropic and OpenAI guidance
 

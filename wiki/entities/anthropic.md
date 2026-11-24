@@ -175,6 +175,12 @@ patterns over heavy frameworks.
 - [[anthropic-scaling-multi-agent-teams-fable-5-2]]
 - [[anthropic-claude-code-team-verification]]
 - [[anthropic-solving-code-review]]
+- [[anthropic-fold-subagents-into-main-loop]]
+- [[anthropic-building-always-on-agents]]
+- [[anthropic-self-hosted-managed-agents]]
+- [[anthropic-securing-coding-agents-enterprise]]
+- [[anthropic-agent-observability-claude-platform]]
+- [[anthropic-uber-ciso-insider-threat-ai]]
 
 ## Contradictions / open questions
 

@@ -212,6 +212,10 @@ Nov 2025):
   `execute`) cover ~2,500 endpoints in ~1K tokens (see
   [[anthropic-agents-production-systems-mcp]]).
 
+- **Group tools by user intent, not one tool per API.** Put preconditions and
+  per-user permission checks inside the tool, and return a refusal that the
+  model can read. (see [[anthropic-fold-subagents-into-main-loop]])
+
 ## Tool reach and placement
 
 Where a tool runs and who owns it now has its own page: [[tool-placement]]. It
@@ -337,6 +341,7 @@ capability. Investing here pays off before any orchestration complexity. See
 - [[anthropic-zero-trust-for-ai-agents]]
 - [[anthropic-claude-tag-analytics-in-slack]]
 - [[openai-time-awareness-async-input-agents]]
+- [[anthropic-fold-subagents-into-main-loop]]
 
 ## Contradictions / open questions
 

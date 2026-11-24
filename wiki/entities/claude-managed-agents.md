@@ -68,13 +68,21 @@ session, harness, and sandbox can each fail or be replaced without the others.
   *pauses* a run (`budget_reached`) rather than failing it. MCP tools ask for
   approval by default, which an unattended deployment must configure around.
   (see [[anthropic-building-effective-agent-automations]], [[agent-memory]])
-- Deployment options: Anthropic-managed containers, self-hosted sandboxes (VPC),
-  MCP tunnels. MCP tunnels use an outbound-only connection with no exposed
+- Deployment options (before 2026-11-12; see the self-hosted entry below):
+  Anthropic-managed containers, self-hosted sandboxes (VPC), MCP tunnels. MCP tunnels use an outbound-only connection with no exposed
   ports. **Vaults** hold and refresh user OAuth tokens, and a session references
   a vault by ID at creation. (see [[anthropic-agents-production-systems-mcp]],
   [[guardrails]])
 - **Rubrics** (beta) let a separate grader agent check an agent's output. (see
   [[anthropic-verification-loops-with-skills]], [[agent-evals]])
+- **Fully self-hosted (private beta, 2026-11-12).** The customer runs the
+  server, database, workers, and sandboxes. Model requests go to Anthropic,
+  Bedrock, Google's Agent Platform, Microsoft Foundry, or the customer's own
+  gateway. Host allowlists and an OpenTelemetry export of every session apply in
+  all modes. (see [[anthropic-self-hosted-managed-agents]])
+- OpenTelemetry trace export is in public beta: set a destination in the Claude
+  Console; each trace carries latency, tokens, and IDs for every turn, model
+  call, and tool use. (see [[anthropic-agent-observability-claude-platform]])
 
 ### Operating agents: versions, staging, and agents as code
 - **Console edits and versions.** In Anthropic's own sales deployment, sales
@@ -150,6 +158,9 @@ session, harness, and sandbox can each fail or be replaced without the others.
 - [[anthropic-ciso-guide-agentic-ai]]
 - [[claude-customer-twilio]]
 - [[anthropic-eng-components-of-agent-memory]]
+- [[anthropic-self-hosted-managed-agents]]
+- [[anthropic-agent-observability-claude-platform]]
+- [[anthropic-building-always-on-agents]]
 
 ## Contradictions / open questions
 
@@ -165,7 +176,8 @@ session, harness, and sandbox can each fail or be replaced without the others.
   spin-up" and "no container until needed" describe different mechanisms. The
   engineering post is the more detailed primary account.
 - Several related product-update posts (memory, scheduling, self-hosted
-  sandboxes, MCP tunnels) were *not* ingested — candidates if deeper coverage of
+  sandboxes, MCP tunnels) were *not* ingested (fully self-hosted deployment is
+  now covered by [[anthropic-self-hosted-managed-agents]], 2026-11-24) — candidates if deeper coverage of
   the platform is wanted. [[anthropic-building-effective-agent-automations]]
   partly covers scheduling and memory stores.
 - **Scheduled tasks or Managed Agents for recurring agents?** ABC Legal

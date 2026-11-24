@@ -299,6 +299,11 @@ From the case study in [[anthropic-eng-effective-harnesses-long-running-agents]]
 - **One VM per agent at scale.** In Anthropic's 1,000-agent run, one shared host
   failed at about 100 agents, so each agent got its own lightweight VM. (see
   [[anthropic-scaling-multi-agent-teams-fable-5-2]])
+- **Always-on agents are short runs in a cycle.** Anthropic's reference design
+  wraps an ordinary agent loop in five primitives: an event inbox with one
+  worker per inbox, timers that a scheduler polls, durable file memory,
+  permissions, and an outbox. Each run is short; the cycle of runs is what makes
+  the agent feel always on. (see [[anthropic-building-always-on-agents]])
 
 ## Coordination-bearing harnesses
 
@@ -376,6 +381,7 @@ system, including downstream worker behavior. (see
 - [[openai-inside-the-codex-sandbox]]
 - [[anthropic-scaling-multi-agent-teams-fable-5-2]]
 - [[anthropic-prompting-claude-fable-5-2]]
+- [[anthropic-building-always-on-agents]]
 
 ## Contradictions / open questions
 

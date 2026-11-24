@@ -497,3 +497,23 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   one of its three models (Luna) is current.
 - touched: context-engineering, agent-instructions, prompt-tuning-axes; entity
   openai; overview; index.
+
+## [2026-11-24] ingest | six claude.com articles, Oct–Nov 2026
+- trigger: a recount of the claude.com sitemap (it has no dates) found 40
+  articles dated 2026-10-10 or later that the wiki lacked; the earlier claim
+  that nothing was new was wrong. Sorted by title, 6 were agent-design
+  guidance; the other 34 are announcements and were skipped. Customer stories
+  were not triaged: their pages carry no date and the Internet Archive was
+  offline.
+- summaries: wiki/sources/anthropic-fold-subagents-into-main-loop.md,
+  anthropic-building-always-on-agents.md, anthropic-self-hosted-managed-agents.md,
+  anthropic-securing-coding-agents-enterprise.md,
+  anthropic-agent-observability-claude-platform.md,
+  anthropic-uber-ciso-insider-threat-ai.md
+- touched: agent-orchestration, multi-agent-economics, tool-design,
+  agent-harness, agent-memory, agent-identity-and-access, guardrails,
+  prompt-injection, agent-evals; entities claude-code, claude-managed-agents,
+  anthropic, claude (stale lineup summary fixed); index.
+- contradictions recorded: tool overload by count vs. overlap; review scope
+  for always-on agents (every action vs. higher-risk actions); Claude Code auto
+  mode default (August plan list vs. every plan in November).

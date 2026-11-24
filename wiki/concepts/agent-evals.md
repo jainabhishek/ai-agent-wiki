@@ -397,6 +397,11 @@ self-critique vs a separate evaluator, and the early-victory problem).
   hands off; fixing the most common reasons halved the share of conversations
   that needed a human. (see [[anthropic-sales-inbound-managed-agents]])
 
+- Standard OpenTelemetry GenAI traces feed eval tools directly. Ramp reports
+  that an agent which scores traces and proposes fixes cut token use on some of
+  its agents (self-reported). (see
+  [[anthropic-agent-observability-claude-platform]])
+
 ## Pitfalls
 
 - **Brittle grading** — grade "what the agent produced, not the path it took."
@@ -555,6 +560,7 @@ because the eval rewards OCR). Mitigations:
 - [[anthropic-solving-code-review]]
 - [[anthropic-claude-code-team-verification]]
 - [[openai-failover-across-model-providers]]
+- [[anthropic-agent-observability-claude-platform]]
 
 ## Contradictions / open questions
 

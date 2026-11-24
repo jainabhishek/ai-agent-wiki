@@ -70,6 +70,10 @@ the subject of several ingested sources on agent best practices:
   can also propose `CLAUDE.md` updates from the session. (see
   [[anthropic-subagents-in-claude-code]],
   [[anthropic-claude-code-large-codebases]])
+- Hooks can be a script, an HTTP endpoint, or an MCP tool. `ConfigChange` can
+  reject a settings edit made mid-session; `onFailure: "block"` makes a hook
+  fail closed; `allowManagedHooksOnly` turns off all but managed hooks. (see
+  [[anthropic-securing-coding-agents-enterprise]])
 
 ### Prompt caching as a design constraint
 - The harness is laid out around prompt caching: static system prompt + tools,
@@ -130,6 +134,12 @@ the subject of several ingested sources on agent best practices:
   [[anthropic-eng-how-we-contain-claude]])
 - Missed risk (fixed): hooks in project config (`.claude/settings.json`) ran
   before the trust dialog. (see [[anthropic-eng-how-we-contain-claude]])
+- Permission rules are checked in the order deny, ask, allow. Compound Bash
+  commands are split and each part is checked in every mode; subagents inherit
+  the parent's rules. Pair the sandbox with `failIfUnavailable`. As of 2026-11,
+  auto mode is the default for interactive sessions on every plan; `claude -p`,
+  the Agent SDK, and the HIPAA configuration stay manual. (see
+  [[anthropic-securing-coding-agents-enterprise]])
 
 ### Cloud sessions
 - One task = one disposable VM = one branch (about 4 vCPU, 16 GB RAM, 30 GB
@@ -311,6 +321,7 @@ the subject of several ingested sources on agent best practices:
 - [[anthropic-claude-code-team-verification]]
 - [[anthropic-which-claude-model-to-build-with]]
 - [[anthropic-eng-components-of-agent-memory]]
+- [[anthropic-securing-coding-agents-enterprise]]
 
 ## Contradictions / open questions
 
@@ -344,3 +355,8 @@ the subject of several ingested sources on agent best practices:
   [[anthropic-prompt-caching-is-everything]] describes Haiku-based Explore
   agents. [[anthropic-which-claude-model-to-build-with]] (2026-11-09) says
   Explore now runs on the session's model. A product change over time.
+- **Auto mode default (recorded 2026-11-24).** [[anthropic-auto-mode-default]]
+  says that from 2026-08-14 new Pro, Max, and Team sessions start in auto mode,
+  while Enterprise, API, and cloud-platform access stay opt-in.
+  [[anthropic-securing-coding-agents-enterprise]] (2026-11-23) says auto mode is
+  the default for interactive sessions on every plan. The later post supersedes.

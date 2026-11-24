@@ -9,9 +9,9 @@ tags: [anthropic, model, llm]
 
 # Claude
 
-> Anthropic's family of large language models (current as of 2026-10-12: Fable
-> 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5) — the reasoning engine that the agent harnesses and surfaces in this wiki are built
-> around.
+> Anthropic's family of large language models (current as of 2026-11-24: Fable
+> 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5) — the reasoning engine that the agent
+> harnesses and surfaces in this wiki are built around.
 
 ## Overview
 
@@ -29,9 +29,9 @@ the model has outgrown (see [[harnessing-claudes-intelligence]],
   [[anthropic-eng-scaling-managed-agents]]) With Opus 4.6, a long-running app
   harness dropped its sprint structure and kept its planner. (see
   [[anthropic-eng-harness-design-long-running-apps]])
-- **Model lineup (as of 2026-10-12; superseded by the 2026-11-24 entry below).** Models then current with Anthropic prompting
-  pages: Claude Fable 5.1 (`claude-fable-5-1`; the page metadata also names
-  Claude Mythos 5.1), Claude Opus 5.5 (`claude-opus-5-5`), Claude Sonnet 5.5
+- **Model lineup (as of 2026-10-12; superseded by the 2026-11-24 entry
+  below).** Models then current with Anthropic prompting pages: Claude Fable
+  5.1 (`claude-fable-5-1`; the page metadata also names Claude Mythos 5.1), Claude Opus 5.5 (`claude-opus-5-5`), Claude Sonnet 5.5
   (`claude-sonnet-5-5`), and Claude Haiku 5.5 (`claude-haiku-5-5`). (see
   [[anthropic-prompting-claude-fable-5-1]],
   [[anthropic-prompting-claude-opus-5-5]],
@@ -101,7 +101,6 @@ the model has outgrown (see [[harnessing-claudes-intelligence]],
 
 ## Contradictions / open questions
 
-- _None recorded._
 - **Starting model (recorded 2026-11-24).** [[anthropic-choosing-claude-model]]
   (2026-07-24) says to start with the most intelligent generally available
   model. [[anthropic-which-claude-model-to-build-with]] (2026-11-09) says to

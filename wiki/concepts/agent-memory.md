@@ -142,6 +142,11 @@ note-taking technique in [[anthropic-eng-context-engineering]].
   such as "record only failures" reduced the memory gain for stronger models;
   per-model detail is on the source page. (see
   [[anthropic-eng-components-of-agent-memory]])
+- **For always-on agents, store pointers, not copies.** Store only what the
+  agent cannot look up again, and pointers to everything else. Anthropic's
+  design keeps four file types (user instructions, user notes, past messages,
+  task progress) and loads only an index for large note sets. (see
+  [[anthropic-building-always-on-agents]])
 
 ### Offline consolidation (dreaming)
 
@@ -263,6 +268,7 @@ its write path a governance and security surface, not only a storage choice.
 - [[anthropic-prompting-claude-fable-5-1]]
 - [[anthropic-eng-components-of-agent-memory]]
 - [[anthropic-prompting-claude-fable-5-2]]
+- [[anthropic-building-always-on-agents]]
 
 ## Contradictions / open questions
 
