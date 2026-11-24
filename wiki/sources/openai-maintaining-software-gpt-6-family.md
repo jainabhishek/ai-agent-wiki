@@ -9,10 +9,14 @@ source_url: https://developers.openai.com/blog/maintaining-software-with-the-gpt
 source_path: raw/openai-maintaining-software-gpt-6-family.md
 models: [gpt-6-astra, gpt-6.1-sol]
 as_of: 2026-11-24
+status: legacy
+superseded_by: [openai-prompting-gpt-6-2]
 tags: [openai, codex, gpt-6, model-specific, maintenance, dead-code, feature-flags, cost, case-study]
 ---
 
 # OpenAI: Maintaining software with the GPT-6 family
+
+> **Legacy (checked 2026-11-24).** OpenAI's models overview (checked 2026-11-24) lists GPT-6.2 Astra, GPT-6.2 Sol, GPT-6.1 Terra, and GPT-6 Luna as current; GPT-6 Astra and GPT-6.1 Sol moved to "More models". The cost comparison below stays true of those models; the method (compare settings by cost per validated finding) does not depend on them. For the current models, see [[openai-prompting-gpt-6-2]].
 
 > OpenAI Developers blog case study: one OpenAI team used Codex with GPT-6 Astra
 > and GPT-6.1 Sol to remove dead code and stale experiments, and compared the

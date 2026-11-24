@@ -2,17 +2,21 @@
 title: "OpenAI: Rethinking skills and prompts for GPT-6 Astra"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-11-24
 author: Eric Provencher (OpenAI)
 date: 2026-09-11
 source_url: https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra
 source_path: raw/openai-rethinking-skills-prompts-gpt-6-astra.md
 models: [gpt-6-astra]
 as_of: 2026-10-12
+status: legacy
+superseded_by: [openai-prompting-gpt-6-2]
 tags: [prompting, model-specific, openai, gpt-6, skills, agents-md, codex]
 ---
 
 # OpenAI: Rethinking skills and prompts for GPT-6 Astra
+
+> **Legacy (checked 2026-11-24).** OpenAI's models overview (checked 2026-11-24) lists GPT-6.2 Astra, GPT-6.2 Sol, GPT-6.1 Terra, and GPT-6 Luna as current; GPT-6 Astra and GPT-6.1 Sol moved to "More models". The claims below stay true of GPT-6 Astra; for the current model, see [[openai-prompting-gpt-6-2]].
 
 > OpenAI Developers blog post on auditing skills, `AGENTS.md`, and task prompts
 > when moving a coding agent to GPT-6 Astra.

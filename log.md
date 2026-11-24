@@ -481,3 +481,19 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - method: five subagents wrote raw captures and source pages, one file pair
   each; the coordinator wrote the Codex sandbox pair (browser capture, because
   openai.com blocks curl) and made every concept, entity, index, and log edit.
+
+## [2026-11-24] ingest | OpenAI — Using GPT-6.2 (prompting and migration)
+- summary: wiki/sources/openai-prompting-gpt-6-2.md (`models: [gpt-6.2-astra,
+  gpt-6.2-sol]`; fetched via the `.md` export).
+- trigger: OpenAI's models overview, checked 2026-11-24, lists GPT-6.2 Astra,
+  GPT-6.2 Sol, GPT-6.1 Terra, and GPT-6 Luna as current; GPT-6 Astra and
+  GPT-6.1 Sol moved to "More models". The human approved this follow-up.
+- legacy: [[openai-prompting-gpt-6-astra]],
+  [[openai-rethinking-skills-prompts-gpt-6-astra]], and
+  [[openai-maintaining-software-gpt-6-family]] marked `status: legacy`,
+  superseded by [[openai-prompting-gpt-6-2]]. The GPT-6 prompting page also
+  lists GPT-6 Luna (still current); its banner says so.
+  [[openai-practical-guide-building-with-gpt-6]] kept live with a note, because
+  one of its three models (Luna) is current.
+- touched: context-engineering, agent-instructions, prompt-tuning-axes; entity
+  openai; overview; index.

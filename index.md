@@ -75,19 +75,20 @@ vendor stops listing a model as current, its page moves to "Legacy" below with
 - [[anthropic-prompting-claude-haiku-5-5]] — Haiku 5.5: first Haiku with effort, date-grounded search, JSON with tools, chatbot adherence (as of Oct 2026)
 - [[anthropic-building-with-sonnet-5-5]] — Sonnet 5.5 launch playbook: choosing vs. Opus, migration steps, effort re-sweep (Sep 2026)
 - [[anthropic-getting-most-out-of-opus-5-5]] — Opus 5.5 in Claude apps and Claude Code: define done, name the stops; differs from docs in four places (Sep 2026)
-- [[openai-prompting-gpt-6-astra]] — GPT-6 family (observed on Astra): initiative, instruction precedence, style, delegation, testing; migration checklist (as of Oct 2026)
-- [[openai-rethinking-skills-prompts-gpt-6-astra]] — audit skills, `AGENTS.md`, and boundary language for GPT-6 Astra (Sep 2026)
+- [[openai-prompting-gpt-6-2]] — GPT-6.2 Astra/Sol: prefix edits drop reasoning, `instructions` after `input`, self-contained final answers, finish-the-work and readable-code prompts (as of Nov 2026)
 
 - [[anthropic-opus-5-5-long-coding-sessions]] — longer sessions; Opus 5.5 pricing + harness caching changes (2026-09)
 - [[anthropic-spending-your-effort]] — what effort changes in Claude Code; Terminal-Bench 3.0 evidence (2026-09)
 - [[anthropic-what-a-task-costs-opus-5-5]] — cost of a Claude Code task (turns, cache reads, output, model); effort + routing rules (2026-09)
 - [[anthropic-which-claude-model-to-build-with]] — Nov 2026 model choice: start on Opus 5.5 at medium, move down to Sonnet/Haiku or up to Fable 5.2; prices, thinking-block compatibility, migration checks (2026-11)
 - [[anthropic-scaling-multi-agent-teams-fable-5-2]] — 1,000 agents on an early Fable 5.2 coordinate through Git and a shared Postgres database, under sandboxes plus real-time and offline monitors (2026-11)
-- [[openai-maintaining-software-gpt-6-family]] — Codex cleanup campaign on GPT-6 Astra / GPT-6.1 Sol: 1,400+ PRs, 800k+ lines removed, cost per validated finding (2026-10)
 - [[openai-practical-guide-building-with-gpt-6]] — GPT-6 model choice, prompts, long tasks, computer use, production readiness (2026-10)
 
 #### Legacy (vendor no longer lists the model as current)
 
+- [[openai-prompting-gpt-6-astra]] — GPT-6 family (observed on Astra): initiative, instruction precedence, style, delegation, testing; migration checklist (as of Oct 2026; legacy since Nov 2026)
+- [[openai-rethinking-skills-prompts-gpt-6-astra]] — audit skills, `AGENTS.md`, and boundary language for GPT-6 Astra (Sep 2026; legacy since Nov 2026)
+- [[openai-maintaining-software-gpt-6-family]] — Codex cleanup campaign on GPT-6 Astra / GPT-6.1 Sol: 1,400+ PRs, 800k+ lines removed, cost per validated finding (2026-10; legacy since Nov 2026)
 - [[anthropic-prompting-claude-fable-5-1]] — Fable 5.1 / Mythos 5.1: append-only history, call batching, finish-whole-task, compaction (as of Oct 2026; legacy since Nov 2026)
 - [[anthropic-prompting-claude-opus-5]] — Opus 5: verbosity, over-verification, subagent caps (as of Aug 2026; legacy since Oct 2026)
 - [[anthropic-prompting-claude-sonnet-5]] — Sonnet 5: literal instruction following, effort remapping, new tokenizer (as of Aug 2026; legacy since Oct 2026)

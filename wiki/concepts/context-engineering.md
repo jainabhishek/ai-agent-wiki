@@ -324,6 +324,13 @@ drops as incidents (see [[anthropic-prompt-caching-is-everything]],
   before each request and leaves the instructions and the original deadline
   unchanged. (see [[openai-time-awareness-async-input-agents]])
 
+- **A changed prefix can cost more than the cache.** On OpenAI's newer models,
+  editing earlier history (or changing the user or organization) also makes the
+  API discard the model's stored reasoning, so quality can drop and the model
+  repeats work. Change settings between turns without rewriting earlier items,
+  and keep reusable instructions in the stable front of the request. (see
+  [[openai-prompting-gpt-6-2]])
+
 ## Legibility: what the agent can see
 
 **Information the agent cannot read does not exist for it.** Two independent
@@ -437,6 +444,7 @@ curated artifact beats re-retrieving raw context every turn.
 - [[openai-in-house-data-agent]]
 - [[openai-time-awareness-async-input-agents]]
 - [[anthropic-eng-components-of-agent-memory]]
+- [[openai-prompting-gpt-6-2]]
 
 ## Contradictions / open questions
 

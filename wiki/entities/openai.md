@@ -32,8 +32,9 @@ and a layered guardrails model.
   it). (see [[openai-agents-api-guide]])
 - Shut down the Assistants API on 2026-08-26 and pointed users to the Responses
   and Conversations APIs. (see [[openai-agents-api-guide]])
-- Current model lineup as of 2026-10-12: GPT-6 Astra, GPT-6.1 Sol, and GPT-6
-  Luna. Prompting guidance for the family is in the GPT-6 Astra guide. (see
+- Model lineup as of 2026-10-12 (superseded by the 2026-11-24 entry below):
+  GPT-6 Astra, GPT-6.1 Sol, and GPT-6 Luna. Prompting guidance for the family
+  is in the GPT-6 Astra guide. (see
   [[openai-prompting-gpt-6-astra]])
 - Open-sources the [[openai-codex]] harness and positions it as an embeddable
   agent runtime. (see [[openai-codex-as-a-platform]])
@@ -49,6 +50,11 @@ and a layered guardrails model.
   additions include a hosted computer environment and a WebSocket mode. (see
   [[openai-responses-api-computer-environment]],
   [[openai-websockets-agentic-workflows]])
+- Current model lineup as of 2026-11-24: GPT-6.2 Astra (`gpt-6.2-astra`),
+  GPT-6.2 Sol (`gpt-6.2-sol`), GPT-6.1 Terra, and GPT-6 Luna. The two GPT-6.2
+  models were released on 2026-11-17. GPT-6 Astra and GPT-6.1 Sol moved to "More models"; their
+  prompting pages are marked `status: legacy`. (see
+  [[openai-prompting-gpt-6-2]], [[openai-prompting-gpt-6-astra]])
 
 ### Guidance sources on openai.com
 
@@ -145,6 +151,7 @@ and a layered guardrails model.
 - [[openai-securing-persistent-agents-openclaw]]
 - [[openai-codex-security-review-sdlc]]
 - [[openai-failover-across-model-providers]]
+- [[openai-prompting-gpt-6-2]]
 
 ## Contradictions / open questions
 

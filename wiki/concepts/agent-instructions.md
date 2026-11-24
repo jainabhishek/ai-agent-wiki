@@ -141,6 +141,18 @@ prompt. Both vendors now give architecture guidance for these layers.
   [[openai-hardening-atlas-prompt-injection]], [[prompt-injection]]). This is
   about the scope of authority granted, not about prescribing the method.
 
+- **The final answer must stand alone.** When progress notes are collapsed in
+  the interface, the final answer is the reader's first view of the work. Ask
+  the agent to write it fresh for that reader, without shorthand, jargon, or
+  abbreviations carried over from its reasoning, tool calls, or subagent briefs.
+  (see [[openai-prompting-gpt-6-2]]; Anthropic gives parallel advice for final
+  reports in [[anthropic-prompting-claude-fable-5-2]])
+- **Turn a proposed next step into the next step.** If the agent's draft final
+  message is a plan, a suggestion, or a routine question, and the step is
+  authorized, tell it to do the step instead. Reserve stops for a scope change,
+  a real blocker, a decision only the user can make, or an irreversible action.
+  (see [[openai-prompting-gpt-6-2]])
+
 ## Prune instructions at each model change
 
 Two vendors independently advise removing instructions written to compensate for
@@ -223,6 +235,7 @@ model-scoped source pages for current values.
 - [[anthropic-prompting-claude-fable-5-2]]
 - [[openai-maintaining-software-gpt-6-family]]
 - [[openai-codex-security-review-sdlc]]
+- [[openai-prompting-gpt-6-2]]
 
 ## Contradictions / open questions
 

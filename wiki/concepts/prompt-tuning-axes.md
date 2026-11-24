@@ -267,6 +267,7 @@ per-node-type prompt tuning. (see [[claude-customer-dust]],
 - [[claude-customer-cognition]]
 - [[claude-customer-n8n]]
 - [[anthropic-prompting-claude-fable-5-2]]
+- [[openai-prompting-gpt-6-2]]
 
 ## Contradictions / open questions
 

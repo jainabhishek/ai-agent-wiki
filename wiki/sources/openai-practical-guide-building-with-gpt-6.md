@@ -2,7 +2,7 @@
 title: "OpenAI: A practical guide to building with GPT-6 (A model guide for the GPT-6 family)"
 type: source
 created: 2026-10-12
-updated: 2026-10-13
+updated: 2026-11-24
 author: OpenAI
 date: 2026-10-02
 source_url: https://openai.com/index/practical-guide-building-gpt-6/
@@ -13,6 +13,8 @@ tags: [openai, gpt-6, model-specific, prompting, production, long-running-agents
 ---
 
 # OpenAI: A practical guide to building with GPT-6
+
+> **Note (checked 2026-11-24).** GPT-6 Astra and GPT-6.1 Sol, two of the three models this guide covers, are no longer current; GPT-6.2 Astra and Sol replaced them (see [[openai-prompting-gpt-6-2]]). GPT-6 Luna is still current, so this page is not marked legacy. The Astra and 6.1 Sol claims below stay true of those models.
 
 > OpenAI's business-facing guide (Oct 2, 2026) to choosing a GPT-6 model,
 > instructing it, running long tasks, and preparing for production. It is a
