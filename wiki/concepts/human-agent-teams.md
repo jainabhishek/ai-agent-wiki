@@ -2,7 +2,7 @@
 title: Human-Agent Teams
 type: concept
 created: 2026-10-13
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [orchestration, human-in-the-loop, teams, parallel-sessions, delegation, organizational-practice, feedback-loop]
 ---
 
@@ -56,6 +56,12 @@ them more costly. (see [[anthropic-building-effective-human-agent-teams]])
 - **Scale reported by Block.** Block reports engineers working with about 45
   concurrent agents, a number that single-conversation tools do not scale to.
   (see [[anthropic-block-orchestrates-fable]])
+- **At most one human per PR.** The Claude Code team aims for most PRs to merge
+  with at most one human in the loop, who can be the author. It tracks human
+  approvals per PR, human comments, and time spent waiting on a person. Humans
+  keep the decisions on whether to build, risky code, pattern-setting
+  architecture, reading the evidence, and ownership. Claude writes about 90% of
+  Claude Code's code. (see [[anthropic-solving-code-review]])
 
 ## Units of delegated work
 
@@ -155,6 +161,11 @@ already exist in the team's system of record.
   skills and knowledge centrally, so every agent run gets them. (see
   [[anthropic-block-orchestrates-fable]])
 
+- **Understand the code without reading every diff.** Claude Code engineers
+  build their understanding by asking Claude to explain one slice of the code,
+  sometimes as a visual artifact, and through work in open Slack channels. (see
+  [[anthropic-solving-code-review]])
+
 ## Hand-off loops: agents produce, humans decide
 
 - **The basic loop.** Slack reports agents that draft, summarize, monitor, and
@@ -187,6 +198,19 @@ already exist in the team's system of record.
   [[openai-self-improving-tax-agents-codex]])
 - **Digests for decision-makers.** Asana reports a daily at-risk-renewal digest
   in three buckets to the CCO, the CRO, and regional leaders. (see [[anthropic-asana-coachable-agents]])
+- **Ask without blocking.** An agent with a deadline can ask the user a question
+  and keep working while it waits. The application closes an unanswered question
+  with an explicit no-answer result before the delivery deadline, so the agent
+  still has time to write for every possible answer. (see
+  [[openai-time-awareness-async-input-agents]])
+- **Raise, do not remove, what is marked permanent.** OpenAI reports an agent
+  that found a costly feature flag marked "Permanent" and raised it for human
+  review instead of deleting it; a human then removed it. (see
+  [[openai-maintaining-software-gpt-6-family]])
+- **Agents give up early.** In Anthropic's 1,000-agent run, helpers called 47 of
+  60 statements infeasible, and the team proved most of them. Encouragement at
+  those moments, by a human or a script, helps. (see
+  [[anthropic-scaling-multi-agent-teams-fable-5-2]])
 
 ## Earned autonomy per task type
 
@@ -212,6 +236,11 @@ on [[guardrails]] (Human-in-the-loop, Earned autonomy).
 - **Routine work first.** Anthropic's SDLC playbook makes auto mode the default
   only for routine, well-tested work with a small blast radius, once guardrails
   mature. (see [[anthropic-ai-native-sdlc-playbook]])
+
+- **Start small, review, expand.** One OpenAI team runs a maintenance task on
+  one instance first, then on a subdirectory, then on the whole codebase. At
+  each step, the agent folds the human review comments into the prompt for the
+  next, larger run. (see [[openai-maintaining-software-gpt-6-family]])
 
 ## How engineering organizations change
 
@@ -355,6 +384,11 @@ cite the details.
 - [[openai-self-improving-tax-agents-codex]]
 - [[openai-sora-android-with-codex]]
 - [[openai-symphony-codex-orchestration]]
+- [[openai-time-awareness-async-input-agents]]
+- [[openai-maintaining-software-gpt-6-family]]
+- [[anthropic-scaling-multi-agent-teams-fable-5-2]]
+- [[anthropic-solving-code-review]]
+- [[anthropic-claude-code-team-verification]]
 
 ## Contradictions / open questions
 
@@ -389,3 +423,9 @@ cite the details.
   conversation is (public channels); OpenAI's harness team moves the
   conversation into the repository. Both rules share one premise: an agent
   cannot use what it cannot see. The sources do not compare the two choices.
+- **Is review capacity the ceiling (refinement, 2026-11-24)?** This page says
+  the ceiling on parallel sessions is what one person can review (from
+  [[anthropic-ai-native-sdlc-playbook]]).
+  [[anthropic-claude-code-team-verification]] says verification loops let a
+  person run dozens or hundreds of sessions. Read together: verification loops
+  raise the review ceiling; they do not remove it.

@@ -3,7 +3,7 @@ title: Anthropic
 type: entity
 subtype: org
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [anthropic, agents]
 ---
 
@@ -33,7 +33,7 @@ patterns over heavy frameworks.
 - Contains agents at the environment layer first (sandboxes, VMs, egress
   controls) and treats model-level defenses as a second layer. (see
   [[anthropic-eng-how-we-contain-claude]], [[guardrails]])
-- Current model lineup as of 2026-10-12: Claude Fable 5.1, Opus 5.5, Sonnet
+- Model lineup as of 2026-10-12 (superseded by the 2026-11-24 entry below): Claude Fable 5.1, Opus 5.5, Sonnet
   5.5, and Haiku 5.5, each with its own prompting page. (see
   [[anthropic-prompting-claude-fable-5-1]],
   [[anthropic-prompting-claude-opus-5-5]],
@@ -54,6 +54,14 @@ patterns over heavy frameworks.
   - Claude authors about 80% of merged code, and more than half of all code is
     merged by the internal version of Claude Tag. (see
     [[anthropic-securing-ai-native-sdlc]], 2026-07-21)
+- Current model lineup as of 2026-11-24: Claude Fable 5.2, Opus 5.5, Sonnet 5.5,
+  and Haiku 5.5. Fable 5.1 is now legacy. (see
+  [[anthropic-prompting-claude-fable-5-2]],
+  [[anthropic-which-claude-model-to-build-with]])
+- Publishes engineering posts under `anthropic.com/research/` as well as
+  `anthropic.com/engineering/`; the Engineering index links both. (see
+  [[anthropic-eng-building-strong-safety-evaluations]],
+  [[anthropic-eng-components-of-agent-memory]])
 
 ## Relationships
 
@@ -160,6 +168,19 @@ patterns over heavy frameworks.
   [[claude-customer-rocket-money]], [[claude-customer-shortcut]],
   [[claude-customer-spotify-boris-office-hours]], [[claude-customer-twilio]],
   [[claude-customer-vapi]], [[claude-customer-wondr-health]]
+- [[anthropic-eng-building-strong-safety-evaluations]]
+- [[anthropic-eng-components-of-agent-memory]]
+- [[anthropic-prompting-claude-fable-5-2]]
+- [[anthropic-which-claude-model-to-build-with]]
+- [[anthropic-scaling-multi-agent-teams-fable-5-2]]
+- [[anthropic-claude-code-team-verification]]
+- [[anthropic-solving-code-review]]
+- [[anthropic-fold-subagents-into-main-loop]]
+- [[anthropic-building-always-on-agents]]
+- [[anthropic-self-hosted-managed-agents]]
+- [[anthropic-securing-coding-agents-enterprise]]
+- [[anthropic-agent-observability-claude-platform]]
+- [[anthropic-uber-ciso-insider-threat-ai]]
 
 ## Contradictions / open questions
 

@@ -2,7 +2,7 @@
 title: Agent Instructions
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [instructions, prompting, best-practices]
 ---
 
@@ -27,6 +27,11 @@ tags: [instructions, prompting, best-practices]
   conditions. Require planners to decide shared architecture once rather than
   delegating the same decision to multiple workers. (see
   [[cursor-agent-swarm-model-economics]], [[agent-orchestration]])
+- **Scoped rules, not absolute ones.** Write "ask before deleting files", not
+  "never delete files". List the routine steps that need no approval, because
+  "act more freely" is too vague. Name the exact actions that need approval; a
+  broad category such as "messages to outside people" can suppress routine work.
+  (see [[anthropic-prompting-claude-fable-5-2]])
 
 ## Instruction layers and precedence
 
@@ -84,6 +89,12 @@ prompt. Both vendors now give architecture guidance for these layers.
   post-edit checks there (format, then lint) (see
   [[openai-skyscanner-codex-jetbrains-mcp]]).
 
+- **Separate files for separate jobs in security review.** `AGENTS.md` holds
+  engineering instructions, a committed threat model says what is exposed, and
+  `SECURITY.md` says how findings are judged and reported. Without a committed
+  threat model, Codex Security regenerates one for every review. (see
+  [[openai-codex-security-review-sdlc]])
+
 ## Task prompts: goals, done-criteria, and output contracts
 
 - **Goal and context over prescriptive procedure (observed reports).** Each
@@ -130,6 +141,18 @@ prompt. Both vendors now give architecture guidance for these layers.
   [[openai-hardening-atlas-prompt-injection]], [[prompt-injection]]). This is
   about the scope of authority granted, not about prescribing the method.
 
+- **The final answer must stand alone.** When progress notes are collapsed in
+  the interface, the final answer is the reader's first view of the work. Ask
+  the agent to write it fresh for that reader, without shorthand, jargon, or
+  abbreviations carried over from its reasoning, tool calls, or subagent briefs.
+  (see [[openai-prompting-gpt-6-2]]; Anthropic gives parallel advice for final
+  reports in [[anthropic-prompting-claude-fable-5-2]])
+- **Turn a proposed next step into the next step.** If the agent's draft final
+  message is a plan, a suggestion, or a routine question, and the step is
+  authorized, tell it to do the step instead. Reserve stops for a scope change,
+  a real blocker, a decision only the user can make, or an irreversible action.
+  (see [[openai-prompting-gpt-6-2]])
+
 ## Prune instructions at each model change
 
 Two vendors independently advise removing instructions written to compensate for
@@ -144,6 +167,15 @@ evals (see [[anthropic-building-with-sonnet-5-5]]). The convergence is about
 architecture — instructions are written against a model, so the instruction
 set is versioned with it and re-audited on upgrade. Which specific wording to
 remove is per-model and lives on the model-scoped source pages, not here.
+
+- **Test an instruction by replay.** Rerun one past session prompt from the same
+  snapshot, once with the suspect instruction and once without it. Compare
+  quality, tool calls, tokens, runtime, and cost. (see
+  [[openai-maintaining-software-gpt-6-family]])
+- **Audit what you carry over before you add.** On a model migration, check
+  delegation lines, visible token budgets, "think less" lines, hard style rules,
+  and accumulated notes. Add one fix at a time and measure both its effect and
+  its token cost. (see [[anthropic-prompting-claude-fable-5-2]])
 
 ## Automate instruction-writing
 
@@ -200,6 +232,10 @@ model-scoped source pages for current values.
 - [[anthropic-asana-coachable-agents]]
 - [[openai-understanding-prompt-injections]]
 - [[openai-hardening-atlas-prompt-injection]]
+- [[anthropic-prompting-claude-fable-5-2]]
+- [[openai-maintaining-software-gpt-6-family]]
+- [[openai-codex-security-review-sdlc]]
+- [[openai-prompting-gpt-6-2]]
 
 ## Contradictions / open questions
 

@@ -2,7 +2,7 @@
 title: Agent Identity and Access
 type: concept
 created: 2026-10-13
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [identity, access-control, least-agency, credentials, rbac, security, guardrails]
 ---
 
@@ -81,6 +81,27 @@ other three questions in that assessment.
   instead of per-item sharing decisions. (see
   [[anthropic-building-effective-human-agent-teams]])
 
+- **Stamp identity outside the sandbox.** In Anthropic's 1,000-agent run, the
+  gateway stamps each agent's identity outside its sandbox, so one agent cannot
+  pose as another, and agents cannot read or change their own agent loop. (see
+  [[anthropic-scaling-multi-agent-teams-fable-5-2]])
+- **Admins bound what users may choose.** Codex merges layered config files and
+  lets administrators restrict which permission profiles a user may select
+  (`allowed_permission_profiles` in managed requirements). Cloud policy outranks
+  the system file. (see [[openai-inside-the-codex-sandbox]])
+- **Agent identity plus linked service accounts.** OpenAI separates agent
+  identity from service accounts: the agent acts under its own identity and
+  reaches third-party services through service accounts linked to that identity.
+  Each OpenClaw agent has its own inference credential, so OpenAI can audit the
+  agent and turn off its inference without touching the user. The post cites two
+  emerging IETF drafts (WAG and XAA) for agent access and OAuth delegation. (see
+  [[openai-securing-persistent-agents-openclaw]])
+
+- **Give coding agents in CI their own identity.** A coding agent that runs
+  under its developer's identity is invisible in most outside logs. In CI/CD,
+  give it its own revocable identity, such as a dedicated GitHub App. (see
+  [[anthropic-securing-coding-agents-enterprise]])
+
 ## Task-scoped authority
 
 OpenAI's agent security white paper frames identity around the task, not only
@@ -146,6 +167,18 @@ the agent. (see [[openai-agent-security-enterprise]])
   safeguards. (see [[agent-harness]], [[anthropic-evolution-of-agentic-surfaces]],
   [[anthropic-eng-scaling-managed-agents]])
 
+- **A credential broker, not stripped variables.** Removing token environment
+  variables from shell commands does not hide credentials stored in files that
+  the agent can read. OpenAI uses a broker that keeps secrets out of the agent's
+  view. (see [[openai-securing-persistent-agents-openclaw]])
+
+- **A credential proxy in every deployment mode.** Anthropic recommends a
+  credential proxy outside the agent's environment for always-on agents and in
+  every Managed Agents deployment mode; self-hosted customers can keep
+  credentials in their own secrets manager. (see
+  [[anthropic-building-always-on-agents]],
+  [[anthropic-self-hosted-managed-agents]])
+
 ## Why it matters
 
 Identity and credentials decide the blast radius when an agent is fooled or
@@ -193,6 +226,12 @@ survive model upgrades (see [[guardrails]], [[anthropic-ciso-guide-agentic-ai]])
 - [[openai-running-codex-safely]]
 - [[openai-agents-api-guide]]
 - [[openai-agent-security-enterprise]]
+- [[anthropic-scaling-multi-agent-teams-fable-5-2]]
+- [[openai-inside-the-codex-sandbox]]
+- [[openai-securing-persistent-agents-openclaw]]
+- [[anthropic-building-always-on-agents]]
+- [[anthropic-self-hosted-managed-agents]]
+- [[anthropic-securing-coding-agents-enterprise]]
 
 ## Contradictions / open questions
 
@@ -205,3 +244,8 @@ survive model upgrades (see [[guardrails]], [[anthropic-ciso-guide-agentic-ai]])
   combine them. OpenAI's white paper (Aug 2026) describes a third arrangement:
   the agent is a distinct non-human principal, but every task token is bound to
   the initiating user or system ([[openai-agent-security-enterprise]]).
+- **Service accounts (wording, recorded 2026-11-24).** This page lists a
+  single-purpose service account as one way for an agent to act as its own
+  principal. [[openai-securing-persistent-agents-openclaw]] says agent identity
+  is different from service accounts and that the two are used together. A
+  wording difference, not a factual conflict.

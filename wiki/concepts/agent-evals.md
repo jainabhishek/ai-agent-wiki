@@ -2,7 +2,7 @@
 title: Agent Evals
 type: concept
 created: 2026-06-21
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [evals, measurement, agents, best-practices, verification]
 ---
 
@@ -108,6 +108,21 @@ screenshots, LLM-as-judge) are ordered by robustness on [[agent-verification]].
   **reset between trials** (shared state causes correlated failures). Each
   skill-creator eval runs in a separate agent with a clean context, so runs do
   not contaminate each other. (see [[anthropic-improving-skill-creator]])
+- **Safety evals measure the right response, not refusal.** A safety eval asks
+  whether the model did the right thing. Choose the construct first. Refusal
+  rate is the wrong construct where declining to engage is itself a failure, as
+  in a crisis conversation. Score an appropriate-response rate against an expert
+  rubric for each risk area, and let one bad turn fail the whole conversation.
+  Pair harmful and benign prompts in the same domain, so the eval shows both
+  harmful compliance and over-refusal. (see
+  [[anthropic-eng-building-strong-safety-evaluations]])
+- **Multi-turn simulated users.** A domain expert writes a scenario
+  specification: objectives, tactics, persona, situation, and tone. The first
+  user turn is fixed. A separate model writes the later user turns and reacts to
+  the real replies. Each scenario runs many times with different option
+  combinations, and a grader model scores each transcript. Vary each dimension
+  on its own; confounded dimensions cannot be separated. (see
+  [[anthropic-eng-building-strong-safety-evaluations]])
 
 ### Evals from real production work
 
@@ -162,6 +177,13 @@ screenshots, LLM-as-judge) are ordered by robustness on [[agent-verification]].
   automated evaluators and two scored human rounds; clinicians were partners
   in evaluation, not a final gate. (see [[claude-customer-wondr-health]])
 
+- **Replay past incidents daily.** The Claude Code reviewer runs every day
+  against past PRs that caused incidents, each confirmed by engineers who know
+  the code. A change to the reviewer's prompts, tools, or model is kept only if
+  the score rises. Noise is measured from how authors respond to each comment
+  and from runs on PRs known to be clean. (see
+  [[anthropic-solving-code-review]])
+
 ## What to measure
 
 - Beyond accuracy: **runtime, tool-call counts, token consumption, error
@@ -214,6 +236,18 @@ screenshots, LLM-as-judge) are ordered by robustness on [[agent-verification]].
   whether the grader counts noise as failure, not only whether the product
   code is wrong. (see [[openai-self-improving-tax-agents-codex]])
 
+- **Preregister and report uncertainty.** Before the run, fix the metrics, the
+  comparisons, the data slices, and the threshold for a gain or a regression.
+  Run each case several times. Anthropic suggests floors of about 100 items for
+  a complex multi-turn eval and about 1,000 for a simple single-turn eval. Use
+  paired comparisons on the same items, report per category with confidence
+  intervals and a multiple-comparison correction, and never compare scores from
+  different graders. (see [[anthropic-eng-building-strong-safety-evaluations]])
+- **Compare models at several effort levels.** Run each candidate model at two
+  or three effort levels, in separate sessions with no shared cache. Record the
+  cost per completed task, then shadow-run the winner on real traffic before
+  cutover. (see [[anthropic-which-claude-model-to-build-with]])
+
 ## LLM-as-judge
 
 Calibrate against human experts; use **structured per-dimension rubrics**, not
@@ -228,6 +262,20 @@ first. Pitfall: **vague rubrics** → inconsistent judgments.
   [[anthropic-automating-eval-design-hillclimbing]]) skill-creator's comparator
   agents judge skill v1 vs v2, or skill vs no skill, without knowing which is
   which. (see [[anthropic-improving-skill-creator]])
+
+- **Graders fail silently and drift.** A broken grader can keep producing
+  scores, and its verdicts can shift when its underlying model changes. Add
+  alerts. When the grader breaks on an item, flag and exclude that item; do not
+  score it silently or drop it. Write atomic yes/no criteria with explicit "does
+  not count" cases. Test for self-preference, length bias, and position bias,
+  and re-grade a sample with another model or rubric. If the conclusion changes,
+  you measured the grader. (see
+  [[anthropic-eng-building-strong-safety-evaluations]])
+- **Validate the grader against blind human labels** with a chance-corrected
+  agreement score such as Cohen's kappa, and compare it with how often the human
+  labelers agree with each other. If the experts disagree among themselves,
+  rethink the construct. If they agree with each other but not with the grader,
+  fix the rubric. (see [[anthropic-eng-building-strong-safety-evaluations]])
 
 ## Verification of a single run
 
@@ -272,6 +320,11 @@ self-critique vs a separate evaluator, and the early-victory problem).
   [[anthropic-balyasny-evaluates-fable-5]]) When scores on ambiguous tasks
   looked too good, Cursor reports reading the reasoning traces to rule out
   cheating. (see [[anthropic-cursor-evaluates-models]])
+
+- **A provider swap is a model swap.** Before a backup route takes traffic, run
+  the workflow's acceptance criteria on it: quality, safety, output format, tool
+  use, and context limits. Retest when its configuration or capacity changes.
+  (see [[openai-failover-across-model-providers]])
 
 ## Skill, plan, and configuration evals
 
@@ -344,6 +397,11 @@ self-critique vs a separate evaluator, and the early-victory problem).
   hands off; fixing the most common reasons halved the share of conversations
   that needed a human. (see [[anthropic-sales-inbound-managed-agents]])
 
+- Standard OpenTelemetry GenAI traces feed eval tools directly. Ramp reports
+  that an agent which scores traces and proposes fixes cut token use on some of
+  its agents (self-reported). (see
+  [[anthropic-agent-observability-claude-platform]])
+
 ## Pitfalls
 
 - **Brittle grading** — grade "what the agent produced, not the path it took."
@@ -364,6 +422,16 @@ self-critique vs a separate evaluator, and the early-victory problem).
   fell first; unusual, tightly constrained problems lasted longer. This is a
   test for human candidates, not an agent eval, but it dates the saturation
   pattern. (see [[anthropic-eng-ai-resistant-evaluations]])
+- **Saturated sets still have a use.** A saturated set still works as a
+  regression check on known failure modes. To get signal back, make tasks harder
+  in ways that keep the construct (longer horizons, subtler presentation, more
+  natural writing), not with trick questions. An eval can also be too hard:
+  underspecified tasks, or tests that reject correct solutions. (see
+  [[anthropic-eng-building-strong-safety-evaluations]])
+- **The system prompt is part of the setup.** One Anthropic safety eval moved by
+  tens of points between the raw API and a product system prompt. Match the eval
+  setup to the deployment and report it. (see
+  [[anthropic-eng-building-strong-safety-evaluations]])
 
 ## Eval integrity and red-teaming
 
@@ -390,6 +458,12 @@ self-critique vs a separate evaluator, and the early-victory problem).
 - **External red teams.** Apollo Research red-teamed Claude Code auto mode;
   hardening came mainly from more classifier context. (see
   [[anthropic-auto-mode-default]])
+
+- **Run risky evals contained.** Safety evals often run with safeguards off, and
+  a model in a cyber eval may probe the limits of its environment. Run these
+  evals in a sandbox without internet access, with live monitoring and a stop
+  switch. (see [[anthropic-eng-building-strong-safety-evaluations]],
+  [[anthropic-eng-how-we-contain-claude]])
 
 ## Eval with the agent in the loop
 
@@ -481,6 +555,12 @@ because the eval rewards OCR). Mitigations:
   [[anthropic-cybersecurity-triage-agents]], [[anthropic-auto-mode-default]],
   [[anthropic-prompt-injection-defenses-browser]],
   [[openai-hardening-atlas-prompt-injection]]
+- [[anthropic-eng-building-strong-safety-evaluations]]
+- [[anthropic-which-claude-model-to-build-with]]
+- [[anthropic-solving-code-review]]
+- [[anthropic-claude-code-team-verification]]
+- [[openai-failover-across-model-providers]]
+- [[anthropic-agent-observability-claude-platform]]
 
 ## Contradictions / open questions
 
@@ -521,3 +601,25 @@ because the eval rewards OCR). Mitigations:
   results ([[anthropic-complete-guide-building-skills]], 2026-01-29).
   [[anthropic-improving-skill-creator]] (2026-03-03) added evals, benchmark
   mode, and blind comparators. The earlier statement is superseded.
+- **Simulated users: discovery only, or a headline metric? (recorded
+  2026-11-24).** This page says simulated-user evals serve only to discover new
+  cases (from [[anthropic-anatomy-of-commerce-agents]]).
+  [[anthropic-eng-building-strong-safety-evaluations]] (2026-11-13) uses
+  simulated-user multi-turn runs, scored by a grader, as Anthropic's main safety
+  metric. The purposes differ: outcome grading for commerce versus safety
+  behavior across an escalating conversation. Both claims are kept.
+- **Grade the outcome, or fail on any bad turn? (recorded 2026-11-24).** "Grade
+  what the agent produced, not the path" (from
+  [[anthropic-eng-demystifying-evals]]) and "one bad turn fails the
+  conversation" ([[anthropic-eng-building-strong-safety-evaluations]]) fit
+  together if each safety turn counts as an output that a user sees. Not a
+  contradiction for task evals.
+- **Sample size (recorded 2026-11-24).** "Start with 20–50 real tasks" (from
+  [[anthropic-eng-demystifying-evals]]) is advice for starting a set. The floors
+  of about 100 and 1,000 items in
+  [[anthropic-eng-building-strong-safety-evaluations]] are for statistically
+  sound model comparisons. Different purposes; both kept.
+- **Judge reliability (updated 2026-11-24).**
+  [[anthropic-eng-building-strong-safety-evaluations]] gives a method to measure
+  judge reliability (chance-corrected agreement against the human-human
+  baseline), but still reports no measured number.

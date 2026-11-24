@@ -2,7 +2,7 @@
 title: Overview
 type: overview
 created: 2026-06-21
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [meta, agents]
 ---
 
@@ -138,6 +138,17 @@ change while several settings reversed.
   paper, from a PDF the human supplied ([[openai-agent-security-enterprise]]).
   Still not ingested: the OpenAI cookbook (code examples, not guidance) and both
   vendors' research papers.
+- **Done (2026-11-24):** 13 Anthropic and OpenAI posts from Oct–Nov 2026,
+  including agent memory with offline "dreaming"
+  ([[anthropic-eng-components-of-agent-memory]]), safety-eval method
+  ([[anthropic-eng-building-strong-safety-evaluations]]), and the Codex sandbox
+  ([[openai-inside-the-codex-sandbox]]). Claude Fable 5.2 replaced Fable 5.1 as
+  the current Fable model. The memory post's agent-built wiki is the same
+  pattern this repository follows.
+- **Done (2026-11-24):** OpenAI's GPT-6.2 Astra and Sol (released
+  2026-11-17) are in [[openai-prompting-gpt-6-2]]. Three pages scoped only to
+  GPT-6 Astra or GPT-6.1 Sol are marked legacy. The GPT-6 practical guide also
+  covers GPT-6 Luna, which is still current, so it has a note instead.
 - Customer stories make up a large share of the new sources. They are
   self-reported and vendor-published, so concept pages phrase their claims as
   reports, not rules.

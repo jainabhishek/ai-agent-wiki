@@ -2,17 +2,21 @@
 title: "Anthropic: Prompting Claude Fable 5.1"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-11-24
 author: Anthropic
 date: accessed 2026-10-12
 source_url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1
 source_path: raw/anthropic-prompting-claude-fable-5-1.md
 models: [claude-fable-5-1, claude-mythos-5-1]
 as_of: 2026-10-12
+status: legacy
+superseded_by: [anthropic-prompting-claude-fable-5-2]
 tags: [prompting, model-specific, anthropic, fable-5-1, mythos-5-1, long-horizon, harness]
 ---
 
 # Anthropic: Prompting Claude Fable 5.1
+
+> **Legacy (checked 2026-11-24).** Anthropic's models overview no longer lists Claude Fable 5.1 in its current lineup; it appears only in the "All models" table of older models. The claims below stay true of the legacy model; for the current model, see [[anthropic-prompting-claude-fable-5-2]].
 
 > Anthropic's model-specific prompting page for Claude Fable 5.1 (and, per its page
 > description, Claude Mythos 5.1) — behavioral differences from Claude Fable 5 and the

@@ -2,7 +2,7 @@
 title: Prompt Injection
 type: concept
 created: 2026-10-12
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [prompt-injection, security, exfiltration, red-teaming, guardrails, browser-agents, memory-poisoning]
 ---
 
@@ -131,6 +131,12 @@ The outbound request is the main sink for data theft. (see
   The general point about advisory versus enforced network controls is on
   [[guardrails]].
 
+- **Allowlists stop at the domain.** A domain allowlist cannot tell your account
+  from an attacker's account on the same domain; DNS lookups can carry data out
+  past HTTP allowlists; a leaked token never passes through egress filtering.
+  Allowlist down to organization or path, and log DNS. (see
+  [[anthropic-securing-coding-agents-enterprise]])
+
 ## Detection: classifiers and monitors
 
 Both vendors run detectors. Both also say detectors miss attacks.
@@ -156,6 +162,11 @@ Both vendors run detectors. Both also say detectors miss attacks.
 - **Cited detector results.** The Zero Trust eBook cites Microsoft's
   Spotlighting, which reduced indirect-injection success from over 50% to under
   2%. (see [[anthropic-zero-trust-for-ai-agents]])
+
+- An injection probe can add a warning next to suspect content and restate the
+  user's task, instead of dropping the content. The action classifier sees no
+  tool results, so injected text cannot steer it. (see
+  [[anthropic-securing-coding-agents-enterprise]])
 
 ## Model training and automated red teaming
 
@@ -260,6 +271,11 @@ Instructions can also enter through things the agent trusts by default.
   and editors can commit feedback to an agent's shared memory. (see
   [[anthropic-asana-coachable-agents]]) See [[agent-memory]].
 
+- **Treat agent configuration as dependencies.** MCP servers, plugins, skills,
+  subagent definitions, and `CLAUDE.md` reach the context window as soon as they
+  load, unlike a library that runs only when called. Review them like
+  dependencies. (see [[anthropic-securing-coding-agents-enterprise]])
+
 ## User-side controls
 
 OpenAI gives users four steps: give the agent only the data and credentials it
@@ -322,6 +338,7 @@ reach the SIEM. (see [[anthropic-ciso-guide-agentic-ai]])
 - [[anthropic-asana-coachable-agents]]
 - [[anthropic-prompting-claude-opus-5-5]]
 - [[openai-agent-security-enterprise]]
+- [[anthropic-securing-coding-agents-enterprise]]
 
 ## Contradictions / open questions
 

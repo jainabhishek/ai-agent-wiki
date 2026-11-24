@@ -2,7 +2,7 @@
 title: Agent Harness
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [harness, architecture, agents, sessions, best-practices, agent-loop]
 ---
 
@@ -231,6 +231,21 @@ depending on the harness and the time budget. (see [[anthropic-eng-ai-resistant-
   agent is idle. (see [[anthropic-prompting-claude-opus-5-5]],
   [[anthropic-prompting-claude-sonnet-5-5]])
 
+- **Deadlines belong to the harness.** The application turns relative times ("in
+  15 minutes") into absolute timestamps and tells the model the current time on
+  each request. A timer in application code enforces delivery even while a
+  request is still running, and returns the last completed result. The model is
+  told the time; the code enforces the deadline. (see
+  [[openai-time-awareness-async-input-agents]])
+- **Nudge silent runs.** A harness can count consecutive tool steps with no
+  user-visible text. When the count is high, it appends a one-turn reminder and
+  leaves earlier reminders in place. (see
+  [[anthropic-prompting-claude-fable-5-2]])
+- **The sandbox is a harness primitive.** In Codex, the shell tool calls one
+  sandbox API with a permission profile. The model may ask for more access for
+  one command; the harness grants or refuses it, by asking the user or by
+  routing to auto-review. (see [[openai-inside-the-codex-sandbox]])
+
 ## Concrete long-running patterns
 
 From the case study in [[anthropic-eng-effective-harnesses-long-running-agents]]:
@@ -276,6 +291,19 @@ From the case study in [[anthropic-eng-effective-harnesses-long-running-agents]]
   suites, graders, skills) and reads production traces and source documents
   only through read-only tools, so the agent cannot change the evidence. (see
   [[openai-self-improving-tax-agents-codex]])
+- **Large cleanup campaigns.** OpenAI's Core Experimentation team gave the agent
+  broad prompts and let it find its own evidence (past PRs, chat threads,
+  production profiles) that code was unused. Each cleanup became one small draft
+  PR that the owning team reviewed. (see
+  [[openai-maintaining-software-gpt-6-family]])
+- **One VM per agent at scale.** In Anthropic's 1,000-agent run, one shared host
+  failed at about 100 agents, so each agent got its own lightweight VM. (see
+  [[anthropic-scaling-multi-agent-teams-fable-5-2]])
+- **Always-on agents are short runs in a cycle.** Anthropic's reference design
+  wraps an ordinary agent loop in five primitives: an event inbox with one
+  worker per inbox, timers that a scheduler polls, durable file memory,
+  permissions, and an outbox. Each run is short; the cycle of runs is what makes
+  the agent feel always on. (see [[anthropic-building-always-on-agents]])
 
 ## Coordination-bearing harnesses
 
@@ -348,6 +376,12 @@ system, including downstream worker behavior. (see
 - [[claude-customer-caylent]]
 - [[claude-customer-lg-cns]]
 - [[claude-customer-spotify-boris-office-hours]]
+- [[openai-time-awareness-async-input-agents]]
+- [[openai-maintaining-software-gpt-6-family]]
+- [[openai-inside-the-codex-sandbox]]
+- [[anthropic-scaling-multi-agent-teams-fable-5-2]]
+- [[anthropic-prompting-claude-fable-5-2]]
+- [[anthropic-building-always-on-agents]]
 
 ## Contradictions / open questions
 

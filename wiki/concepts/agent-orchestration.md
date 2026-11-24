@@ -2,7 +2,7 @@
 title: Agent Orchestration
 type: concept
 created: 2026-06-21
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [orchestration, multi-agent, single-agent, patterns]
 ---
 
@@ -105,6 +105,14 @@ How readily a given model delegates is a per-model behavior, tuned in the prompt
 see axis 5 of [[prompt-tuning-axes]]. For example, OpenAI supplies a prompt for a
 model that delegates less than desired, plus one that fixes errors in messages
 between agents. (see [[openai-prompting-gpt-6-astra]])
+
+- **Fold subagents back in.** Anthropic's Applied AI team reports that, across
+  several enterprise deployments, one agent with skills and on-demand tools
+  often beat both one all-purpose prompt and an orchestrator with subagents.
+  Keep a subagent only for measurable context bloat, parallel tasks that need
+  disposable context windows, or tool-selection failures. Fold the others in one
+  at a time, behind an end-to-end eval. (see
+  [[anthropic-fold-subagents-into-main-loop]])
 
 ## Multi-agent patterns (OpenAI)
 
@@ -337,6 +345,21 @@ problem reports. (see [[anthropic-claude-code-in-the-cloud]])
   0.24%). Anthropic attributes this to more tokens and more parallel
   searchers, not to a change in the model's tendency. (see [[anthropic-eng-eval-awareness-browsecomp]])
 
+- **A shared database as the coordination layer.** In an Anthropic run, 1,000
+  agents had only general tools (Git and a shared SQL database) and a
+  lead/helper hierarchy. They designed their own coordination schema (five
+  tables in 10 minutes). Control moved from top-down assignment to helpers who
+  pulled their own work, and the hardest part was solved as a task tree that the
+  agents grew themselves (2,418 tasks, up to 10 levels deep). A shared
+  transactional store worked at this scale in place of agent-to-agent messages.
+  (see [[anthropic-scaling-multi-agent-teams-fable-5-2]])
+- **When to use a lead with cheap workers.** It suits work bigger than one
+  context window. Skip it for chains of dependent steps, or for work that fits
+  in one context, where planning and merging cost more than they save. In
+  multi-model systems, build every request for the strictest model, and let
+  code, not a model, apply simple routing rules. (see
+  [[anthropic-which-claude-model-to-build-with]])
+
 ## Parallel sessions and human-agent teams
 
 The number of parallel agent sessions is limited by how much work one person can
@@ -419,6 +442,9 @@ abstraction in [[agent-design-principles]].
 - [[openai-how-openai-uses-codex]]
 - [[anthropic-prompting-claude-fable-5]]
 - [[anthropic-prompting-claude-sonnet-5-5]]
+- [[anthropic-scaling-multi-agent-teams-fable-5-2]]
+- [[anthropic-which-claude-model-to-build-with]]
+- [[anthropic-fold-subagents-into-main-loop]]
 
 ## Contradictions / open questions
 
@@ -462,3 +488,8 @@ abstraction in [[agent-design-principles]].
   ([[anthropic-eng-multi-agent-research-system]]). The Mar 2026 eval-awareness
   post finds that multi-agent runs on the same benchmark had 3.7 times the rate
   of unintended solutions ([[anthropic-eng-eval-awareness-browsecomp]]). This qualifies, not reverses, the gain.
+- **Tool overload: count or overlap? (recorded 2026-11-24).** This page says
+  tool overload is driven by overlap, not count (from [[tool-design]]).
+  [[anthropic-fold-subagents-into-main-loop]] says tool choice tends to degrade
+  past 30–50 tool definitions in the system prompt. Both may hold: overlap
+  causes confusion, and a large count raises the chance of overlap.

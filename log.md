@@ -438,3 +438,82 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - README: page counts (13/8/14/2 → 148/10/23/2), source coverage, the nine-point
   thesis, the raw-capture and model-scoped conventions, and the `AGENTS.md`
   file.
+
+## [2026-11-24] lint | new Anthropic and OpenAI agent guidance since 2026-10-13
+- checked: Anthropic Engineering index, `claude.dev/sitemap.xml`, the Claude
+  models overview, the OpenAI developer blog, and openai.com Engineering and
+  Security pages.
+- found: 13 agent-relevant posts not in the wiki; Claude Fable 5.1 no longer in
+  Anthropic's current lineup; GPT-6.2 Astra and Sol now current at OpenAI.
+- the human approved ingesting the 13 posts. GPT-6.2 is recorded as open on
+  [[overview]], not ingested.
+
+## [2026-11-24] ingest | Anthropic and OpenAI guidance, Oct–Nov 2026 (13 sources)
+- summaries: wiki/sources/anthropic-eng-components-of-agent-memory.md,
+  anthropic-eng-building-strong-safety-evaluations.md,
+  anthropic-claude-code-team-verification.md, anthropic-solving-code-review.md,
+  anthropic-prompting-claude-fable-5-2.md,
+  anthropic-which-claude-model-to-build-with.md,
+  anthropic-scaling-multi-agent-teams-fable-5-2.md,
+  openai-inside-the-codex-sandbox.md,
+  openai-securing-persistent-agents-openclaw.md,
+  openai-codex-security-review-sdlc.md,
+  openai-time-awareness-async-input-agents.md,
+  openai-maintaining-software-gpt-6-family.md,
+  openai-failover-across-model-providers.md
+- touched: agent-evals, agent-memory (new "Offline consolidation (dreaming)"
+  subsection), agent-verification (new "Running the verification layer as a
+  system" subsection), guardrails, agent-harness, agent-orchestration,
+  human-agent-teams, agent-instructions, agent-steering, agent-identity-and-access,
+  multi-agent-economics, context-engineering, prompt-tuning-axes, tool-design,
+  boundary-contracts, workflow-patterns; entities claude, anthropic,
+  claude-code, claude-managed-agents, openai, openai-codex, openai-agents-api;
+  overview; index.
+- legacy: [[anthropic-prompting-claude-fable-5-1]] marked `status: legacy`,
+  superseded by [[anthropic-prompting-claude-fable-5-2]]. The
+  `[claude-opus-5-5, claude-fable-5-1]` page
+  [[anthropic-spending-your-effort]] is not marked legacy, because Opus 5.5 is
+  still current; it got a note instead.
+- contradictions recorded: Sonnet 5.5 cache-read price ($0.20 in Sep, $0.10 on
+  the pricing page 2026-11-24); starting model ("start smart" vs. Opus 5.5 at
+  medium); Code Review research preview vs. GA; Explore subagent model; cause
+  of the 16% → 54% review-comment rise; simulated users; Auto-review scope.
+- method: five subagents wrote raw captures and source pages, one file pair
+  each; the coordinator wrote the Codex sandbox pair (browser capture, because
+  openai.com blocks curl) and made every concept, entity, index, and log edit.
+
+## [2026-11-24] ingest | OpenAI — Using GPT-6.2 (prompting and migration)
+- summary: wiki/sources/openai-prompting-gpt-6-2.md (`models: [gpt-6.2-astra,
+  gpt-6.2-sol]`; fetched via the `.md` export).
+- trigger: OpenAI's models overview, checked 2026-11-24, lists GPT-6.2 Astra,
+  GPT-6.2 Sol, GPT-6.1 Terra, and GPT-6 Luna as current; GPT-6 Astra and
+  GPT-6.1 Sol moved to "More models". The human approved this follow-up.
+- legacy: [[openai-prompting-gpt-6-astra]],
+  [[openai-rethinking-skills-prompts-gpt-6-astra]], and
+  [[openai-maintaining-software-gpt-6-family]] marked `status: legacy`,
+  superseded by [[openai-prompting-gpt-6-2]]. The GPT-6 prompting page also
+  lists GPT-6 Luna (still current); its banner says so.
+  [[openai-practical-guide-building-with-gpt-6]] kept live with a note, because
+  one of its three models (Luna) is current.
+- touched: context-engineering, agent-instructions, prompt-tuning-axes; entity
+  openai; overview; index.
+
+## [2026-11-24] ingest | six claude.com articles, Oct–Nov 2026
+- trigger: a recount of the claude.com sitemap (it has no dates) found 40
+  articles dated 2026-10-10 or later that the wiki lacked; the earlier claim
+  that nothing was new was wrong. Sorted by title, 6 were agent-design
+  guidance; the other 34 are announcements and were skipped. Customer stories
+  were not triaged: their pages carry no date and the Internet Archive was
+  offline.
+- summaries: wiki/sources/anthropic-fold-subagents-into-main-loop.md,
+  anthropic-building-always-on-agents.md, anthropic-self-hosted-managed-agents.md,
+  anthropic-securing-coding-agents-enterprise.md,
+  anthropic-agent-observability-claude-platform.md,
+  anthropic-uber-ciso-insider-threat-ai.md
+- touched: agent-orchestration, multi-agent-economics, tool-design,
+  agent-harness, agent-memory, agent-identity-and-access, guardrails,
+  prompt-injection, agent-evals; entities claude-code, claude-managed-agents,
+  anthropic, claude (stale lineup summary fixed); index.
+- contradictions recorded: tool overload by count vs. overlap; review scope
+  for always-on agents (every action vs. higher-risk actions); Claude Code auto
+  mode default (August plan list vs. every plan in November).

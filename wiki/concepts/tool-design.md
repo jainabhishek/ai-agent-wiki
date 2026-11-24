@@ -2,7 +2,7 @@
 title: Tool Design
 type: concept
 created: 2026-06-21
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [tools, aci, best-practices, agents]
 ---
 
@@ -212,6 +212,10 @@ Nov 2025):
   `execute`) cover ~2,500 endpoints in ~1K tokens (see
   [[anthropic-agents-production-systems-mcp]]).
 
+- **Group tools by user intent, not one tool per API.** Put preconditions and
+  per-user permission checks inside the tool, and return a refusal that the
+  model can read. (see [[anthropic-fold-subagents-into-main-loop]])
+
 ## Tool reach and placement
 
 Where a tool runs and who owns it now has its own page: [[tool-placement]]. It
@@ -244,6 +248,12 @@ results.
   Anthropic recommends accepting case-only name mismatches or returning an error
   that names the exact tool (see [[anthropic-prompting-claude-sonnet-5-5]];
   model-scoped).
+
+- **Asynchronous ask-the-user tools.** A tool that asks the user for input can
+  be asynchronous. The application must still return a result on every path,
+  including a timeout result, and must listen for the question in the event
+  stream, not only in the list of blocking actions. (see
+  [[openai-time-awareness-async-input-agents]])
 
 ## Anthropic engineering specifics
 
@@ -330,6 +340,8 @@ capability. Investing here pays off before any orchestration complexity. See
 - [[anthropic-anatomy-of-commerce-agents]]
 - [[anthropic-zero-trust-for-ai-agents]]
 - [[anthropic-claude-tag-analytics-in-slack]]
+- [[openai-time-awareness-async-input-agents]]
+- [[anthropic-fold-subagents-into-main-loop]]
 
 ## Contradictions / open questions
 

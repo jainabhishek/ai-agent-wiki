@@ -2,7 +2,7 @@
 title: Guardrails & Safety
 type: concept
 created: 2026-06-21
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [guardrails, safety, security, human-in-the-loop, containment, prompt-injection, identity, least-agency]
 ---
 
@@ -219,6 +219,35 @@ injection: cap what a fooled agent can do. (see
   gating the dataset behind a login, and a fetch tool that accepted only text
   did stop attempts. (see [[anthropic-eng-eval-awareness-browsecomp]], [[agent-evals]])
 
+- **Constrain the user's own machine, not a copy of it.** OpenAI's Codex sandbox
+  does not use a VM or a container. It uses each OS's sandbox (Seatbelt,
+  bubblewrap plus seccomp, Microsoft's MXC) so native toolchains keep working.
+  One API takes a command and a permission profile; the default profile allows
+  writes in the workspace, keeps `.git` and `.codex` read-only, and turns the
+  network off. The post names the residual risk: code planted in an ignored
+  package can run later outside the sandbox. (see
+  [[openai-inside-the-codex-sandbox]])
+- **Filter the network after approval, not before.** The Codex network proxy
+  resolves a hostname only after it approves the host, because a DNS lookup can
+  itself leak data in the name. Broad wildcards can still allow DNS
+  exfiltration. (see [[openai-inside-the-codex-sandbox]]) Compare Anthropic's
+  "an allowlist is a capability grant"
+  ([[anthropic-eng-how-we-contain-claude]]).
+- **Sandbox the tool servers too.** Codex does not sandbox stdio MCP servers by
+  default, because it cannot infer what they need. Wrap each one in its own
+  profile, for example with no network and writes only to its data folder. (see
+  [[openai-inside-the-codex-sandbox]])
+- **Split trusted from untrusted execution.** OpenAI runs the OpenClaw gateway,
+  which configures each persistent agent, as trusted deterministic code in a
+  separate cluster. It treats the agent harness, its environment, and any code
+  the agent writes as untrusted. (see
+  [[openai-securing-persistent-agents-openclaw]])
+- **Persistent agents need a stricter network profile than developer agents.**
+  OpenAI's OpenClaw fleet stops users from widening the admin domain allowlist,
+  explicitly denies cloud metadata endpoints and paste or webhook sites, and
+  keeps the proxy's guard on local and private addresses. (see
+  [[openai-securing-persistent-agents-openclaw]])
+
 ### Identity and access
 
 Who the agent acts as and what it may reach is on [[agent-identity-and-access]]:
@@ -231,6 +260,18 @@ Observability stays here because it covers every agent action, not only access.
   Every agent action, approval, and agent-to-agent message goes to the SIEM, and
   agents are treated as a new kind of insider. (see
   [[anthropic-securing-ai-native-sdlc]], [[anthropic-ciso-guide-agentic-ai]])
+
+- **Log every turn, restrict who reads it.** OpenAI logs every control-plane
+  configuration change and every turn of its persistent agents. Only a few
+  security staff can read those logs, because turns can hold sensitive data.
+  (see [[openai-securing-persistent-agents-openclaw]])
+
+- **Monitor agents like insiders.** Uber's CISO frames agent monitoring as an
+  insider-threat program for models: harness telemetry, vendor classifier
+  signals, and an LLM gateway feed one detection environment. Platform agents
+  can export standard OpenTelemetry GenAI traces, so agent steps sit beside
+  existing logs and metrics. (see [[anthropic-uber-ciso-insider-threat-ai]],
+  [[anthropic-agent-observability-claude-platform]])
 
 ### Harness-enforced controls (deterministic)
 
@@ -270,6 +311,19 @@ Observability stays here because it covers every agent action, not only access.
   consequential; give each an enforced limit, a required approval, and a
   recovery path. A harness alone does not provide isolation. (see [[openai-agent-security-enterprise]])
 
+- **An agentic security review is an extra reviewer, not the hard gate.** In CI,
+  the hard gate is a scan step that fails at a severity threshold. That step
+  runs with read-only repository permission, actions pinned by commit hash, no
+  persisted checkout credentials, and package installs that do not run scripts.
+  (see [[openai-codex-security-review-sdlc]])
+
+- **Make security hooks fail closed.** A hook that errors or times out lets the
+  tool call through by default, so set security hooks to fail closed. A hook's
+  "allow" cannot override a deny rule. When managed policy comes from several
+  sources, a tool may apply only the highest-ranked one and drop the rest
+  silently; confirm which source is in effect. (see
+  [[anthropic-securing-coding-agents-enterprise]])
+
 ### Model layer (shapes tendency)
 
 - **Classifier on actions, blind to reasoning.** Claude Code auto mode pairs an
@@ -297,6 +351,24 @@ Observability stays here because it covers every agent action, not only access.
   that rules hold against arguing, sympathy, partial asks, claimed approvals, and
   repetition (see [[anthropic-prompting-claude-haiku-5-5]]). Re-verify per model;
   do not generalize.
+
+- **Monitor multi-agent runs in layers.** In Anthropic's 1,000-agent run: a
+  sandbox per agent; a real-time classifier on every tool call, whose block
+  halts the whole team until a person reviews it; and an offline monitor that
+  looks across agents. Monitors that could read chain of thought caught all
+  sabotage attempts in Anthropic's red-team evaluations. An action-only monitor
+  runs in parallel, so that agent reasoning cannot persuade it. (see
+  [[anthropic-scaling-multi-agent-teams-fable-5-2]])
+- **Measure safety behavior with an appropriate-response rate per risk area**,
+  not a refusal rate, which rewards a model that refuses everything. Pair it
+  with a refusal rate on benign prompts, so over-refusal shows. (see
+  [[anthropic-eng-building-strong-safety-evaluations]])
+
+- **Review every action for always-on agents.** For its persistent OpenClaw
+  agents, OpenAI runs the Auto-review agent on every action, not only on actions
+  that cross the sandbox boundary, because humans tire of reviewing. (see
+  [[openai-securing-persistent-agents-openclaw]]; compare
+  [[openai-running-codex-safely]])
 
 ## Human-in-the-loop
 
@@ -386,6 +458,13 @@ transfer control when it can't complete a task. Two primary triggers:
   read-only. (see [[anthropic-building-effective-agent-automations]]) See the
   open question below.
 
+- **Approval by risk tier.** The Claude Code repos require zero, one, or two
+  human approvers by risk tier. A classifier sets the tier from the change, not
+  from the author. Owner-listed sensitive paths and CI workflow files always
+  need a person. An agent's approval never fills a human slot, an approval
+  covers one commit, and only trusted authors get the lighter paths. (see
+  [[anthropic-solving-code-review]])
+
 ### Earned autonomy
 
 - **Autonomy follows demonstrated reliability, per task type.** Start with full
@@ -402,6 +481,16 @@ transfer control when it can't complete a task. Two primary triggers:
   failure and abuse scenarios and which actions need approval; confirm that
   monitoring and recovery still cover the change. Opaque friction pushes users
   to less governed alternatives. (see [[openai-agent-security-enterprise]])
+
+- The Claude Code team uses revert and incident rates as the guardrail on
+  reducing human review. It does not yet have circuit breakers that tighten
+  approval when those rates rise, and its engineers want them before more code
+  merges with no human. (see [[anthropic-solving-code-review]])
+
+- Widen an agent's access only after its traces show it is reliable. (see
+  [[anthropic-agent-observability-claude-platform]]) Require human approval when
+  an action is irreversible and one mistake costs more than reviewing every
+  instance. (see [[anthropic-securing-coding-agents-enterprise]])
 
 ### Guarding feedback loops
 
@@ -517,6 +606,16 @@ Deterministic and infrastructural guardrails from the Anthropic sources:
 - [[openai-codex-code-review-rules]]
 - [[openai-codex-maxxing-long-running-work]]
 - [[openai-agent-security-enterprise]]
+- [[openai-inside-the-codex-sandbox]]
+- [[anthropic-scaling-multi-agent-teams-fable-5-2]]
+- [[anthropic-eng-building-strong-safety-evaluations]]
+- [[anthropic-solving-code-review]]
+- [[openai-securing-persistent-agents-openclaw]]
+- [[openai-codex-security-review-sdlc]]
+- [[anthropic-securing-coding-agents-enterprise]]
+- [[anthropic-agent-observability-claude-platform]]
+- [[anthropic-uber-ciso-insider-threat-ai]]
+- [[anthropic-building-always-on-agents]]
 
 ## Contradictions / open questions
 
@@ -569,3 +668,20 @@ Deterministic and infrastructural guardrails from the Anthropic sources:
   Windows.
 - **Agent identity versus per-user access.** Moved to
   [[agent-identity-and-access]] on 2026-10-13.
+- **Auto-review scope (recorded 2026-11-24).** [[openai-running-codex-safely]]
+  applies Codex Auto-review to requests that cross the sandbox boundary.
+  [[openai-securing-persistent-agents-openclaw]] runs it on every action for
+  persistent agents. A policy difference between deployments, not a
+  contradiction. Note that the Codex Security post uses "auto-review" for
+  something else: the severity threshold for automatic PR comments
+  ([[openai-codex-security-review-sdlc]]).
+- **`allow_local_binding` (recorded 2026-11-24).**
+  [[openai-securing-persistent-agents-openclaw]] sets it to `false` for
+  persistent agents; [[openai-running-codex-safely]] shows `true` in its
+  example. Different deployments; no general rule follows.
+- **Review scope for always-on agents (recorded 2026-11-24).** OpenAI reviews
+  every action of its persistent agents
+  ([[openai-securing-persistent-agents-openclaw]]). Anthropic's always-on design
+  has classifiers review higher-risk actions and asks the user only about the
+  most important decisions ([[anthropic-building-always-on-agents]]). Two vendor
+  policies for the same class of agent.

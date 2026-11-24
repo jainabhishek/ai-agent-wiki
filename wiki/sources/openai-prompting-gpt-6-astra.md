@@ -2,17 +2,21 @@
 title: "OpenAI: Using GPT-6 — prompting and migration (GPT-6 Astra)"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-11-24
 author: OpenAI
 date: accessed 2026-10-12
 source_url: https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra
 source_path: raw/openai-prompting-gpt-6-astra.md
 models: [gpt-6-astra, gpt-6.1-sol, gpt-6-luna]
 as_of: 2026-10-12
+status: legacy
+superseded_by: [openai-prompting-gpt-6-2]
 tags: [prompting, model-specific, openai, gpt-6, migration]
 ---
 
 # OpenAI: Using GPT-6 — prompting and migration (GPT-6 Astra)
+
+> **Legacy (checked 2026-11-24).** OpenAI's models overview (checked 2026-11-24) lists GPT-6.2 Astra, GPT-6.2 Sol, GPT-6.1 Terra, and GPT-6 Luna as current; GPT-6 Astra and GPT-6.1 Sol moved to "More models". OpenAI's latest-model guide now covers GPT-6.2; see [[openai-prompting-gpt-6-2]]. GPT-6 Luna, also in `models:`, is still current and has no newer guide, so the Luna claims below may still apply. The claims below stay true of the models they were measured on.
 
 > OpenAI's "Using GPT-6" guide: the GPT-6 model picker, new API features,
 > limitations, prompting best practices based on GPT-6 Astra, and a migration

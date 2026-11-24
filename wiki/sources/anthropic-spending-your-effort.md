@@ -2,7 +2,7 @@
 title: "Anthropic: Using Claude Code — Spending Your Effort"
 type: source
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-11-24
 author: Thariq Shihipar (Anthropic)
 date: 2026-09-25
 source_url: https://claude.dev/blog/spending-your-effort/
@@ -13,6 +13,8 @@ tags: [claude-code, effort, reasoning-depth, verification, terminal-bench, evals
 ---
 
 # Anthropic: Using Claude Code — Spending Your Effort
+
+> **Note (checked 2026-11-24).** Claude Fable 5.1, one of the two models this post measures, is now a legacy model; the current Fable model is Claude Fable 5.2 (see [[anthropic-prompting-claude-fable-5-2]]). The Opus 5.5 claims are still current. The Fable 5.1 numbers below stay true of that model and are not re-measured for Fable 5.2.
 
 > An Anthropic engineer's account of what the effort setting changes in
 > [[claude-code]]. It draws on three hands-on builds and on Terminal-Bench 3.0

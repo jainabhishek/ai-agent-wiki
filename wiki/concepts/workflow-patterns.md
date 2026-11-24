@@ -2,7 +2,7 @@
 title: Workflow Patterns
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [workflows, patterns, anthropic, architecture]
 ---
 
@@ -164,6 +164,11 @@ See [[agent-skills]] and [[model-context-protocol]].
   certificate at the source, not each change. (see
   [[anthropic-ai-code-modernization]], [[boundary-contracts]])
 
+- **Agent author plus agent reviewer, capped.** An evaluator–optimizer loop
+  between two agents needs a round cap and diff-only re-review, or it may not
+  converge. Claude Code's PR review uses a 3-round cap. (see
+  [[anthropic-solving-code-review]])
+
 ## Why it matters
 
 These patterns are the "composable, simple" middle ground that
@@ -201,6 +206,7 @@ These patterns are the "composable, simple" middle ground that
 - [[claude-customer-rocket-money]]
 - [[claude-customer-lg-cns]]
 - [[openai-how-openai-uses-codex]]
+- [[anthropic-solving-code-review]]
 
 ## Contradictions / open questions
 
