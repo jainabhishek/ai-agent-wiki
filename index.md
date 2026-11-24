@@ -289,5 +289,5 @@ self-reported by the company that wrote them.
 
 - [[agent-building-best-practices-anthropic-vs-openai]] — where the two guides
   agree/differ + a distilled best-practices checklist
-- [[obsidian-graph-analysis]] — wiki graph topology (refreshed 2026-10-13: 184 pages, 3,367 links), hubs, caveats, and
+- [[obsidian-graph-analysis]] — wiki graph health: 204 pages, 3,830 links, one component, no orphans; hubs and changes since Oct (refreshed 2026-11-24)
   recommended Obsidian filters
