@@ -2,7 +2,7 @@
 title: Agent Instructions
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [instructions, prompting, best-practices]
 ---
 
@@ -27,6 +27,11 @@ tags: [instructions, prompting, best-practices]
   conditions. Require planners to decide shared architecture once rather than
   delegating the same decision to multiple workers. (see
   [[cursor-agent-swarm-model-economics]], [[agent-orchestration]])
+- **Scoped rules, not absolute ones.** Write "ask before deleting files", not
+  "never delete files". List the routine steps that need no approval, because
+  "act more freely" is too vague. Name the exact actions that need approval; a
+  broad category such as "messages to outside people" can suppress routine work.
+  (see [[anthropic-prompting-claude-fable-5-2]])
 
 ## Instruction layers and precedence
 
@@ -83,6 +88,12 @@ prompt. Both vendors now give architecture guidance for these layers.
   show (see [[openai-how-openai-uses-codex]]). Skyscanner reports putting
   post-edit checks there (format, then lint) (see
   [[openai-skyscanner-codex-jetbrains-mcp]]).
+
+- **Separate files for separate jobs in security review.** `AGENTS.md` holds
+  engineering instructions, a committed threat model says what is exposed, and
+  `SECURITY.md` says how findings are judged and reported. Without a committed
+  threat model, Codex Security regenerates one for every review. (see
+  [[openai-codex-security-review-sdlc]])
 
 ## Task prompts: goals, done-criteria, and output contracts
 
@@ -145,6 +156,15 @@ architecture — instructions are written against a model, so the instruction
 set is versioned with it and re-audited on upgrade. Which specific wording to
 remove is per-model and lives on the model-scoped source pages, not here.
 
+- **Test an instruction by replay.** Rerun one past session prompt from the same
+  snapshot, once with the suspect instruction and once without it. Compare
+  quality, tool calls, tokens, runtime, and cost. (see
+  [[openai-maintaining-software-gpt-6-family]])
+- **Audit what you carry over before you add.** On a model migration, check
+  delegation lines, visible token budgets, "think less" lines, hard style rules,
+  and accumulated notes. Add one fix at a time and measure both its effect and
+  its token cost. (see [[anthropic-prompting-claude-fable-5-2]])
+
 ## Automate instruction-writing
 
 Advanced reasoning models can convert help-center docs into numbered, unambiguous
@@ -200,6 +220,9 @@ model-scoped source pages for current values.
 - [[anthropic-asana-coachable-agents]]
 - [[openai-understanding-prompt-injections]]
 - [[openai-hardening-atlas-prompt-injection]]
+- [[anthropic-prompting-claude-fable-5-2]]
+- [[openai-maintaining-software-gpt-6-family]]
+- [[openai-codex-security-review-sdlc]]
 
 ## Contradictions / open questions
 

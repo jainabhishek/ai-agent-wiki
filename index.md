@@ -69,7 +69,7 @@ Per-model contracts, not general theory. Each carries `models:` + `as_of:`. When
 vendor stops listing a model as current, its page moves to "Legacy" below with
 `status: legacy` and a pointer to its replacement (see `CLAUDE.md`).
 
-- [[anthropic-prompting-claude-fable-5-1]] — Fable 5.1 / Mythos 5.1: append-only history, call batching, finish-whole-task, compaction (as of Oct 2026)
+- [[anthropic-prompting-claude-fable-5-2]] — Fable 5.2 / Mythos 5.2: mostly a migration audit (stale cautions, "never" rules, visible budgets), plus finishing-work and code-ownership prompts with measured token costs (as of Nov 2026)
 - [[anthropic-prompting-claude-opus-5-5]] — Opus 5.5: effort-only thinking control, unattended early stops, pasted-text tags, time budgets (as of Oct 2026)
 - [[anthropic-prompting-claude-sonnet-5-5]] — Sonnet 5.5: initiative and scope vary with effort, `between_tools`, mid-turn messages, refusals (as of Oct 2026)
 - [[anthropic-prompting-claude-haiku-5-5]] — Haiku 5.5: first Haiku with effort, date-grounded search, JSON with tools, chatbot adherence (as of Oct 2026)
@@ -81,14 +81,33 @@ vendor stops listing a model as current, its page moves to "Legacy" below with
 - [[anthropic-opus-5-5-long-coding-sessions]] — longer sessions; Opus 5.5 pricing + harness caching changes (2026-09)
 - [[anthropic-spending-your-effort]] — what effort changes in Claude Code; Terminal-Bench 3.0 evidence (2026-09)
 - [[anthropic-what-a-task-costs-opus-5-5]] — cost of a Claude Code task (turns, cache reads, output, model); effort + routing rules (2026-09)
+- [[anthropic-which-claude-model-to-build-with]] — Nov 2026 model choice: start on Opus 5.5 at medium, move down to Sonnet/Haiku or up to Fable 5.2; prices, thinking-block compatibility, migration checks (2026-11)
+- [[anthropic-scaling-multi-agent-teams-fable-5-2]] — 1,000 agents on an early Fable 5.2 coordinate through Git and a shared Postgres database, under sandboxes plus real-time and offline monitors (2026-11)
+- [[openai-maintaining-software-gpt-6-family]] — Codex cleanup campaign on GPT-6 Astra / GPT-6.1 Sol: 1,400+ PRs, 800k+ lines removed, cost per validated finding (2026-10)
 - [[openai-practical-guide-building-with-gpt-6]] — GPT-6 model choice, prompts, long tasks, computer use, production readiness (2026-10)
 
 #### Legacy (vendor no longer lists the model as current)
 
+- [[anthropic-prompting-claude-fable-5-1]] — Fable 5.1 / Mythos 5.1: append-only history, call batching, finish-whole-task, compaction (as of Oct 2026; legacy since Nov 2026)
 - [[anthropic-prompting-claude-opus-5]] — Opus 5: verbosity, over-verification, subagent caps (as of Aug 2026; legacy since Oct 2026)
 - [[anthropic-prompting-claude-sonnet-5]] — Sonnet 5: literal instruction following, effort remapping, new tokenizer (as of Aug 2026; legacy since Oct 2026)
 - [[anthropic-prompting-claude-fable-5]] — Fable 5 / Mythos 5: long-horizon autonomy, memory, `reasoning_extraction` refusals (as of Aug 2026; legacy since Oct 2026)
 - [[openai-prompt-guidance-gpt-5-6]] — GPT-5.6 Sol/Terra/Luna: outcome-first prompts, staged migration (as of Aug 2026; legacy since Oct 2026)
+
+### Batch of 2026-11-24: Anthropic and OpenAI guidance, Oct–Nov 2026
+
+Posts published after the 2026-10-13 sweep. Model-scoped pages from this batch
+are listed above under "Model-scoped prompting guidance".
+
+- [[anthropic-eng-components-of-agent-memory]] — Anthropic's model of agent memory: in-session notes plus offline "dreaming" that corrects notes, builds a wiki, and promotes a small index (2026-11)
+- [[anthropic-eng-building-strong-safety-evaluations]] — safety eval method: construct validity, simulated multi-turn users, grader validation against humans, preregistration, sample-size floors (2026-11)
+- [[anthropic-claude-code-team-verification]] — Claude Code team's verification practice: end-to-end runs, a `verify` skill, checks out of the change's reach, observe-mode gates, misses into rules (2026-11)
+- [[anthropic-solving-code-review]] — how the Claude Code team reviews ~90% Claude-written code: layered checks, risk-tiered human approval, incident replay eval, capped review rounds (2026-10)
+- [[openai-inside-the-codex-sandbox]] — Codex sandbox: permission profiles, layered and managed config, a domain-filtering proxy, Seatbelt / bubblewrap+seccomp / MXC (2026-11)
+- [[openai-securing-persistent-agents-openclaw]] — OpenAI's internal persistent agents: trusted gateway, untrusted harness, locked Codex sandbox, auto-review, one identity per agent (2026-11)
+- [[openai-codex-security-review-sdlc]] — Codex Security in the SDLC: threat model, `SECURITY.md`, knowledge base; reviews in GitHub, Desktop, CLI, Actions (2026-11)
+- [[openai-time-awareness-async-input-agents]] — a personal agent with a deadline asks the user, keeps working, and delivers on time with or without an answer (2026-11)
+- [[openai-failover-across-model-providers]] — routing critical workloads between the OpenAI API and cloud providers: which requests may fail over, one retry controller, recovery ownership (2026-10)
 
 ### Batch of 2026-10-12: remaining Anthropic and OpenAI guidance
 

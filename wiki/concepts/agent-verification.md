@@ -2,7 +2,7 @@
 title: Agent Verification
 type: concept
 created: 2026-10-13
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [verification, agents, best-practices, testing, multi-agent]
 ---
 
@@ -57,6 +57,16 @@ but verification runs per task, inside the loop, and gates the result.
 - **Package repeated checks.** Turn the corrections you repeat on every
   feature into verification skills, run standalone, embedded, chained, or on
   every PR. (see [[anthropic-verification-loops-with-skills]])
+- **Run the change end to end.** The Claude Code team ranks an end-to-end run of
+  the app above tests, and keeps the start-up steps in a `verify` skill next to
+  the code. If you invest in one test type, make it end-to-end: an agent can
+  pass unit tests and still break the feature. Property tests and differential
+  tests find edge cases that do not share the coding agent's bias. (see
+  [[anthropic-claude-code-team-verification]])
+- **Keep the check out of the change's reach.** Code Review reads `REVIEW.md`
+  from the base branch, never from the PR. A review covers one commit; a pass on
+  an old commit means nothing. Claude may not skip a flaky test, add sleeps, or
+  retry until a test passes. (see [[anthropic-claude-code-team-verification]])
 
 ## Certificates and validation ladders
 
@@ -78,6 +88,11 @@ but verification runs per task, inside the loop, and gates the result.
   for findings: a finding becomes a vulnerability only after validation, and
   a vulnerability is exploitable only if it can be exploited in the target
   environment. (see [[anthropic-comcast-booz-allen-exploit-chains]])
+
+- **Make findings inspectable.** A security finding should come with code
+  locations, reasoning, severity, confidence, and remediation, and the report
+  should say what was reviewed, excluded, or deferred, for example in a coverage
+  file next to the findings. (see [[openai-codex-security-review-sdlc]])
 
 ## Self-verification vs external verification
 
@@ -115,6 +130,37 @@ but verification runs per task, inside the loop, and gates the result.
   success from about 20–30% to 80% early on (the speaker's recollection), and
   that it later removed the judge once models and the harness improved. (see
   [[claude-customer-spotify-boris-office-hours]])
+
+- **Fix the check before the model.** When a model falls short, first give it a
+  way to check its own work, then raise effort, then move up a model. If
+  outcomes can be checked automatically, run cheap first and re-run only the
+  failures at higher effort. (see
+  [[anthropic-which-claude-model-to-build-with]])
+- **Vote before posting.** In Code Review, several finder agents work in
+  parallel, and a separate group votes on each finding. A finding is posted only
+  when enough voters agree; findings about style alone are dropped. (see
+  [[anthropic-solving-code-review]])
+- **Cap generator–verifier loops.** When both author and reviewer are agents,
+  review may never converge: one PR went through more than 50 rounds overnight,
+  and about 59% of the repeat flags were on code present since the first pass.
+  The fixes were a 3-round cap, re-review of the new diff only, flagging the
+  whole bug class at once, and no repeated findings. One-round passes went from
+  65% to 78% of PRs. (see [[anthropic-solving-code-review]])
+
+### Running the verification layer as a system
+
+- A new commit gate starts in observe mode before it moves to enforce mode.
+  Every commit is stamped with how it was verified, and "none" is a valid stamp.
+  (see [[anthropic-claude-code-team-verification]])
+- A long reliability checklist fires only the items whose diff trigger matches
+  (the post gives 39 items, usually 3 to 10 firing). (see
+  [[anthropic-claude-code-team-verification]])
+- A missed bug becomes a rule only when the pattern shows up in at least two
+  PRs, three agents fail to disprove it, and a human approves. Rules are pruned
+  on a routine. (see [[anthropic-claude-code-team-verification]])
+- Measure recall separately for raw findings, findings after verification, and
+  the final review, so you can see where found bugs are lost. (see
+  [[anthropic-claude-code-team-verification]])
 
 ## Related concepts
 
@@ -154,6 +200,10 @@ but verification runs per task, inside the loop, and gates the result.
 - [[anthropic-building-multi-agent-systems]]
 - [[anthropic-automating-eval-design-hillclimbing]]
 - [[anthropic-improving-skill-creator]]
+- [[anthropic-which-claude-model-to-build-with]]
+- [[anthropic-claude-code-team-verification]]
+- [[anthropic-solving-code-review]]
+- [[openai-codex-security-review-sdlc]]
 
 ## Contradictions / open questions
 
@@ -167,3 +217,19 @@ but verification runs per task, inside the loop, and gates the result.
   ([[claude-customer-spotify-boris-office-hours]]). The positions fit
   "cheapest grader that fits", but no source measures judge reliability
   directly.
+- **What caused the 16% → 54% rise (recorded 2026-11-24)?**
+  [[anthropic-securing-ai-native-sdlc]] ties the rise in PRs with substantive
+  review comments to review agents having to prove each finding.
+  [[anthropic-solving-code-review]] (2026-10-15) ties the same figure to the
+  launch of the Code Review research preview. The two posts give different
+  causes for one number.
+- **One reviewer or many (recorded 2026-11-24)?**
+  [[anthropic-securing-ai-native-sdlc]] prefers many narrow reviewers to one
+  mega-prompt. [[anthropic-claude-code-team-verification]] says a second, more
+  expensive reviewer on top of the first is often worse than tuning the first.
+  The likely reading: parallel finders inside one reviewer are fine; stacking
+  whole review layers is not.
+- **Rubric graders (2026-11-24).** [[anthropic-claude-code-team-verification]]
+  reports that a separate rubric grader raised task success by up to 10 points
+  over a plain prompting loop, on an internal structured file-generation test
+  with no stated baseline.

@@ -2,7 +2,7 @@
 title: Agent Memory
 type: concept
 created: 2026-10-12
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [memory, agents, context, persistence, security, governance]
 ---
 
@@ -82,6 +82,12 @@ and survive compaction.
 These files match the progress-file pattern in
 [[anthropic-eng-effective-harnesses-long-running-agents]] and the structured
 note-taking technique in [[anthropic-eng-context-engineering]].
+- **Agent-maintained wiki.** Linked pages that an agent builds during dreaming
+  act as a map of memory. In Anthropic's tests they helped most when combined
+  with search, and on questions that need several documents. They gave no clear
+  gain when one document answers the question. A wiki can also grow larger than
+  its sources without abstracting anything. This repository follows the same
+  pattern. (see [[anthropic-eng-components-of-agent-memory]])
 
 ## Platform memory
 
@@ -116,6 +122,37 @@ note-taking technique in [[anthropic-eng-context-engineering]].
 - **Retrieve through a subagent.** Greptile reports a memory subagent that
   retrieves team standards, learned codebase quirks, and instruction files (see
   [[claude-customer-greptile]]).
+- **Store what the environment does not show.** State that the agent can re-read
+  every turn goes stale in memory and wastes effort. Strategy, plans, and tested
+  rules exist only if the agent writes them down. In Anthropic's tests, a small
+  curated memory beat an archive of everything. (see
+  [[anthropic-eng-components-of-agent-memory]])
+- **Keep the injected layer small, as an index.** Notes that the harness
+  preloads into every session cost tokens and carry any error into every
+  session, and loading them does not guarantee that the agent follows them. Keep
+  the top layer an index and move details down, with links left behind. (see
+  [[anthropic-eng-components-of-agent-memory]],
+  [[cursor-agent-swarm-model-economics]])
+- **One writer per page.** In Anthropic's tests, several agents writing one
+  shared summary table lost facts by overwriting each other. One page per
+  document, written by one agent that quotes source terms word for word, kept
+  every fact. (see [[anthropic-eng-components-of-agent-memory]],
+  [[anthropic-multi-agent-coordination-patterns]])
+- **Tell the agent what memory is for, not how to use it.** Fixed write rules
+  such as "record only failures" reduced the memory gain for stronger models;
+  per-model detail is on the source page. (see
+  [[anthropic-eng-components-of-agent-memory]])
+
+### Offline consolidation (dreaming)
+
+Notes written during a session record what seemed important at the time. They
+can be wrong from the start, or drift. Anthropic calls an offline pass between
+sessions **dreaming**: the agent reviews its transcripts, corrects notes against
+what actually happened, builds linked pages, promotes a small index, and fills
+gaps that no single session could see. Dreaming costs compute. Open choices are
+how often to run it (for example, by how often a memory is read) and whether to
+focus it on facts that change. (see
+[[anthropic-eng-components-of-agent-memory]])
 
 ## Write controls
 
@@ -161,6 +198,16 @@ memory runs again in every later session.
   harmful influence that persists across tasks or users. Its control is to
   isolate and review persistent context so it cannot silently redirect
   sensitive actions. (see [[openai-agent-security-enterprise]])
+
+- **Inference, not a source claim:** dreaming against transcripts corrects
+  honest errors and drift, but a poisoned transcript would also confirm a
+  poisoned note. Neither [[anthropic-eng-components-of-agent-memory]] nor
+  [[anthropic-zero-trust-for-ai-agents]] tests this.
+- **Stale cautions build up.** Cautions collect in memory, notes, and
+  instruction files over many sessions. A model that follows instructions
+  closely keeps obeying stale rules such as "never retry". Prune them regularly,
+  rewrite absolute rules with their scope and reason, and restart a stuck system
+  with trimmed memory. (see [[anthropic-prompting-claude-fable-5-2]])
 
 ## Why it matters
 
@@ -214,6 +261,8 @@ its write path a governance and security surface, not only a storage choice.
 - [[openai-in-house-data-agent]]
 - [[openai-agent-security-enterprise]]
 - [[anthropic-prompting-claude-fable-5-1]]
+- [[anthropic-eng-components-of-agent-memory]]
+- [[anthropic-prompting-claude-fable-5-2]]
 
 ## Contradictions / open questions
 
@@ -232,3 +281,13 @@ its write path a governance and security surface, not only a storage choice.
   ([[anthropic-anatomy-of-commerce-agents]]). No second source measures it.
 - **Open:** no source yet compares auto-memory, Managed Agents memory stores, and
   hand-maintained files on the same task.
+- **Agent-written notes plus dreaming, a third write design (recorded
+  2026-11-24).** [[anthropic-eng-components-of-agent-memory]] (2026-11-06) uses
+  notes that the agent writes during the session, then corrects them offline. It
+  reports that newer models judge what to save well when they are left free. No
+  source compares this with the asynchronous extractor or the save-memory tool
+  on the same task.
+- **Wiki versus search (2026-11-24).**
+  [[anthropic-eng-components-of-agent-memory]] now compares an agent-built wiki,
+  search, and both. The auto-memory versus memory stores versus hand-maintained
+  files comparison is still open.

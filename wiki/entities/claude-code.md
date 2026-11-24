@@ -3,7 +3,7 @@ title: Claude Code
 type: entity
 subtype: product
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [anthropic, claude-code, agents, tooling]
 ---
 
@@ -170,6 +170,13 @@ the subject of several ingested sources on agent best practices:
   Claude Code team chains `/code-review` → `/simplify` → `/verify` → a custom
   design check. (see [[anthropic-verification-loops-with-skills]],
   [[agent-skills]])
+- Code Review for Claude Code is generally available on Team and Enterprise
+  plans (as of 2026-10-15), with Quick, Standard, and Deep settings. It tags
+  each finding Important, Nit, or Pre-existing, and reads `REVIEW.md` from the
+  base branch. A commit gate can block a commit if the session ran neither
+  `/code-review` nor `/verify`; it has off, observe, and enforce modes. (see
+  [[anthropic-solving-code-review]],
+  [[anthropic-claude-code-team-verification]])
 
 ### Sessions and cost
 - Each finished turn offers five options: continue, rewind (Esc Esc or
@@ -227,6 +234,9 @@ the subject of several ingested sources on agent best practices:
   `.claude/commands`, and a "think" … "ultrathink" keyword ladder. Auto-memory,
   skills, and adaptive thinking with effort have since replaced these. The old
   URL now redirects to a maintained docs page. (see [[anthropic-eng-claude-code-best-practices]])
+- In current Claude Code, the Explore subagent runs on the session's model,
+  capped at Opus on the API. (see
+  [[anthropic-which-claude-model-to-build-with]])
 
 ### Team norms and reported use
 - Anthropic's Claude Code engineering director reports that every commit on
@@ -247,6 +257,12 @@ the subject of several ingested sources on agent best practices:
   with `assess`, `map`, and `extract-rules` commands. (see
   [[claude-customer-twilio]], [[anthropic-abc-legal-managed-agents]],
   [[anthropic-outtake-cyber-investigator]], [[anthropic-ai-code-modernization]])
+- Claude writes about 90% of Claude Code's own code. From June to September
+  2026, merged PRs more than doubled and the share reverted fell by more than
+  40%. Changes per day in Anthropic's monorepo went from about 2,500 to more
+  than 30,000. (see [[anthropic-solving-code-review]]) This is the Claude Code
+  team; the company-wide figure is 80%
+  ([[anthropic-agentic-coding-ci-test-impact]]).
 
 ## Relationships
 
@@ -291,6 +307,10 @@ the subject of several ingested sources on agent best practices:
 - [[anthropic-abc-legal-managed-agents]]
 - [[anthropic-outtake-cyber-investigator]]
 - [[claude-customer-twilio]]
+- [[anthropic-solving-code-review]]
+- [[anthropic-claude-code-team-verification]]
+- [[anthropic-which-claude-model-to-build-with]]
+- [[anthropic-eng-components-of-agent-memory]]
 
 ## Contradictions / open questions
 
@@ -315,3 +335,12 @@ the subject of several ingested sources on agent best practices:
   does on Opus 5.5 and Fable 5.1; [[anthropic-what-a-task-costs-opus-5-5]]
   (2026-09-25) limits that to API-key and subscription access. The later posts
   supersede the earlier one for those models; they do not contradict it.
+- **Code Review status (recorded 2026-11-24).**
+  [[anthropic-verification-loops-with-skills]] and
+  [[anthropic-ai-native-sdlc-playbook]] call Code Review a research preview.
+  [[anthropic-solving-code-review]] (2026-10-15) says it is generally available
+  on Team and Enterprise plans. The later post supersedes.
+- **Explore subagent model (recorded 2026-11-24).**
+  [[anthropic-prompt-caching-is-everything]] describes Haiku-based Explore
+  agents. [[anthropic-which-claude-model-to-build-with]] (2026-11-09) says
+  Explore now runs on the session's model. A product change over time.

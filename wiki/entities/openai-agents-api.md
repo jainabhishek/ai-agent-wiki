@@ -3,7 +3,7 @@ title: OpenAI Agents API
 type: entity
 subtype: product
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [openai, api, agents, managed-agents, harness]
 ---
 
@@ -72,6 +72,12 @@ API reuses these mechanisms.
   to this mode. (see [[openai-websockets-agentic-workflows]])
 - Mid-turn steering over the Responses WebSocket API queues updates; it does
   not cancel running tools. (see [[openai-practical-guide-building-with-gpt-6]])
+- Time awareness (experimental, `experimental.time_awareness`, Nov 2026) gives
+  the model periodic reminders of the current time. Function tools can be
+  asynchronous (`async: true`); async questions arrive as
+  `agent.session.turn.item.done` events, not in `required_actions`, and answers
+  go back as `agent.session.input.tool_result` events. (see
+  [[openai-time-awareness-async-input-agents]])
 
 ## Relationships
 
@@ -89,7 +95,14 @@ API reuses these mechanisms.
 - [[openai-responses-api-computer-environment]]
 - [[openai-websockets-agentic-workflows]]
 - [[openai-practical-guide-building-with-gpt-6]]
+- [[openai-time-awareness-async-input-agents]]
+- [[openai-failover-across-model-providers]]
 
 ## Contradictions / open questions
 
 - _None recorded._
+- **Failover for stateful sessions (open, 2026-11-24).**
+  [[openai-failover-across-model-providers]] says switching provider does not
+  resume an Agents API session or reconcile its earlier actions, and leaves that
+  recovery out of scope. No source yet gives a recovery design for stateful
+  sessions.

@@ -2,7 +2,7 @@
 title: Prompt Tuning Axes
 type: concept
 created: 2026-08-06
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [prompting, migration, model-specific, checklist]
 ---
 
@@ -227,6 +227,11 @@ monitoring, and guardrails. n8n reports prompts tailored to one model and
 per-node-type prompt tuning. (see [[claude-customer-dust]],
 [[claude-customer-cognition]], [[claude-customer-n8n]], [[agent-harness]])
 
+- Audit the text you carry over before you add new text. Remove stale cautions,
+  absolute rules, visible budgets, and lines that exist only to correct an older
+  model. Then add one fix at a time and measure its token cost as well as its
+  effect. (see [[anthropic-prompting-claude-fable-5-2]])
+
 ## Related concepts
 
 - [[agent-instructions]], [[agent-design-principles]], [[agent-harness]],
@@ -261,6 +266,7 @@ per-node-type prompt tuning. (see [[claude-customer-dust]],
 - [[claude-customer-dust]]
 - [[claude-customer-cognition]]
 - [[claude-customer-n8n]]
+- [[anthropic-prompting-claude-fable-5-2]]
 
 ## Contradictions / open questions
 

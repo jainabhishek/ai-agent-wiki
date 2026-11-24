@@ -438,3 +438,46 @@ Event types: `ingest`, `query`, `lint`, `schema`.
 - README: page counts (13/8/14/2 → 148/10/23/2), source coverage, the nine-point
   thesis, the raw-capture and model-scoped conventions, and the `AGENTS.md`
   file.
+
+## [2026-11-24] lint | new Anthropic and OpenAI agent guidance since 2026-10-13
+- checked: Anthropic Engineering index, `claude.dev/sitemap.xml`, the Claude
+  models overview, the OpenAI developer blog, and openai.com Engineering and
+  Security pages.
+- found: 13 agent-relevant posts not in the wiki; Claude Fable 5.1 no longer in
+  Anthropic's current lineup; GPT-6.2 Astra and Sol now current at OpenAI.
+- the human approved ingesting the 13 posts. GPT-6.2 is recorded as open on
+  [[overview]], not ingested.
+
+## [2026-11-24] ingest | Anthropic and OpenAI guidance, Oct–Nov 2026 (13 sources)
+- summaries: wiki/sources/anthropic-eng-components-of-agent-memory.md,
+  anthropic-eng-building-strong-safety-evaluations.md,
+  anthropic-claude-code-team-verification.md, anthropic-solving-code-review.md,
+  anthropic-prompting-claude-fable-5-2.md,
+  anthropic-which-claude-model-to-build-with.md,
+  anthropic-scaling-multi-agent-teams-fable-5-2.md,
+  openai-inside-the-codex-sandbox.md,
+  openai-securing-persistent-agents-openclaw.md,
+  openai-codex-security-review-sdlc.md,
+  openai-time-awareness-async-input-agents.md,
+  openai-maintaining-software-gpt-6-family.md,
+  openai-failover-across-model-providers.md
+- touched: agent-evals, agent-memory (new "Offline consolidation (dreaming)"
+  subsection), agent-verification (new "Running the verification layer as a
+  system" subsection), guardrails, agent-harness, agent-orchestration,
+  human-agent-teams, agent-instructions, agent-steering, agent-identity-and-access,
+  multi-agent-economics, context-engineering, prompt-tuning-axes, tool-design,
+  boundary-contracts, workflow-patterns; entities claude, anthropic,
+  claude-code, claude-managed-agents, openai, openai-codex, openai-agents-api;
+  overview; index.
+- legacy: [[anthropic-prompting-claude-fable-5-1]] marked `status: legacy`,
+  superseded by [[anthropic-prompting-claude-fable-5-2]]. The
+  `[claude-opus-5-5, claude-fable-5-1]` page
+  [[anthropic-spending-your-effort]] is not marked legacy, because Opus 5.5 is
+  still current; it got a note instead.
+- contradictions recorded: Sonnet 5.5 cache-read price ($0.20 in Sep, $0.10 on
+  the pricing page 2026-11-24); starting model ("start smart" vs. Opus 5.5 at
+  medium); Code Review research preview vs. GA; Explore subagent model; cause
+  of the 16% → 54% review-comment rise; simulated users; Auto-review scope.
+- method: five subagents wrote raw captures and source pages, one file pair
+  each; the coordinator wrote the Codex sandbox pair (browser capture, because
+  openai.com blocks curl) and made every concept, entity, index, and log edit.

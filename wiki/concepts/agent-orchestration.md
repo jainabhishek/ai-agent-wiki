@@ -2,7 +2,7 @@
 title: Agent Orchestration
 type: concept
 created: 2026-06-21
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [orchestration, multi-agent, single-agent, patterns]
 ---
 
@@ -337,6 +337,21 @@ problem reports. (see [[anthropic-claude-code-in-the-cloud]])
   0.24%). Anthropic attributes this to more tokens and more parallel
   searchers, not to a change in the model's tendency. (see [[anthropic-eng-eval-awareness-browsecomp]])
 
+- **A shared database as the coordination layer.** In an Anthropic run, 1,000
+  agents had only general tools (Git and a shared SQL database) and a
+  lead/helper hierarchy. They designed their own coordination schema (five
+  tables in 10 minutes). Control moved from top-down assignment to helpers who
+  pulled their own work, and the hardest part was solved as a task tree that the
+  agents grew themselves (2,418 tasks, up to 10 levels deep). A shared
+  transactional store worked at this scale in place of agent-to-agent messages.
+  (see [[anthropic-scaling-multi-agent-teams-fable-5-2]])
+- **When to use a lead with cheap workers.** It suits work bigger than one
+  context window. Skip it for chains of dependent steps, or for work that fits
+  in one context, where planning and merging cost more than they save. In
+  multi-model systems, build every request for the strictest model, and let
+  code, not a model, apply simple routing rules. (see
+  [[anthropic-which-claude-model-to-build-with]])
+
 ## Parallel sessions and human-agent teams
 
 The number of parallel agent sessions is limited by how much work one person can
@@ -419,6 +434,8 @@ abstraction in [[agent-design-principles]].
 - [[openai-how-openai-uses-codex]]
 - [[anthropic-prompting-claude-fable-5]]
 - [[anthropic-prompting-claude-sonnet-5-5]]
+- [[anthropic-scaling-multi-agent-teams-fable-5-2]]
+- [[anthropic-which-claude-model-to-build-with]]
 
 ## Contradictions / open questions
 

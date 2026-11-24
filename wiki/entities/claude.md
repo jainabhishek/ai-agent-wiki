@@ -3,7 +3,7 @@ title: Claude
 type: entity
 subtype: product
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [anthropic, model, llm]
 ---
 
@@ -29,7 +29,7 @@ the model has outgrown (see [[harnessing-claudes-intelligence]],
   [[anthropic-eng-scaling-managed-agents]]) With Opus 4.6, a long-running app
   harness dropped its sprint structure and kept its planner. (see
   [[anthropic-eng-harness-design-long-running-apps]])
-- **Model lineup (as of 2026-10-12).** Current models with Anthropic prompting
+- **Model lineup (as of 2026-10-12; superseded by the 2026-11-24 entry below).** Models then current with Anthropic prompting
   pages: Claude Fable 5.1 (`claude-fable-5-1`; the page metadata also names
   Claude Mythos 5.1), Claude Opus 5.5 (`claude-opus-5-5`), Claude Sonnet 5.5
   (`claude-sonnet-5-5`), and Claude Haiku 5.5 (`claude-haiku-5-5`). (see
@@ -50,6 +50,19 @@ the model has outgrown (see [[harnessing-claudes-intelligence]],
   Claude Code the `default` model stays Opus 5.5. (see
   [[anthropic-building-with-sonnet-5-5]],
   [[anthropic-prompting-claude-sonnet-5-5]])
+- **Model lineup (as of 2026-11-24).** Current models: Claude Fable 5.2
+  (`claude-fable-5-2`; the page metadata also names Claude Mythos 5.2, available
+  only through verification programs), Claude Opus 5.5 (`claude-opus-5-5`),
+  Claude Sonnet 5.5 (`claude-sonnet-5-5`), and Claude Haiku 5.5
+  (`claude-haiku-5-5`). Claude Fable 5.1 moved to the older-models table, and
+  its prompting page is marked `status: legacy`. (see
+  [[anthropic-prompting-claude-fable-5-2]],
+  [[anthropic-prompting-claude-fable-5-1]],
+  [[anthropic-which-claude-model-to-build-with]])
+- **Where to start (Nov 2026).** Anthropic now says to start most work on Opus
+  5.5 at its default effort, move down to Sonnet or Haiku, and move up to Fable
+  5.2 for the hardest technical work, long unattended runs, and leading many
+  subagents. (see [[anthropic-which-claude-model-to-build-with]])
 
 ## Relationships
 
@@ -82,7 +95,24 @@ the model has outgrown (see [[harnessing-claudes-intelligence]],
   [[anthropic-balyasny-evaluates-fable-5]],
   [[anthropic-jetbrains-evaluates-fable-5]],
   [[anthropic-cursor-evaluates-models]], [[anthropic-block-orchestrates-fable]]
+- [[anthropic-prompting-claude-fable-5-2]]
+- [[anthropic-which-claude-model-to-build-with]]
+- [[anthropic-scaling-multi-agent-teams-fable-5-2]]
 
 ## Contradictions / open questions
 
 - _None recorded._
+- **Starting model (recorded 2026-11-24).** [[anthropic-choosing-claude-model]]
+  (2026-07-24) says to start with the most intelligent generally available
+  model. [[anthropic-which-claude-model-to-build-with]] (2026-11-09) says to
+  start most work on Opus 5.5 at medium effort. The later post is the current
+  advice for the current lineup.
+- **Sonnet 5.5 cache-read price (recorded 2026-11-24).**
+  [[anthropic-building-with-sonnet-5-5]] (Sep 2026) gives $0.20 per million
+  tokens. [[anthropic-which-claude-model-to-build-with]] and Anthropic's pricing
+  page, checked 2026-11-24, give $0.10 (0.05x the base input price). The price
+  probably changed after launch; the earlier page is not edited.
+- **Who can read Sonnet 5.5 thinking blocks (recorded 2026-11-24).**
+  [[anthropic-building-with-sonnet-5-5]] says no other model can read them.
+  [[anthropic-which-claude-model-to-build-with]] says Opus 5.5 and Fable 5.2
+  can. Probably a later platform change; not yet checked against the API docs.

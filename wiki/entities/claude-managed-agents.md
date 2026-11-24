@@ -3,7 +3,7 @@ title: Claude Managed Agents
 type: entity
 subtype: product
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [anthropic, agents, infrastructure, sessions, harness]
 ---
 
@@ -149,6 +149,7 @@ session, harness, and sandbox can each fail or be replaced without the others.
 - [[anthropic-agent-identity-access-model]]
 - [[anthropic-ciso-guide-agentic-ai]]
 - [[claude-customer-twilio]]
+- [[anthropic-eng-components-of-agent-memory]]
 
 ## Contradictions / open questions
 

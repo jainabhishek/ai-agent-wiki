@@ -3,7 +3,7 @@ title: OpenAI Codex
 type: entity
 subtype: product
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [openai, codex, coding-agent, harness]
 ---
 
@@ -103,6 +103,12 @@ written against Codex. (see [[openai-shell-skills-compaction]],
   - Credentials sit in the OS keyring; login is pinned to one ChatGPT
     enterprise workspace. A security triage agent reads the telemetry on
     alerts.
+- OpenAI uses the Codex sandbox as the containment layer for its internal
+  persistent OpenClaw agents. (see
+  [[openai-securing-persistent-agents-openclaw]])
+- Codex Security adds a security review of each PR, separate from Code Review,
+  with a CLI (working tree, diff, and path scan modes) and a GitHub Action. (see
+  [[openai-codex-security-review-sdlc]])
 
 ### Long-running and parallel work
 
@@ -148,6 +154,15 @@ written against Codex. (see [[openai-shell-skills-compaction]],
   [[openai-skyscanner-codex-jetbrains-mcp]])
 - OpenAI uses Codex in CI and review for the [[openai-agents-sdk]] repositories.
   (see [[openai-skills-for-oss-maintenance]])
+- Core Experimentation team (Oct 2026): more than 1,400 maintenance PRs, over
+  800k lines of dead code deleted, and median CI time cut from about 10 to 4.5
+  minutes. (see [[openai-maintaining-software-gpt-6-family]])
+- **Sandbox (Nov 2026).** Codex runs commands under OS sandboxes (Seatbelt,
+  bubblewrap plus seccomp, Microsoft MXC on Windows) driven by named permission
+  profiles in `config.toml`; `codex sandbox` exposes the same mechanism to other
+  tools. The Windows sandbox from May 2026 is being replaced by the MXC-based
+  one. (see [[openai-inside-the-codex-sandbox]],
+  [[openai-codex-windows-sandbox]])
 
 ## Relationships
 
@@ -181,6 +196,10 @@ written against Codex. (see [[openai-shell-skills-compaction]],
   [[openai-symphony-codex-orchestration]], [[openai-sora-android-with-codex]],
   [[openai-self-improving-tax-agents-codex]], [[openai-in-house-data-agent]],
   [[openai-skyscanner-codex-jetbrains-mcp]]
+- [[openai-maintaining-software-gpt-6-family]]
+- [[openai-inside-the-codex-sandbox]]
+- [[openai-securing-persistent-agents-openclaw]]
+- [[openai-codex-security-review-sdlc]]
 
 ## Contradictions / open questions
 

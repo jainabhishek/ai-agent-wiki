@@ -2,7 +2,7 @@
 title: Multi-Agent Economics
 type: concept
 created: 2026-07-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [multi-agent, economics, routing, tokens, evals]
 ---
 
@@ -141,6 +141,16 @@ evals for complex long-running work. (see [[anthropic-choosing-claude-model]],
 existing eval suite on three configurations: executor alone, executor with
 advisor, and advisor model alone. (see [[anthropic-advisor-strategy]])
 
+- **Price the hardest tasks, not only typical ones.** A few tasks carry most of
+  the spend (on one benchmark, 2 of 20 problems carried 43%). Keep a multi-model
+  setup only if it beats every single-model point on a plot of score against
+  spend. (see [[anthropic-which-claude-model-to-build-with]])
+- **Cost per validated finding.** OpenAI compared model and effort settings on
+  one cleanup task by the cost of each finding that a human confirmed. A cheaper
+  setting found most of what the expensive one found; the team then studied the
+  misses and wrote prompt fixes for them. (see
+  [[openai-maintaining-software-gpt-6-family]])
+
 ## Practical implications
 
 - Use frontier intelligence for decomposition, shared design decisions, hard
@@ -169,6 +179,10 @@ advisor, and advisor model alone. (see [[anthropic-advisor-strategy]])
 - Re-evaluate the entire harness when models change; prompts and scaffolding
   optimized for one model may be inefficient or unstable for another. (see
   [[agent-harness]])
+
+- Keep the expensive model's context lean and for decisions. Give verbose
+  reading to cheaper subagents, and keep code edits and judgment calls on the
+  main model. (see [[anthropic-which-claude-model-to-build-with]])
 
 ## Related concepts
 
@@ -201,6 +215,8 @@ advisor, and advisor model alone. (see [[anthropic-advisor-strategy]])
 - [[anthropic-abc-legal-managed-agents]]
 - [[claude-customer-caylent]]
 - [[claude-customer-wondr-health]]
+- [[anthropic-which-claude-model-to-build-with]]
+- [[openai-maintaining-software-gpt-6-family]]
 
 ## Contradictions / open questions
 

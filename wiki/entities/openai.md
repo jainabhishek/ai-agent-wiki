@@ -3,7 +3,7 @@ title: OpenAI
 type: entity
 subtype: org
 created: 2026-06-21
-updated: 2026-10-13
+updated: 2026-11-24
 tags: [openai, agents]
 ---
 
@@ -139,6 +139,12 @@ and a layered guardrails model.
   [[openai-codex-maxxing-long-running-work]], [[openai-how-openai-uses-codex]]
 - Anthropic pages that compare OpenAI products:
   [[anthropic-auto-mode-default]], [[anthropic-opus-5-5-long-coding-sessions]]
+- [[openai-inside-the-codex-sandbox]]
+- [[openai-time-awareness-async-input-agents]]
+- [[openai-maintaining-software-gpt-6-family]]
+- [[openai-securing-persistent-agents-openclaw]]
+- [[openai-codex-security-review-sdlc]]
+- [[openai-failover-across-model-providers]]
 
 ## Contradictions / open questions
 

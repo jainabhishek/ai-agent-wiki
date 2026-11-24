@@ -2,7 +2,7 @@
 title: Agent Steering & Configuration
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [steering, configuration, agents, claude-code, best-practices]
 ---
 
@@ -125,6 +125,10 @@ such as the test command, must live in repo `CLAUDE.md`. (see
   single-file HTML editors (a triage board, a config form) that end with a "copy
   as JSON/prompt/diff" button feeding the result back to Claude Code (see
   [[anthropic-unreasonable-effectiveness-of-html]], personal opinion).
+- **Ownership framing changes scope.** A statement about who owns the artifact
+  ("you own this codebase") changes how much the agent restructures. A
+  scope-limiting rule does not fully cancel it. (see
+  [[anthropic-prompting-claude-fable-5-2]])
 
 ## Closing the loop: config as a maintained artifact
 
@@ -148,6 +152,14 @@ such as the test command, must live in repo `CLAUDE.md`. (see
   [[agent-instructions]]).
 - **Use output styles sparingly** — they override default guidance on scope,
   security, and testing.
+
+- **`REVIEW.md` for the reviewer.** A good `REVIEW.md` is written by the code
+  owners and kept short. It says what failure looks like in that repo, caps
+  nits, lists paths to skip, requires file-and-line evidence, and asks for a
+  summary that opens with a count. If the reviewer keeps flagging the same
+  thing, fix it at the source: a skill, a lint rule, `CLAUDE.md`, or
+  `REVIEW.md`. (see [[anthropic-solving-code-review]],
+  [[anthropic-claude-code-team-verification]])
 
 ## Why it matters
 
@@ -198,6 +210,9 @@ analogue to OpenAI's [[agent-instructions]] guidance.
 - [[openai-sora-android-with-codex]]
 - [[openai-running-codex-safely]]
 - [[openai-symphony-codex-orchestration]]
+- [[anthropic-prompting-claude-fable-5-2]]
+- [[anthropic-solving-code-review]]
+- [[anthropic-claude-code-team-verification]]
 
 ## Contradictions / open questions
 

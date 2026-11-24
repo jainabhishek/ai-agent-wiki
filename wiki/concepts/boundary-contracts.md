@@ -2,7 +2,7 @@
 title: Boundary Contracts
 type: concept
 created: 2026-07-17
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [implementation, testing, integration, boundaries, process, evals]
 ---
 
@@ -137,6 +137,10 @@ You can't prevent every bug, but you can stop bugs from *disguising themselves*:
 These rules don't reduce the bug count; they convert expensive misdiagnosis into
 cheap, obvious failure.
 
+The same rule applies to eval graders: an item that the grader cannot score is
+flagged and excluded, never silently scored or dropped. (see
+[[anthropic-eng-building-strong-safety-evaluations]])
+
 ### 4. Review assumptions, not just diffs
 
 Boundary bugs are invisible to diff review because they live outside the change.
@@ -206,6 +210,12 @@ the rule above that it supports.
   added to protect Codex Cloud consumers, catches it in review (see
   [[openai-codex-code-review-rules]]).
 
+- **A matching model name does not prove a backup route.** OpenAI's failover
+  guidance says a compatible API or the same model name on a cloud provider is
+  not evidence that the route works for a workflow. Run the workflow's own
+  harness and evals on it first, and never fail over on an unclassified error.
+  (see [[openai-failover-across-model-providers]])
+
 ## Relation to other concepts
 
 - [[tool-design]] — tools are the agent's boundary to the world; this page is
@@ -232,6 +242,8 @@ the rule above that it supports.
 - [[anthropic-kepler-verifiable-ai]]
 - [[claude-customer-twilio]]
 - [[openai-codex-code-review-rules]]
+- [[anthropic-eng-building-strong-safety-evaluations]]
+- [[openai-failover-across-model-providers]]
 
 ## Contradictions / open questions
 

@@ -2,7 +2,7 @@
 title: Context Engineering
 type: concept
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [context, memory, caching, agents, best-practices, token-cost, sessions]
 ---
 
@@ -234,6 +234,12 @@ For work exceeding a single context window ([[anthropic-eng-context-engineering]
 Selection: compaction for heavy back-and-forth; note-taking for milestone-based
 iterative work; multi-agent for complex parallel research.
 
+- Anthropic separates memory (knowledge kept between sessions) from compaction
+  (a summary that replaces older turns within a run) and from in-context
+  learning. Loading memory into every session is a form of context injection,
+  with the same token and adherence costs as other always-loaded context. (see
+  [[anthropic-eng-components-of-agent-memory]])
+
 ## Session management
 
 Every finished turn is a branching point with five options (see
@@ -313,6 +319,10 @@ drops as incidents (see [[anthropic-prompt-caching-is-everything]],
   the new one, configuration changes become new messages, and changing tools,
   model, sandbox, or working directory mid-conversation causes a cache miss (see
   [[openai-unrolling-codex-agent-loop]]).
+
+- OpenAI's deadline example appends the current time as a new developer message
+  before each request and leaves the instructions and the original deadline
+  unchanged. (see [[openai-time-awareness-async-input-agents]])
 
 ## Legibility: what the agent can see
 
@@ -425,6 +435,8 @@ curated artifact beats re-retrieving raw context every turn.
 - [[openai-responses-api-computer-environment]]
 - [[openai-harness-engineering]]
 - [[openai-in-house-data-agent]]
+- [[openai-time-awareness-async-input-agents]]
+- [[anthropic-eng-components-of-agent-memory]]
 
 ## Contradictions / open questions
 
