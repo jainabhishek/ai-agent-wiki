@@ -528,3 +528,17 @@ Event types: `ingest`, `query`, `lint`, `schema`.
   since 2026-10-12 and has 8 inbound links; [[guardrails]] (131 inbound) is the
   largest concept page.
 - touched: [[obsidian-graph-analysis]], index
+
+## [2026-11-24] query | refresh the Anthropic vs. OpenAI comparison
+- updated synthesis: [[agent-building-best-practices-anthropic-vs-openai]]
+- trigger: [[obsidian-graph-analysis]] found the page unchanged since
+  2026-10-12; the human asked to refresh it.
+- added: a 2026-11-24 section with seven architecture points both vendors now
+  share (OS sandbox for local coding agents, a filtering network proxy, limits
+  of domain allowlists, a trusted control plane, per-agent identity, full
+  tracing, agent review as an extra reviewer), the stronger prefix rule, and
+  one new difference (scope of automatic action review). Prompting advice
+  stays on model-scoped pages.
+- open questions: no OpenAI counterpart to Anthropic's eval-noise and
+  safety-eval posts; no Anthropic counterpart to OpenAI's time-aware async
+  agent loop.

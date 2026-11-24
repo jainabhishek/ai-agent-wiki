@@ -2,7 +2,7 @@
 title: "Agent-Building Best Practices: Anthropic vs. OpenAI"
 type: synthesis
 created: 2026-06-21
-updated: 2026-10-12
+updated: 2026-11-24
 tags: [agents, best-practices, comparison, synthesis]
 ---
 
@@ -142,6 +142,34 @@ and [[openai-shell-skills-compaction]]. Prompting advice from both vendors
 stays on the model-scoped source pages, as the scope note requires. The
 security comparison in full is on [[prompt-injection]].
 
+## Update: containment and operations for long-running agents (2026-11-24)
+
+Sources from Oct–Nov 2026 show both vendors reaching the same design for
+agents that run code on a user's machine or run all the time. As before, this
+section compares **architecture only**.
+
+| Point | Anthropic | OpenAI |
+|-------|-----------|--------|
+| **OS sandbox, not a container, for local coding agents** | Claude Code uses Seatbelt (macOS) and bubblewrap (Linux) for both filesystem and network isolation ([[anthropic-eng-claude-code-sandboxing]]) | Codex uses Seatbelt, bubblewrap plus seccomp, and Microsoft's MXC, so native toolchains keep working ([[openai-inside-the-codex-sandbox]]) |
+| **Network only through a filtering proxy** | All traffic goes to a proxy outside the sandbox that enforces a domain allowlist and asks about new domains ([[anthropic-eng-claude-code-sandboxing]]) | A shared proxy filters by domain rules, can pause an unknown domain for approval, and resolves DNS only after approval ([[openai-inside-the-codex-sandbox]]) |
+| **A domain allowlist is not enough** | Allowlist down to organization or path and log DNS, because an attacker can own an account on an allowed domain ([[anthropic-securing-coding-agents-enterprise]]) | Broad wildcards or access to DNS services can still leak data through DNS ([[openai-inside-the-codex-sandbox]]) |
+| **Trusted control plane, untrusted agent** | Always-on agents: a credential proxy outside the agent's environment; self-hosted Managed Agents keep credentials in the customer's secrets manager ([[anthropic-building-always-on-agents]], [[anthropic-self-hosted-managed-agents]]) | Persistent agents: a trusted gateway in a separate cluster configures an untrusted harness and environment ([[openai-securing-persistent-agents-openclaw]]) |
+| **Each agent has its own identity** | A gateway stamps each agent's identity outside its sandbox; coding agents in CI get their own revocable identity ([[anthropic-scaling-multi-agent-teams-fable-5-2]], [[anthropic-securing-coding-agents-enterprise]]) | Each persistent agent acts under its own identity and its own inference credential ([[openai-securing-persistent-agents-openclaw]]) |
+| **Trace everything the agent does** | OpenTelemetry GenAI traces from Managed Agents and the APIs; an offline monitor across agents ([[anthropic-agent-observability-claude-platform]], [[anthropic-scaling-multi-agent-teams-fable-5-2]]) | Every turn and every control-plane change of a persistent agent is logged, with tight read access ([[openai-securing-persistent-agents-openclaw]]) |
+| **Agent review adds to, not replaces, the gate** | An agent's approval never fills a human approval slot in Claude Code's repos ([[anthropic-solving-code-review]]) | Codex Security is an extra reviewer; the hard CI gate is a scan step that fails at a severity threshold ([[openai-codex-security-review-sdlc]]) |
+
+The prefix rule from the earlier table also got stronger. On OpenAI's newer
+models, editing earlier history drops the model's stored reasoning, not only
+the cache hit ([[openai-prompting-gpt-6-2]]). Anthropic's append-only rule
+([[anthropic-prompt-caching-is-everything]]) already forbids such edits.
+
+One difference is new. **The scope of automatic action review differs.**
+OpenAI runs an Auto-review agent on every action of a persistent agent
+([[openai-securing-persistent-agents-openclaw]]). Anthropic's always-on design
+reviews only higher-risk actions with classifiers, and asks the user about the
+most important decisions ([[anthropic-building-always-on-agents]]). Neither
+source measures the cost or the miss rate of its choice.
+
 ## Caveats & open questions
 
 - Anthropic's *Building Effective Agents* piece is condensed in our raw capture;
@@ -154,6 +182,11 @@ security comparison in full is on [[prompt-injection]].
   counterpart in the wiki to Anthropic's long-running-harness and eval-noise
   posts. Further resolved on 2026-10-12 by OpenAI's Engineering posts
   ([[openai-harness-engineering]], [[openai-unrolling-codex-agent-loop]]).
+- **Still open (2026-11-24):** OpenAI has no counterpart in the wiki to
+  Anthropic's eval-noise post ([[anthropic-eng-infrastructure-noise-evals]]) or
+  safety-eval method ([[anthropic-eng-building-strong-safety-evaluations]]).
+  Anthropic has no counterpart to OpenAI's time-aware, asynchronous agent loop
+  ([[openai-time-awareness-async-input-agents]]).
 
 ## Sources & pages drawn on
 
@@ -174,3 +207,12 @@ security comparison in full is on [[prompt-injection]].
   [[openai-codex-as-a-platform]], [[openai-shell-skills-compaction]],
   [[openai-rethinking-skills-prompts-gpt-6-astra]],
   [[openai-testing-agent-skills-with-evals]]
+- 2026-11-24 update: [[anthropic-eng-claude-code-sandboxing]],
+  [[openai-inside-the-codex-sandbox]], [[anthropic-securing-coding-agents-enterprise]],
+  [[anthropic-building-always-on-agents]], [[anthropic-self-hosted-managed-agents]],
+  [[openai-securing-persistent-agents-openclaw]],
+  [[anthropic-scaling-multi-agent-teams-fable-5-2]],
+  [[anthropic-agent-observability-claude-platform]], [[anthropic-solving-code-review]],
+  [[openai-codex-security-review-sdlc]], [[openai-prompting-gpt-6-2]],
+  [[openai-time-awareness-async-input-agents]], [[prompt-injection]],
+  [[agent-identity-and-access]]

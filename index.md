@@ -288,5 +288,6 @@ self-reported by the company that wrote them.
 ## Synthesis
 
 - [[agent-building-best-practices-anthropic-vs-openai]] — where the two guides
-  agree/differ + a distilled best-practices checklist
+  agree/differ + a distilled best-practices checklist; updated 2026-11-24 with
+  containment and operations for long-running agents
 - [[obsidian-graph-analysis]] — wiki graph health: 204 pages, 3,830 links, one component, no orphans; hubs, changes since Oct, and recommended Obsidian filters (refreshed 2026-11-24)
